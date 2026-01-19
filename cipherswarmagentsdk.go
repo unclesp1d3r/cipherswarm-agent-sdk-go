@@ -2,9 +2,12 @@
 
 package cipherswarmagentsdkgo
 
+// Generated from OpenAPI doc version 1.3 and generator version 2.796.4
+
 import (
 	"context"
 	"fmt"
+	"github.com/unclesp1d3r/cipherswarm-agent-sdk-go/internal/config"
 	"github.com/unclesp1d3r/cipherswarm-agent-sdk-go/internal/hooks"
 	"github.com/unclesp1d3r/cipherswarm-agent-sdk-go/internal/utils"
 	"github.com/unclesp1d3r/cipherswarm-agent-sdk-go/models/components"
@@ -21,7 +24,7 @@ var ServerList = []string{
 	"http://{hostAddress}:{hostPort}",
 }
 
-// HTTPClient provides an interface for suplying the SDK with a custom HTTP client
+// HTTPClient provides an interface for supplying the SDK with a custom HTTP client
 type HTTPClient interface {
 	Do(req *http.Request) (*http.Response, error)
 }
@@ -47,32 +50,9 @@ func Float64(f float64) *float64 { return &f }
 // Pointer provides a helper function to return a pointer to a type
 func Pointer[T any](v T) *T { return &v }
 
-type sdkConfiguration struct {
-	Client            HTTPClient
-	Security          func(context.Context) (interface{}, error)
-	ServerURL         string
-	ServerIndex       int
-	ServerDefaults    []map[string]string
-	Language          string
-	OpenAPIDocVersion string
-	SDKVersion        string
-	GenVersion        string
-	UserAgent         string
-	RetryConfig       *retry.Config
-	Hooks             *hooks.Hooks
-	Timeout           *time.Duration
-}
-
-func (c *sdkConfiguration) GetServerDetails() (string, map[string]string) {
-	if c.ServerURL != "" {
-		return c.ServerURL, nil
-	}
-
-	return ServerList[c.ServerIndex], c.ServerDefaults[c.ServerIndex]
-}
-
 // CipherSwarmAgentSDK - CipherSwarm Agent API: The CipherSwarm Agent API is used to allow agents to connect to the CipherSwarm server.
 type CipherSwarmAgentSDK struct {
+	SDKVersion string
 	// Agents API
 	Agents *Agents
 	// Attacks API
@@ -84,7 +64,8 @@ type CipherSwarmAgentSDK struct {
 	// Client API
 	Client *Client
 
-	sdkConfiguration sdkConfiguration
+	sdkConfiguration config.SDKConfiguration
+	hooks            *hooks.Hooks
 }
 
 type SDKOption func(*CipherSwarmAgentSDK)
@@ -121,12 +102,12 @@ func WithServerIndex(serverIndex int) SDKOption {
 // WithDefaultHost allows setting the defaultHost variable for url substitution
 func WithDefaultHost(defaultHost string) SDKOption {
 	return func(sdk *CipherSwarmAgentSDK) {
-		for idx := range sdk.sdkConfiguration.ServerDefaults {
-			if _, ok := sdk.sdkConfiguration.ServerDefaults[idx]["defaultHost"]; !ok {
+		for idx := range sdk.sdkConfiguration.ServerVariables {
+			if _, ok := sdk.sdkConfiguration.ServerVariables[idx]["defaultHost"]; !ok {
 				continue
 			}
 
-			sdk.sdkConfiguration.ServerDefaults[idx]["defaultHost"] = fmt.Sprintf("%v", defaultHost)
+			sdk.sdkConfiguration.ServerVariables[idx]["defaultHost"] = fmt.Sprintf("%v", defaultHost)
 		}
 	}
 }
@@ -134,12 +115,12 @@ func WithDefaultHost(defaultHost string) SDKOption {
 // WithHostAddress allows setting the hostAddress variable for url substitution
 func WithHostAddress(hostAddress string) SDKOption {
 	return func(sdk *CipherSwarmAgentSDK) {
-		for idx := range sdk.sdkConfiguration.ServerDefaults {
-			if _, ok := sdk.sdkConfiguration.ServerDefaults[idx]["hostAddress"]; !ok {
+		for idx := range sdk.sdkConfiguration.ServerVariables {
+			if _, ok := sdk.sdkConfiguration.ServerVariables[idx]["hostAddress"]; !ok {
 				continue
 			}
 
-			sdk.sdkConfiguration.ServerDefaults[idx]["hostAddress"] = fmt.Sprintf("%v", hostAddress)
+			sdk.sdkConfiguration.ServerVariables[idx]["hostAddress"] = fmt.Sprintf("%v", hostAddress)
 		}
 	}
 }
@@ -147,12 +128,12 @@ func WithHostAddress(hostAddress string) SDKOption {
 // WithHostPort allows setting the hostPort variable for url substitution
 func WithHostPort(hostPort string) SDKOption {
 	return func(sdk *CipherSwarmAgentSDK) {
-		for idx := range sdk.sdkConfiguration.ServerDefaults {
-			if _, ok := sdk.sdkConfiguration.ServerDefaults[idx]["hostPort"]; !ok {
+		for idx := range sdk.sdkConfiguration.ServerVariables {
+			if _, ok := sdk.sdkConfiguration.ServerVariables[idx]["hostPort"]; !ok {
 				continue
 			}
 
-			sdk.sdkConfiguration.ServerDefaults[idx]["hostPort"] = fmt.Sprintf("%v", hostPort)
+			sdk.sdkConfiguration.ServerVariables[idx]["hostPort"] = fmt.Sprintf("%v", hostPort)
 		}
 	}
 }
@@ -197,23 +178,21 @@ func WithTimeout(timeout time.Duration) SDKOption {
 // New creates a new instance of the SDK with the provided options
 func New(opts ...SDKOption) *CipherSwarmAgentSDK {
 	sdk := &CipherSwarmAgentSDK{
-		sdkConfiguration: sdkConfiguration{
-			Language:          "go",
-			OpenAPIDocVersion: "1.3",
-			SDKVersion:        "0.8.5",
-			GenVersion:        "2.428.1",
-			UserAgent:         "speakeasy-sdk/go 0.8.5 2.428.1 1.3 github.com/unclesp1d3r/cipherswarm-agent-sdk-go",
-			ServerDefaults: []map[string]string{
+		SDKVersion: "0.9.0",
+		sdkConfiguration: config.SDKConfiguration{
+			UserAgent:  "speakeasy-sdk/go 0.9.0 2.796.4 1.3 github.com/unclesp1d3r/cipherswarm-agent-sdk-go",
+			ServerList: ServerList,
+			ServerVariables: []map[string]string{
 				{
-					"defaultHost": "www.example.com",
+					"defaultHost": "cipherswarm.com",
 				},
 				{
 					"hostAddress": "localhost",
 					"hostPort":    "8080",
 				},
 			},
-			Hooks: hooks.New(),
 		},
+		hooks: hooks.New(),
 	}
 	for _, opt := range opts {
 		opt(sdk)
@@ -226,20 +205,16 @@ func New(opts ...SDKOption) *CipherSwarmAgentSDK {
 
 	currentServerURL, _ := sdk.sdkConfiguration.GetServerDetails()
 	serverURL := currentServerURL
-	serverURL, sdk.sdkConfiguration.Client = sdk.sdkConfiguration.Hooks.SDKInit(currentServerURL, sdk.sdkConfiguration.Client)
-	if serverURL != currentServerURL {
+	serverURL, sdk.sdkConfiguration.Client = sdk.hooks.SDKInit(currentServerURL, sdk.sdkConfiguration.Client)
+	if currentServerURL != serverURL {
 		sdk.sdkConfiguration.ServerURL = serverURL
 	}
 
-	sdk.Agents = newAgents(sdk.sdkConfiguration)
-
-	sdk.Attacks = newAttacks(sdk.sdkConfiguration)
-
-	sdk.Crackers = newCrackers(sdk.sdkConfiguration)
-
-	sdk.Tasks = newTasks(sdk.sdkConfiguration)
-
-	sdk.Client = newClient(sdk.sdkConfiguration)
+	sdk.Agents = newAgents(sdk, sdk.sdkConfiguration, sdk.hooks)
+	sdk.Attacks = newAttacks(sdk, sdk.sdkConfiguration, sdk.hooks)
+	sdk.Crackers = newCrackers(sdk, sdk.sdkConfiguration, sdk.hooks)
+	sdk.Tasks = newTasks(sdk, sdk.sdkConfiguration, sdk.hooks)
+	sdk.Client = newClient(sdk, sdk.sdkConfiguration, sdk.hooks)
 
 	return sdk
 }

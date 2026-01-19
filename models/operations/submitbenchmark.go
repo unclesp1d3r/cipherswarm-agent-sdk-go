@@ -11,11 +11,11 @@ type SubmitBenchmarkRequestBody struct {
 	HashcatBenchmarks []components.HashcatBenchmark `json:"hashcat_benchmarks"`
 }
 
-func (o *SubmitBenchmarkRequestBody) GetHashcatBenchmarks() []components.HashcatBenchmark {
-	if o == nil {
+func (s *SubmitBenchmarkRequestBody) GetHashcatBenchmarks() []components.HashcatBenchmark {
+	if s == nil {
 		return []components.HashcatBenchmark{}
 	}
-	return o.HashcatBenchmarks
+	return s.HashcatBenchmarks
 }
 
 type SubmitBenchmarkRequest struct {
@@ -24,18 +24,18 @@ type SubmitBenchmarkRequest struct {
 	RequestBody SubmitBenchmarkRequestBody `request:"mediaType=application/json"`
 }
 
-func (o *SubmitBenchmarkRequest) GetID() int64 {
-	if o == nil {
+func (s *SubmitBenchmarkRequest) GetID() int64 {
+	if s == nil {
 		return 0
 	}
-	return o.ID
+	return s.ID
 }
 
-func (o *SubmitBenchmarkRequest) GetRequestBody() SubmitBenchmarkRequestBody {
-	if o == nil {
+func (s *SubmitBenchmarkRequest) GetRequestBody() SubmitBenchmarkRequestBody {
+	if s == nil {
 		return SubmitBenchmarkRequestBody{}
 	}
-	return o.RequestBody
+	return s.RequestBody
 }
 
 type SubmitBenchmarkResponse struct {
@@ -47,23 +47,23 @@ type SubmitBenchmarkResponse struct {
 	RawResponse *http.Response
 }
 
-func (o *SubmitBenchmarkResponse) GetContentType() string {
-	if o == nil {
+func (s *SubmitBenchmarkResponse) GetContentType() string {
+	if s == nil {
 		return ""
 	}
-	return o.ContentType
+	return s.ContentType
 }
 
-func (o *SubmitBenchmarkResponse) GetStatusCode() int {
-	if o == nil {
+func (s *SubmitBenchmarkResponse) GetStatusCode() int {
+	if s == nil {
 		return 0
 	}
-	return o.StatusCode
+	return s.StatusCode
 }
 
-func (o *SubmitBenchmarkResponse) GetRawResponse() *http.Response {
-	if o == nil {
+func (s *SubmitBenchmarkResponse) GetRawResponse() *http.Response {
+	if s == nil {
 		return nil
 	}
-	return o.RawResponse
+	return s.RawResponse
 }

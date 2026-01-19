@@ -13,30 +13,30 @@ type AttackResourceFile struct {
 	FileName string `json:"file_name"`
 }
 
-func (o *AttackResourceFile) GetID() int64 {
-	if o == nil {
+func (a *AttackResourceFile) GetID() int64 {
+	if a == nil {
 		return 0
 	}
-	return o.ID
+	return a.ID
 }
 
-func (o *AttackResourceFile) GetDownloadURL() string {
-	if o == nil {
+func (a *AttackResourceFile) GetDownloadURL() string {
+	if a == nil {
 		return ""
 	}
-	return o.DownloadURL
+	return a.DownloadURL
 }
 
-func (o *AttackResourceFile) GetChecksum() string {
-	if o == nil {
+func (a *AttackResourceFile) GetChecksum() string {
+	if a == nil {
 		return ""
 	}
-	return o.Checksum
+	return a.Checksum
 }
 
-func (o *AttackResourceFile) GetFileName() string {
-	if o == nil {
+func (a *AttackResourceFile) GetFileName() string {
+	if a == nil {
 		return ""
 	}
-	return o.FileName
+	return a.FileName
 }

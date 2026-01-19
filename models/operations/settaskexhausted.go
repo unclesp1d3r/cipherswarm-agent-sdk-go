@@ -11,11 +11,11 @@ type SetTaskExhaustedRequest struct {
 	ID int64 `pathParam:"style=simple,explode=false,name=id"`
 }
 
-func (o *SetTaskExhaustedRequest) GetID() int64 {
-	if o == nil {
+func (s *SetTaskExhaustedRequest) GetID() int64 {
+	if s == nil {
 		return 0
 	}
-	return o.ID
+	return s.ID
 }
 
 type SetTaskExhaustedResponse struct {
@@ -27,23 +27,23 @@ type SetTaskExhaustedResponse struct {
 	RawResponse *http.Response
 }
 
-func (o *SetTaskExhaustedResponse) GetContentType() string {
-	if o == nil {
+func (s *SetTaskExhaustedResponse) GetContentType() string {
+	if s == nil {
 		return ""
 	}
-	return o.ContentType
+	return s.ContentType
 }
 
-func (o *SetTaskExhaustedResponse) GetStatusCode() int {
-	if o == nil {
+func (s *SetTaskExhaustedResponse) GetStatusCode() int {
+	if s == nil {
 		return 0
 	}
-	return o.StatusCode
+	return s.StatusCode
 }
 
-func (o *SetTaskExhaustedResponse) GetRawResponse() *http.Response {
-	if o == nil {
+func (s *SetTaskExhaustedResponse) GetRawResponse() *http.Response {
+	if s == nil {
 		return nil
 	}
-	return o.RawResponse
+	return s.RawResponse
 }

@@ -18,30 +18,30 @@ type GetNewTaskResponse struct {
 	Task *components.Task
 }
 
-func (o *GetNewTaskResponse) GetContentType() string {
-	if o == nil {
+func (g *GetNewTaskResponse) GetContentType() string {
+	if g == nil {
 		return ""
 	}
-	return o.ContentType
+	return g.ContentType
 }
 
-func (o *GetNewTaskResponse) GetStatusCode() int {
-	if o == nil {
+func (g *GetNewTaskResponse) GetStatusCode() int {
+	if g == nil {
 		return 0
 	}
-	return o.StatusCode
+	return g.StatusCode
 }
 
-func (o *GetNewTaskResponse) GetRawResponse() *http.Response {
-	if o == nil {
+func (g *GetNewTaskResponse) GetRawResponse() *http.Response {
+	if g == nil {
 		return nil
 	}
-	return o.RawResponse
+	return g.RawResponse
 }
 
-func (o *GetNewTaskResponse) GetTask() *components.Task {
-	if o == nil {
+func (g *GetNewTaskResponse) GetTask() *components.Task {
+	if g == nil {
 		return nil
 	}
-	return o.Task
+	return g.Task
 }

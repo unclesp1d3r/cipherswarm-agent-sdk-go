@@ -1,5 +1,4 @@
 # Attacks
-(*Attacks*)
 
 ## Overview
 
@@ -16,22 +15,24 @@ Returns an attack by id. This is used to get the details of an attack.
 
 ### Example Usage
 
+<!-- UsageSnippet language="go" operationID="getAttack" method="get" path="/api/v1/client/attacks/{id}" -->
 ```go
 package main
 
 import(
-	cipherswarmagentsdkgo "github.com/unclesp1d3r/cipherswarm-agent-sdk-go"
 	"context"
+	cipherswarmagentsdkgo "github.com/unclesp1d3r/cipherswarm-agent-sdk-go"
 	"log"
 )
 
 func main() {
+    ctx := context.Background()
+
     s := cipherswarmagentsdkgo.New(
         cipherswarmagentsdkgo.WithSecurity("<YOUR_BEARER_TOKEN_HERE>"),
     )
 
-    ctx := context.Background()
-    res, err := s.Attacks.GetAttack(ctx, 535539)
+    res, err := s.Attacks.GetAttack(ctx, 426312)
     if err != nil {
         log.Fatal(err)
     }
@@ -66,22 +67,24 @@ Returns the hash list for an attack.
 
 ### Example Usage
 
+<!-- UsageSnippet language="go" operationID="getHashList" method="get" path="/api/v1/client/attacks/{id}/hash_list" -->
 ```go
 package main
 
 import(
-	cipherswarmagentsdkgo "github.com/unclesp1d3r/cipherswarm-agent-sdk-go"
 	"context"
+	cipherswarmagentsdkgo "github.com/unclesp1d3r/cipherswarm-agent-sdk-go"
 	"log"
 )
 
 func main() {
+    ctx := context.Background()
+
     s := cipherswarmagentsdkgo.New(
         cipherswarmagentsdkgo.WithSecurity("<YOUR_BEARER_TOKEN_HERE>"),
     )
 
-    ctx := context.Background()
-    res, err := s.Attacks.GetHashList(ctx, 904122)
+    res, err := s.Attacks.GetHashList(ctx, 547552)
     if err != nil {
         log.Fatal(err)
     }

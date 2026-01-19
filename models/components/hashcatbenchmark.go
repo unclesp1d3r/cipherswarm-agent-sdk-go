@@ -13,30 +13,30 @@ type HashcatBenchmark struct {
 	Device int64 `json:"device"`
 }
 
-func (o *HashcatBenchmark) GetHashType() int64 {
-	if o == nil {
+func (h *HashcatBenchmark) GetHashType() int64 {
+	if h == nil {
 		return 0
 	}
-	return o.HashType
+	return h.HashType
 }
 
-func (o *HashcatBenchmark) GetRuntime() int64 {
-	if o == nil {
+func (h *HashcatBenchmark) GetRuntime() int64 {
+	if h == nil {
 		return 0
 	}
-	return o.Runtime
+	return h.Runtime
 }
 
-func (o *HashcatBenchmark) GetHashSpeed() float64 {
-	if o == nil {
+func (h *HashcatBenchmark) GetHashSpeed() float64 {
+	if h == nil {
 		return 0.0
 	}
-	return o.HashSpeed
+	return h.HashSpeed
 }
 
-func (o *HashcatBenchmark) GetDevice() int64 {
-	if o == nil {
+func (h *HashcatBenchmark) GetDevice() int64 {
+	if h == nil {
 		return 0
 	}
-	return o.Device
+	return h.Device
 }

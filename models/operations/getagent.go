@@ -12,11 +12,11 @@ type GetAgentRequest struct {
 	ID int64 `pathParam:"style=simple,explode=false,name=id"`
 }
 
-func (o *GetAgentRequest) GetID() int64 {
-	if o == nil {
+func (g *GetAgentRequest) GetID() int64 {
+	if g == nil {
 		return 0
 	}
-	return o.ID
+	return g.ID
 }
 
 type GetAgentResponse struct {
@@ -30,30 +30,30 @@ type GetAgentResponse struct {
 	Agent *components.Agent
 }
 
-func (o *GetAgentResponse) GetContentType() string {
-	if o == nil {
+func (g *GetAgentResponse) GetContentType() string {
+	if g == nil {
 		return ""
 	}
-	return o.ContentType
+	return g.ContentType
 }
 
-func (o *GetAgentResponse) GetStatusCode() int {
-	if o == nil {
+func (g *GetAgentResponse) GetStatusCode() int {
+	if g == nil {
 		return 0
 	}
-	return o.StatusCode
+	return g.StatusCode
 }
 
-func (o *GetAgentResponse) GetRawResponse() *http.Response {
-	if o == nil {
+func (g *GetAgentResponse) GetRawResponse() *http.Response {
+	if g == nil {
 		return nil
 	}
-	return o.RawResponse
+	return g.RawResponse
 }
 
-func (o *GetAgentResponse) GetAgent() *components.Agent {
-	if o == nil {
+func (g *GetAgentResponse) GetAgent() *components.Agent {
+	if g == nil {
 		return nil
 	}
-	return o.Agent
+	return g.Agent
 }

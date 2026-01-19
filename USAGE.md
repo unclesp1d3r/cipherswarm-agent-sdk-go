@@ -9,12 +9,13 @@ import (
 )
 
 func main() {
+	ctx := context.Background()
+
 	s := cipherswarmagentsdkgo.New(
 		cipherswarmagentsdkgo.WithSecurity("<YOUR_BEARER_TOKEN_HERE>"),
 	)
 
-	ctx := context.Background()
-	res, err := s.Agents.GetAgent(ctx, 135003)
+	res, err := s.Agents.GetAgent(ctx, 963394)
 	if err != nil {
 		log.Fatal(err)
 	}

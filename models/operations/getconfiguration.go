@@ -14,18 +14,18 @@ type GetConfigurationResponseBody struct {
 	APIVersion int64 `json:"api_version"`
 }
 
-func (o *GetConfigurationResponseBody) GetConfig() components.AdvancedAgentConfiguration {
-	if o == nil {
+func (g *GetConfigurationResponseBody) GetConfig() components.AdvancedAgentConfiguration {
+	if g == nil {
 		return components.AdvancedAgentConfiguration{}
 	}
-	return o.Config
+	return g.Config
 }
 
-func (o *GetConfigurationResponseBody) GetAPIVersion() int64 {
-	if o == nil {
+func (g *GetConfigurationResponseBody) GetAPIVersion() int64 {
+	if g == nil {
 		return 0
 	}
-	return o.APIVersion
+	return g.APIVersion
 }
 
 type GetConfigurationResponse struct {
@@ -39,30 +39,30 @@ type GetConfigurationResponse struct {
 	Object *GetConfigurationResponseBody
 }
 
-func (o *GetConfigurationResponse) GetContentType() string {
-	if o == nil {
+func (g *GetConfigurationResponse) GetContentType() string {
+	if g == nil {
 		return ""
 	}
-	return o.ContentType
+	return g.ContentType
 }
 
-func (o *GetConfigurationResponse) GetStatusCode() int {
-	if o == nil {
+func (g *GetConfigurationResponse) GetStatusCode() int {
+	if g == nil {
 		return 0
 	}
-	return o.StatusCode
+	return g.StatusCode
 }
 
-func (o *GetConfigurationResponse) GetRawResponse() *http.Response {
-	if o == nil {
+func (g *GetConfigurationResponse) GetRawResponse() *http.Response {
+	if g == nil {
 		return nil
 	}
-	return o.RawResponse
+	return g.RawResponse
 }
 
-func (o *GetConfigurationResponse) GetObject() *GetConfigurationResponseBody {
-	if o == nil {
+func (g *GetConfigurationResponse) GetObject() *GetConfigurationResponseBody {
+	if g == nil {
 		return nil
 	}
-	return o.Object
+	return g.Object
 }

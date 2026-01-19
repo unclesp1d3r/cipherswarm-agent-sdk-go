@@ -13,18 +13,18 @@ type SendCrackRequest struct {
 	HashcatResult *components.HashcatResult `request:"mediaType=application/json"`
 }
 
-func (o *SendCrackRequest) GetID() int64 {
-	if o == nil {
+func (s *SendCrackRequest) GetID() int64 {
+	if s == nil {
 		return 0
 	}
-	return o.ID
+	return s.ID
 }
 
-func (o *SendCrackRequest) GetHashcatResult() *components.HashcatResult {
-	if o == nil {
+func (s *SendCrackRequest) GetHashcatResult() *components.HashcatResult {
+	if s == nil {
 		return nil
 	}
-	return o.HashcatResult
+	return s.HashcatResult
 }
 
 type SendCrackResponse struct {
@@ -36,23 +36,23 @@ type SendCrackResponse struct {
 	RawResponse *http.Response
 }
 
-func (o *SendCrackResponse) GetContentType() string {
-	if o == nil {
+func (s *SendCrackResponse) GetContentType() string {
+	if s == nil {
 		return ""
 	}
-	return o.ContentType
+	return s.ContentType
 }
 
-func (o *SendCrackResponse) GetStatusCode() int {
-	if o == nil {
+func (s *SendCrackResponse) GetStatusCode() int {
+	if s == nil {
 		return 0
 	}
-	return o.StatusCode
+	return s.StatusCode
 }
 
-func (o *SendCrackResponse) GetRawResponse() *http.Response {
-	if o == nil {
+func (s *SendCrackResponse) GetRawResponse() *http.Response {
+	if s == nil {
 		return nil
 	}
-	return o.RawResponse
+	return s.RawResponse
 }

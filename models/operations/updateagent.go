@@ -19,39 +19,39 @@ type UpdateAgentRequestBody struct {
 	Devices         []string `json:"devices"`
 }
 
-func (o *UpdateAgentRequestBody) GetID() int64 {
-	if o == nil {
+func (u *UpdateAgentRequestBody) GetID() int64 {
+	if u == nil {
 		return 0
 	}
-	return o.ID
+	return u.ID
 }
 
-func (o *UpdateAgentRequestBody) GetHostName() string {
-	if o == nil {
+func (u *UpdateAgentRequestBody) GetHostName() string {
+	if u == nil {
 		return ""
 	}
-	return o.HostName
+	return u.HostName
 }
 
-func (o *UpdateAgentRequestBody) GetClientSignature() string {
-	if o == nil {
+func (u *UpdateAgentRequestBody) GetClientSignature() string {
+	if u == nil {
 		return ""
 	}
-	return o.ClientSignature
+	return u.ClientSignature
 }
 
-func (o *UpdateAgentRequestBody) GetOperatingSystem() string {
-	if o == nil {
+func (u *UpdateAgentRequestBody) GetOperatingSystem() string {
+	if u == nil {
 		return ""
 	}
-	return o.OperatingSystem
+	return u.OperatingSystem
 }
 
-func (o *UpdateAgentRequestBody) GetDevices() []string {
-	if o == nil {
+func (u *UpdateAgentRequestBody) GetDevices() []string {
+	if u == nil {
 		return []string{}
 	}
-	return o.Devices
+	return u.Devices
 }
 
 type UpdateAgentRequest struct {
@@ -60,18 +60,18 @@ type UpdateAgentRequest struct {
 	RequestBody *UpdateAgentRequestBody `request:"mediaType=application/json"`
 }
 
-func (o *UpdateAgentRequest) GetID() int64 {
-	if o == nil {
+func (u *UpdateAgentRequest) GetID() int64 {
+	if u == nil {
 		return 0
 	}
-	return o.ID
+	return u.ID
 }
 
-func (o *UpdateAgentRequest) GetRequestBody() *UpdateAgentRequestBody {
-	if o == nil {
+func (u *UpdateAgentRequest) GetRequestBody() *UpdateAgentRequestBody {
+	if u == nil {
 		return nil
 	}
-	return o.RequestBody
+	return u.RequestBody
 }
 
 type UpdateAgentResponse struct {
@@ -85,30 +85,30 @@ type UpdateAgentResponse struct {
 	Agent *components.Agent
 }
 
-func (o *UpdateAgentResponse) GetContentType() string {
-	if o == nil {
+func (u *UpdateAgentResponse) GetContentType() string {
+	if u == nil {
 		return ""
 	}
-	return o.ContentType
+	return u.ContentType
 }
 
-func (o *UpdateAgentResponse) GetStatusCode() int {
-	if o == nil {
+func (u *UpdateAgentResponse) GetStatusCode() int {
+	if u == nil {
 		return 0
 	}
-	return o.StatusCode
+	return u.StatusCode
 }
 
-func (o *UpdateAgentResponse) GetRawResponse() *http.Response {
-	if o == nil {
+func (u *UpdateAgentResponse) GetRawResponse() *http.Response {
+	if u == nil {
 		return nil
 	}
-	return o.RawResponse
+	return u.RawResponse
 }
 
-func (o *UpdateAgentResponse) GetAgent() *components.Agent {
-	if o == nil {
+func (u *UpdateAgentResponse) GetAgent() *components.Agent {
+	if u == nil {
 		return nil
 	}
-	return o.Agent
+	return u.Agent
 }

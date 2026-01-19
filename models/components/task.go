@@ -27,50 +27,50 @@ func (t Task) MarshalJSON() ([]byte, error) {
 }
 
 func (t *Task) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &t, "", false, false); err != nil {
+	if err := utils.UnmarshalJSON(data, &t, "", false, nil); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *Task) GetID() int64 {
-	if o == nil {
+func (t *Task) GetID() int64 {
+	if t == nil {
 		return 0
 	}
-	return o.ID
+	return t.ID
 }
 
-func (o *Task) GetAttackID() int64 {
-	if o == nil {
+func (t *Task) GetAttackID() int64 {
+	if t == nil {
 		return 0
 	}
-	return o.AttackID
+	return t.AttackID
 }
 
-func (o *Task) GetStartDate() time.Time {
-	if o == nil {
+func (t *Task) GetStartDate() time.Time {
+	if t == nil {
 		return time.Time{}
 	}
-	return o.StartDate
+	return t.StartDate
 }
 
-func (o *Task) GetStatus() string {
-	if o == nil {
+func (t *Task) GetStatus() string {
+	if t == nil {
 		return ""
 	}
-	return o.Status
+	return t.Status
 }
 
-func (o *Task) GetSkip() *int64 {
-	if o == nil {
+func (t *Task) GetSkip() *int64 {
+	if t == nil {
 		return nil
 	}
-	return o.Skip
+	return t.Skip
 }
 
-func (o *Task) GetLimit() *int64 {
-	if o == nil {
+func (t *Task) GetLimit() *int64 {
+	if t == nil {
 		return nil
 	}
-	return o.Limit
+	return t.Limit
 }

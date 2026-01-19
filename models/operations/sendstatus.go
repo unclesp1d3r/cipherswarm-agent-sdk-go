@@ -14,18 +14,18 @@ type SendStatusRequest struct {
 	TaskStatus components.TaskStatus `request:"mediaType=application/json"`
 }
 
-func (o *SendStatusRequest) GetID() int64 {
-	if o == nil {
+func (s *SendStatusRequest) GetID() int64 {
+	if s == nil {
 		return 0
 	}
-	return o.ID
+	return s.ID
 }
 
-func (o *SendStatusRequest) GetTaskStatus() components.TaskStatus {
-	if o == nil {
+func (s *SendStatusRequest) GetTaskStatus() components.TaskStatus {
+	if s == nil {
 		return components.TaskStatus{}
 	}
-	return o.TaskStatus
+	return s.TaskStatus
 }
 
 type SendStatusResponse struct {
@@ -37,23 +37,23 @@ type SendStatusResponse struct {
 	RawResponse *http.Response
 }
 
-func (o *SendStatusResponse) GetContentType() string {
-	if o == nil {
+func (s *SendStatusResponse) GetContentType() string {
+	if s == nil {
 		return ""
 	}
-	return o.ContentType
+	return s.ContentType
 }
 
-func (o *SendStatusResponse) GetStatusCode() int {
-	if o == nil {
+func (s *SendStatusResponse) GetStatusCode() int {
+	if s == nil {
 		return 0
 	}
-	return o.StatusCode
+	return s.StatusCode
 }
 
-func (o *SendStatusResponse) GetRawResponse() *http.Response {
-	if o == nil {
+func (s *SendStatusResponse) GetRawResponse() *http.Response {
+	if s == nil {
 		return nil
 	}
-	return o.RawResponse
+	return s.RawResponse
 }

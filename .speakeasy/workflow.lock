@@ -1,18 +1,21 @@
-speakeasyVersion: 1.405.6
+speakeasyVersion: 1.688.0
 sources:
     CipherSwarm_agent_api:
         sourceNamespace: cipher-swarm-agent-api
-        sourceRevisionDigest: sha256:6177f29fa2a1b6650a8cc068e7c18805e5357b578c9642bcd555ccb1d6a425a3
-        sourceBlobDigest: sha256:da9d36e24d7d4937a832076a8683c8b680020db5ade075e05a5cd0931ce380f5
+        sourceRevisionDigest: sha256:13c24d079d110a801db37351faf5d847e6987b45c2842e308e3007a473e56168
+        sourceBlobDigest: sha256:c6ef6c8b3e113826a97a77ab43489406ca3f2c1f304d83a8bade794d8633acb5
         tags:
             - latest
-            - main
+            - speakeasy-sdk-regen-1768185852
+            - "1.3"
 targets:
     golang-sdk:
         source: CipherSwarm_agent_api
         sourceNamespace: cipher-swarm-agent-api
-        sourceRevisionDigest: sha256:6177f29fa2a1b6650a8cc068e7c18805e5357b578c9642bcd555ccb1d6a425a3
-        sourceBlobDigest: sha256:da9d36e24d7d4937a832076a8683c8b680020db5ade075e05a5cd0931ce380f5
+        sourceRevisionDigest: sha256:13c24d079d110a801db37351faf5d847e6987b45c2842e308e3007a473e56168
+        sourceBlobDigest: sha256:c6ef6c8b3e113826a97a77ab43489406ca3f2c1f304d83a8bade794d8633acb5
+        codeSamplesNamespace: cipher-swarm-agent-api-go-code-samples
+        codeSamplesRevisionDigest: sha256:ad2feeb5a8a52bf633e4a02d60eb8ad7407fc04be25a56bfcb96f2474db7fa04
 workflow:
     workflowVersion: 1.0.0
     speakeasyVersion: latest
@@ -26,3 +29,9 @@ workflow:
         golang-sdk:
             target: go
             source: CipherSwarm_agent_api
+            codeSamples:
+                registry:
+                    location: registry.speakeasyapi.dev/evilbitlabs/evilbitlabs/cipher-swarm-agent-api-go-code-samples
+                labelOverride:
+                    fixedValue: Go (SDK)
+                blocking: false

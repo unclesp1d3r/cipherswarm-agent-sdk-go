@@ -28,16 +28,22 @@ CipherSwarm Agent API: The CipherSwarm Agent API is used to allow agents to conn
 
 <!-- Start Table of Contents [toc] -->
 ## Table of Contents
+<!-- $toc-max-depth=2 -->
+* [CipherSwarm Agent SDK for Go](#cipherswarm-agent-sdk-for-go)
+  * [Features](#features)
+  * [Getting Started](#getting-started)
+  * [SDK Installation](#sdk-installation)
+  * [SDK Example Usage](#sdk-example-usage)
+  * [Available Resources and Operations](#available-resources-and-operations)
+  * [Error Handling](#error-handling)
+  * [Server Selection](#server-selection)
+  * [Custom HTTP Client](#custom-http-client)
+  * [Authentication](#authentication)
+  * [Retries](#retries)
+* [Development](#development)
+  * [Maturity](#maturity)
+  * [Contributions](#contributions)
 
-* [SDK Installation](#sdk-installation)
-* [SDK Example Usage](#sdk-example-usage)
-* [Available Resources and Operations](#available-resources-and-operations)
-* [Retries](#retries)
-* [Error Handling](#error-handling)
-* [Server Selection](#server-selection)
-* [Custom HTTP Client](#custom-http-client)
-* [Authentication](#authentication)
-* [Special Types](#special-types)
 <!-- End Table of Contents [toc] -->
 
 <!-- Start SDK Installation [installation] -->
@@ -64,12 +70,13 @@ import (
 )
 
 func main() {
+	ctx := context.Background()
+
 	s := cipherswarmagentsdkgo.New(
 		cipherswarmagentsdkgo.WithSecurity("<YOUR_BEARER_TOKEN_HERE>"),
 	)
 
-	ctx := context.Background()
-	res, err := s.Agents.GetAgent(ctx, 135003)
+	res, err := s.Agents.GetAgent(ctx, 963394)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -100,7 +107,6 @@ func main() {
 
 * [GetAttack](docs/sdks/attacks/README.md#getattack) - show attack
 * [GetHashList](docs/sdks/attacks/README.md#gethashlist) - Get the hash list
-
 
 ### [Client](docs/sdks/client/README.md)
 
@@ -134,10 +140,10 @@ By Default, an API error will return `sdkerrors.SDKError`. When custom error res
 
 For example, the `GetAgent` function may return the following errors:
 
-| Error Type            | Status Code           | Content Type          |
-| --------------------- | --------------------- | --------------------- |
-| sdkerrors.ErrorObject | 401                   | application/json      |
-| sdkerrors.SDKError    | 4XX, 5XX              | \*/\*                 |
+| Error Type            | Status Code | Content Type     |
+| --------------------- | ----------- | ---------------- |
+| sdkerrors.ErrorObject | 401         | application/json |
+| sdkerrors.SDKError    | 4XX, 5XX    | \*/\*            |
 
 ### Example
 
@@ -153,12 +159,13 @@ import (
 )
 
 func main() {
+	ctx := context.Background()
+
 	s := cipherswarmagentsdkgo.New(
 		cipherswarmagentsdkgo.WithSecurity("<YOUR_BEARER_TOKEN_HERE>"),
 	)
 
-	ctx := context.Background()
-	res, err := s.Agents.GetAgent(ctx, 135003)
+	res, err := s.Agents.GetAgent(ctx, 963394)
 	if err != nil {
 
 		var e *sdkerrors.ErrorObject
@@ -183,12 +190,20 @@ func main() {
 
 ### Select Server by Index
 
-You can override the default server globally using the `WithServerIndex` option when initializing the SDK client instance. The selected server will then be used as the default on the operations that use it. This table lists the indexes associated with the available servers:
+You can override the default server globally using the `WithServerIndex(serverIndex int)` option when initializing the SDK client instance. The selected server will then be used as the default on the operations that use it. This table lists the indexes associated with the available servers:
 
-| # | Server | Variables |
-| - | ------ | --------- |
-| 0 | `https://{defaultHost}` | `defaultHost` (default is `www.example.com`) |
-| 1 | `http://{hostAddress}:{hostPort}` | `hostAddress` (default is `localhost`), `hostPort` (default is `8080`) |
+| #   | Server                            | Variables                    | Description           |
+| --- | --------------------------------- | ---------------------------- | --------------------- |
+| 0   | `https://{defaultHost}`           | `defaultHost`                | The production server |
+| 1   | `http://{hostAddress}:{hostPort}` | `hostAddress`<br/>`hostPort` | The insecure server   |
+
+If the selected server has variables, you may override its default values using the associated option(s):
+
+| Variable      | Option                                | Default             | Description |
+| ------------- | ------------------------------------- | ------------------- | ----------- |
+| `defaultHost` | `WithDefaultHost(defaultHost string)` | `"cipherswarm.com"` |             |
+| `hostAddress` | `WithHostAddress(hostAddress string)` | `"localhost"`       |             |
+| `hostPort`    | `WithHostPort(hostPort string)`       | `"8080"`            |             |
 
 #### Example
 
@@ -202,13 +217,16 @@ import (
 )
 
 func main() {
+	ctx := context.Background()
+
 	s := cipherswarmagentsdkgo.New(
 		cipherswarmagentsdkgo.WithServerIndex(1),
+		cipherswarmagentsdkgo.WithHostAddress("localhost"),
+		cipherswarmagentsdkgo.WithHostPort("8080"),
 		cipherswarmagentsdkgo.WithSecurity("<YOUR_BEARER_TOKEN_HERE>"),
 	)
 
-	ctx := context.Background()
-	res, err := s.Agents.GetAgent(ctx, 135003)
+	res, err := s.Agents.GetAgent(ctx, 963394)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -219,16 +237,9 @@ func main() {
 
 ```
 
-#### Variables
-
-Some of the server options above contain variables. If you want to set the values of those variables, the following options are provided for doing so:
- * `WithDefaultHost string`
- * `WithHostAddress string`
- * `WithHostPort string`
-
 ### Override Server URL Per-Client
 
-The default server can also be overridden globally using the `WithServerURL` option when initializing the SDK client instance. For example:
+The default server can also be overridden globally using the `WithServerURL(serverURL string)` option when initializing the SDK client instance. For example:
 ```go
 package main
 
@@ -239,13 +250,14 @@ import (
 )
 
 func main() {
+	ctx := context.Background()
+
 	s := cipherswarmagentsdkgo.New(
-		cipherswarmagentsdkgo.WithServerURL("https://{defaultHost}"),
+		cipherswarmagentsdkgo.WithServerURL("http://localhost:8080"),
 		cipherswarmagentsdkgo.WithSecurity("<YOUR_BEARER_TOKEN_HERE>"),
 	)
 
-	ctx := context.Background()
-	res, err := s.Agents.GetAgent(ctx, 135003)
+	res, err := s.Agents.GetAgent(ctx, 963394)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -274,12 +286,13 @@ The built-in `net/http` client satisfies this interface and a default client bas
 import (
 	"net/http"
 	"time"
-	"github.com/myorg/your-go-sdk"
+
+	"github.com/unclesp1d3r/cipherswarm-agent-sdk-go"
 )
 
 var (
 	httpClient = &http.Client{Timeout: 30 * time.Second}
-	sdkClient  = sdk.New(sdk.WithClient(httpClient))
+	sdkClient  = cipherswarmagentsdkgo.New(cipherswarmagentsdkgo.WithClient(httpClient))
 )
 ```
 
@@ -293,9 +306,9 @@ This can be a convenient way to configure timeouts, cookies, proxies, custom hea
 
 This SDK supports the following security scheme globally:
 
-| Name         | Type         | Scheme       |
-| ------------ | ------------ | ------------ |
-| `BearerAuth` | http         | HTTP Bearer  |
+| Name         | Type | Scheme      |
+| ------------ | ---- | ----------- |
+| `BearerAuth` | http | HTTP Bearer |
 
 You can configure it using the `WithSecurity` option when initializing the SDK client instance. For example:
 ```go
@@ -308,12 +321,13 @@ import (
 )
 
 func main() {
+	ctx := context.Background()
+
 	s := cipherswarmagentsdkgo.New(
 		cipherswarmagentsdkgo.WithSecurity("<YOUR_BEARER_TOKEN_HERE>"),
 	)
 
-	ctx := context.Background()
-	res, err := s.Agents.GetAgent(ctx, 135003)
+	res, err := s.Agents.GetAgent(ctx, 963394)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -324,12 +338,6 @@ func main() {
 
 ```
 <!-- End Authentication [security] -->
-
-<!-- Start Special Types [types] -->
-## Special Types
-
-
-<!-- End Special Types [types] -->
 
 <!-- Start Retries [retries] -->
 ## Retries
@@ -349,12 +357,13 @@ import (
 )
 
 func main() {
+	ctx := context.Background()
+
 	s := cipherswarmagentsdkgo.New(
 		cipherswarmagentsdkgo.WithSecurity("<YOUR_BEARER_TOKEN_HERE>"),
 	)
 
-	ctx := context.Background()
-	res, err := s.Agents.GetAgent(ctx, 135003, operations.WithRetries(
+	res, err := s.Agents.GetAgent(ctx, 963394, operations.WithRetries(
 		retry.Config{
 			Strategy: "backoff",
 			Backoff: &retry.BackoffStrategy{
@@ -387,6 +396,8 @@ import (
 )
 
 func main() {
+	ctx := context.Background()
+
 	s := cipherswarmagentsdkgo.New(
 		cipherswarmagentsdkgo.WithRetryConfig(
 			retry.Config{
@@ -402,8 +413,7 @@ func main() {
 		cipherswarmagentsdkgo.WithSecurity("<YOUR_BEARER_TOKEN_HERE>"),
 	)
 
-	ctx := context.Background()
-	res, err := s.Agents.GetAgent(ctx, 135003)
+	res, err := s.Agents.GetAgent(ctx, 963394)
 	if err != nil {
 		log.Fatal(err)
 	}

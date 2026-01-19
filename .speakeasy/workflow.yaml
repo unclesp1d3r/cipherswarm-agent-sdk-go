@@ -10,3 +10,9 @@ targets:
     golang-sdk:
         target: go
         source: CipherSwarm_agent_api
+        codeSamples:
+            registry:
+                location: registry.speakeasyapi.dev/evilbitlabs/evilbitlabs/cipher-swarm-agent-api-go-code-samples
+            labelOverride:
+                fixedValue: Go (SDK)
+            blocking: false
