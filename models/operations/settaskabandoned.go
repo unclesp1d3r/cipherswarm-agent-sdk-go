@@ -11,11 +11,31 @@ type SetTaskAbandonedRequest struct {
 	ID int64 `pathParam:"style=simple,explode=false,name=id"`
 }
 
-func (o *SetTaskAbandonedRequest) GetID() int64 {
-	if o == nil {
+func (s *SetTaskAbandonedRequest) GetID() int64 {
+	if s == nil {
 		return 0
 	}
-	return o.ID
+	return s.ID
+}
+
+// SetTaskAbandonedResponseBody - successful
+type SetTaskAbandonedResponseBody struct {
+	Success *bool   `json:"success,omitempty"`
+	State   *string `json:"state,omitempty"`
+}
+
+func (s *SetTaskAbandonedResponseBody) GetSuccess() *bool {
+	if s == nil {
+		return nil
+	}
+	return s.Success
+}
+
+func (s *SetTaskAbandonedResponseBody) GetState() *string {
+	if s == nil {
+		return nil
+	}
+	return s.State
 }
 
 type SetTaskAbandonedResponse struct {
@@ -25,25 +45,34 @@ type SetTaskAbandonedResponse struct {
 	StatusCode int
 	// Raw HTTP response; suitable for custom response parsing
 	RawResponse *http.Response
+	// successful
+	Object *SetTaskAbandonedResponseBody
 }
 
-func (o *SetTaskAbandonedResponse) GetContentType() string {
-	if o == nil {
+func (s *SetTaskAbandonedResponse) GetContentType() string {
+	if s == nil {
 		return ""
 	}
-	return o.ContentType
+	return s.ContentType
 }
 
-func (o *SetTaskAbandonedResponse) GetStatusCode() int {
-	if o == nil {
+func (s *SetTaskAbandonedResponse) GetStatusCode() int {
+	if s == nil {
 		return 0
 	}
-	return o.StatusCode
+	return s.StatusCode
 }
 
-func (o *SetTaskAbandonedResponse) GetRawResponse() *http.Response {
-	if o == nil {
+func (s *SetTaskAbandonedResponse) GetRawResponse() *http.Response {
+	if s == nil {
 		return nil
 	}
-	return o.RawResponse
+	return s.RawResponse
+}
+
+func (s *SetTaskAbandonedResponse) GetObject() *SetTaskAbandonedResponseBody {
+	if s == nil {
+		return nil
+	}
+	return s.Object
 }

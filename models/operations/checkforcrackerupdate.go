@@ -14,18 +14,18 @@ type CheckForCrackerUpdateRequest struct {
 	Version *string `queryParam:"style=form,explode=true,name=version"`
 }
 
-func (o *CheckForCrackerUpdateRequest) GetOperatingSystem() *string {
-	if o == nil {
+func (c *CheckForCrackerUpdateRequest) GetOperatingSystem() *string {
+	if c == nil {
 		return nil
 	}
-	return o.OperatingSystem
+	return c.OperatingSystem
 }
 
-func (o *CheckForCrackerUpdateRequest) GetVersion() *string {
-	if o == nil {
+func (c *CheckForCrackerUpdateRequest) GetVersion() *string {
+	if c == nil {
 		return nil
 	}
-	return o.Version
+	return c.Version
 }
 
 type CheckForCrackerUpdateResponse struct {
@@ -39,30 +39,30 @@ type CheckForCrackerUpdateResponse struct {
 	CrackerUpdate *components.CrackerUpdate
 }
 
-func (o *CheckForCrackerUpdateResponse) GetContentType() string {
-	if o == nil {
+func (c *CheckForCrackerUpdateResponse) GetContentType() string {
+	if c == nil {
 		return ""
 	}
-	return o.ContentType
+	return c.ContentType
 }
 
-func (o *CheckForCrackerUpdateResponse) GetStatusCode() int {
-	if o == nil {
+func (c *CheckForCrackerUpdateResponse) GetStatusCode() int {
+	if c == nil {
 		return 0
 	}
-	return o.StatusCode
+	return c.StatusCode
 }
 
-func (o *CheckForCrackerUpdateResponse) GetRawResponse() *http.Response {
-	if o == nil {
+func (c *CheckForCrackerUpdateResponse) GetRawResponse() *http.Response {
+	if c == nil {
 		return nil
 	}
-	return o.RawResponse
+	return c.RawResponse
 }
 
-func (o *CheckForCrackerUpdateResponse) GetCrackerUpdate() *components.CrackerUpdate {
-	if o == nil {
+func (c *CheckForCrackerUpdateResponse) GetCrackerUpdate() *components.CrackerUpdate {
+	if c == nil {
 		return nil
 	}
-	return o.CrackerUpdate
+	return c.CrackerUpdate
 }

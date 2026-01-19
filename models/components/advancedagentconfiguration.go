@@ -15,37 +15,37 @@ type AdvancedAgentConfiguration struct {
 	EnableAdditionalHashTypes bool `json:"enable_additional_hash_types"`
 }
 
-func (o *AdvancedAgentConfiguration) GetAgentUpdateInterval() *int64 {
-	if o == nil {
+func (a *AdvancedAgentConfiguration) GetAgentUpdateInterval() *int64 {
+	if a == nil {
 		return nil
 	}
-	return o.AgentUpdateInterval
+	return a.AgentUpdateInterval
 }
 
-func (o *AdvancedAgentConfiguration) GetUseNativeHashcat() *bool {
-	if o == nil {
+func (a *AdvancedAgentConfiguration) GetUseNativeHashcat() *bool {
+	if a == nil {
 		return nil
 	}
-	return o.UseNativeHashcat
+	return a.UseNativeHashcat
 }
 
-func (o *AdvancedAgentConfiguration) GetBackendDevice() *string {
-	if o == nil {
+func (a *AdvancedAgentConfiguration) GetBackendDevice() *string {
+	if a == nil {
 		return nil
 	}
-	return o.BackendDevice
+	return a.BackendDevice
 }
 
-func (o *AdvancedAgentConfiguration) GetOpenclDevices() *string {
-	if o == nil {
+func (a *AdvancedAgentConfiguration) GetOpenclDevices() *string {
+	if a == nil {
 		return nil
 	}
-	return o.OpenclDevices
+	return a.OpenclDevices
 }
 
-func (o *AdvancedAgentConfiguration) GetEnableAdditionalHashTypes() bool {
-	if o == nil {
+func (a *AdvancedAgentConfiguration) GetEnableAdditionalHashTypes() bool {
+	if a == nil {
 		return false
 	}
-	return o.EnableAdditionalHashTypes
+	return a.EnableAdditionalHashTypes
 }

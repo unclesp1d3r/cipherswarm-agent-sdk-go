@@ -49,44 +49,44 @@ type DeviceStatus struct {
 	Temperature int64 `json:"temperature"`
 }
 
-func (o *DeviceStatus) GetDeviceID() int64 {
-	if o == nil {
+func (d *DeviceStatus) GetDeviceID() int64 {
+	if d == nil {
 		return 0
 	}
-	return o.DeviceID
+	return d.DeviceID
 }
 
-func (o *DeviceStatus) GetDeviceName() string {
-	if o == nil {
+func (d *DeviceStatus) GetDeviceName() string {
+	if d == nil {
 		return ""
 	}
-	return o.DeviceName
+	return d.DeviceName
 }
 
-func (o *DeviceStatus) GetDeviceType() DeviceType {
-	if o == nil {
+func (d *DeviceStatus) GetDeviceType() DeviceType {
+	if d == nil {
 		return DeviceType("")
 	}
-	return o.DeviceType
+	return d.DeviceType
 }
 
-func (o *DeviceStatus) GetSpeed() int64 {
-	if o == nil {
+func (d *DeviceStatus) GetSpeed() int64 {
+	if d == nil {
 		return 0
 	}
-	return o.Speed
+	return d.Speed
 }
 
-func (o *DeviceStatus) GetUtilization() int64 {
-	if o == nil {
+func (d *DeviceStatus) GetUtilization() int64 {
+	if d == nil {
 		return 0
 	}
-	return o.Utilization
+	return d.Utilization
 }
 
-func (o *DeviceStatus) GetTemperature() int64 {
-	if o == nil {
+func (d *DeviceStatus) GetTemperature() int64 {
+	if d == nil {
 		return 0
 	}
-	return o.Temperature
+	return d.Temperature
 }

@@ -1,5 +1,4 @@
 # Tasks
-(*Tasks*)
 
 ## Overview
 
@@ -22,21 +21,23 @@ Request a new task from the server, if available.
 
 ### Example Usage
 
+<!-- UsageSnippet language="go" operationID="getNewTask" method="get" path="/api/v1/client/tasks/new" -->
 ```go
 package main
 
 import(
-	cipherswarmagentsdkgo "github.com/unclesp1d3r/cipherswarm-agent-sdk-go"
 	"context"
+	cipherswarmagentsdkgo "github.com/unclesp1d3r/cipherswarm-agent-sdk-go"
 	"log"
 )
 
 func main() {
+    ctx := context.Background()
+
     s := cipherswarmagentsdkgo.New(
         cipherswarmagentsdkgo.WithSecurity("<YOUR_BEARER_TOKEN_HERE>"),
     )
 
-    ctx := context.Background()
     res, err := s.Tasks.GetNewTask(ctx)
     if err != nil {
         log.Fatal(err)
@@ -71,22 +72,24 @@ Request the task information from the server.
 
 ### Example Usage
 
+<!-- UsageSnippet language="go" operationID="getTask" method="get" path="/api/v1/client/tasks/{id}" -->
 ```go
 package main
 
 import(
-	cipherswarmagentsdkgo "github.com/unclesp1d3r/cipherswarm-agent-sdk-go"
 	"context"
+	cipherswarmagentsdkgo "github.com/unclesp1d3r/cipherswarm-agent-sdk-go"
 	"log"
 )
 
 func main() {
+    ctx := context.Background()
+
     s := cipherswarmagentsdkgo.New(
         cipherswarmagentsdkgo.WithSecurity("<YOUR_BEARER_TOKEN_HERE>"),
     )
 
-    ctx := context.Background()
-    res, err := s.Tasks.GetTask(ctx, 771489)
+    res, err := s.Tasks.GetTask(ctx, 640281)
     if err != nil {
         log.Fatal(err)
     }
@@ -121,28 +124,24 @@ Submit a cracked hash result for a task.
 
 ### Example Usage
 
+<!-- UsageSnippet language="go" operationID="sendCrack" method="post" path="/api/v1/client/tasks/{id}/submit_crack" -->
 ```go
 package main
 
 import(
-	cipherswarmagentsdkgo "github.com/unclesp1d3r/cipherswarm-agent-sdk-go"
 	"context"
-	"github.com/unclesp1d3r/cipherswarm-agent-sdk-go/types"
-	"github.com/unclesp1d3r/cipherswarm-agent-sdk-go/models/components"
+	cipherswarmagentsdkgo "github.com/unclesp1d3r/cipherswarm-agent-sdk-go"
 	"log"
 )
 
 func main() {
+    ctx := context.Background()
+
     s := cipherswarmagentsdkgo.New(
         cipherswarmagentsdkgo.WithSecurity("<YOUR_BEARER_TOKEN_HERE>"),
     )
 
-    ctx := context.Background()
-    res, err := s.Tasks.SendCrack(ctx, 302642, &components.HashcatResult{
-        Timestamp: types.MustTimeFromString("2024-10-01T21:16:43.171-04:00"),
-        Hash: "dummy_hash_2",
-        PlainText: "dummy_plain",
-    })
+    res, err := s.Tasks.SendCrack(ctx, 170496, nil)
     if err != nil {
         log.Fatal(err)
     }
@@ -178,85 +177,68 @@ Submit a status update for a task. This includes the status of the current guess
 
 ### Example Usage
 
+<!-- UsageSnippet language="go" operationID="sendStatus" method="post" path="/api/v1/client/tasks/{id}/submit_status" -->
 ```go
 package main
 
 import(
-	cipherswarmagentsdkgo "github.com/unclesp1d3r/cipherswarm-agent-sdk-go"
 	"context"
+	cipherswarmagentsdkgo "github.com/unclesp1d3r/cipherswarm-agent-sdk-go"
 	"github.com/unclesp1d3r/cipherswarm-agent-sdk-go/types"
 	"github.com/unclesp1d3r/cipherswarm-agent-sdk-go/models/components"
 	"log"
 )
 
 func main() {
+    ctx := context.Background()
+
     s := cipherswarmagentsdkgo.New(
         cipherswarmagentsdkgo.WithSecurity("<YOUR_BEARER_TOKEN_HERE>"),
     )
 
-    ctx := context.Background()
-    res, err := s.Tasks.SendStatus(ctx, 144718, components.TaskStatus{
+    res, err := s.Tasks.SendStatus(ctx, 448338, components.TaskStatus{
         OriginalLine: "<value>",
-        Time: types.MustTimeFromString("2022-08-12T20:48:19.251Z"),
+        Time: types.MustTimeFromString("2026-04-23T23:51:40.894Z"),
         Session: "<value>",
         HashcatGuess: components.HashcatGuess{
             GuessBase: "<value>",
-            GuessBaseCount: 593946,
-            GuessBaseOffset: 380021,
-            GuessBasePercentage: 4693.54,
+            GuessBaseCount: 795653,
+            GuessBaseOffset: 302009,
+            GuessBasePercentage: 169.59,
             GuessMod: "<value>",
-            GuessModCount: 292965,
-            GuessModOffset: 508837,
-            GuessModPercentage: 2392.76,
-            GuessMode: 114928,
+            GuessModCount: 200306,
+            GuessModOffset: 691593,
+            GuessModPercentage: 5018.12,
+            GuessMode: 413091,
         },
-        Status: 402894,
+        Status: 995383,
         Target: "<value>",
         Progress: []int64{
-            319182,
-            596493,
-            642941,
+            920457,
+            49769,
         },
-        RestorePoint: 336085,
+        RestorePoint: 343573,
         RecoveredHashes: []int64{
-            896201,
-            370747,
-            65865,
+            599902,
+            745620,
         },
         RecoveredSalts: []int64{
-            572686,
-            925372,
-            270430,
+            524798,
+            857056,
         },
-        Rejected: 672868,
+        Rejected: 905714,
         DeviceStatuses: []components.DeviceStatus{
             components.DeviceStatus{
-                DeviceID: 383051,
-                DeviceName: "<value>",
-                DeviceType: components.DeviceTypeGpu,
-                Speed: 182572,
-                Utilization: 740400,
-                Temperature: 334336,
-            },
-            components.DeviceStatus{
-                DeviceID: 330568,
+                DeviceID: 919497,
                 DeviceName: "<value>",
                 DeviceType: components.DeviceTypeCPU,
-                Speed: 364941,
-                Utilization: 953679,
-                Temperature: 240269,
-            },
-            components.DeviceStatus{
-                DeviceID: 556137,
-                DeviceName: "<value>",
-                DeviceType: components.DeviceTypeCPU,
-                Speed: 923394,
-                Utilization: 990009,
-                Temperature: 440098,
+                Speed: 937286,
+                Utilization: 556052,
+                Temperature: 173236,
             },
         },
-        TimeStart: types.MustTimeFromString("2022-12-21T12:08:07.379Z"),
-        EstimatedStop: types.MustTimeFromString("2022-10-27T18:57:43.860Z"),
+        TimeStart: types.MustTimeFromString("2025-04-04T05:12:25.093Z"),
+        EstimatedStop: types.MustTimeFromString("2026-07-13T12:38:59.112Z"),
     })
     if err != nil {
         log.Fatal(err)
@@ -293,22 +275,24 @@ Accept an offered task from the server.
 
 ### Example Usage
 
+<!-- UsageSnippet language="go" operationID="setTaskAccepted" method="post" path="/api/v1/client/tasks/{id}/accept_task" -->
 ```go
 package main
 
 import(
-	cipherswarmagentsdkgo "github.com/unclesp1d3r/cipherswarm-agent-sdk-go"
 	"context"
+	cipherswarmagentsdkgo "github.com/unclesp1d3r/cipherswarm-agent-sdk-go"
 	"log"
 )
 
 func main() {
+    ctx := context.Background()
+
     s := cipherswarmagentsdkgo.New(
         cipherswarmagentsdkgo.WithSecurity("<YOUR_BEARER_TOKEN_HERE>"),
     )
 
-    ctx := context.Background()
-    res, err := s.Tasks.SetTaskAccepted(ctx, 893037)
+    res, err := s.Tasks.SetTaskAccepted(ctx, 34650)
     if err != nil {
         log.Fatal(err)
     }
@@ -343,22 +327,24 @@ Notify the server that the task is exhausted. This will mark the task as complet
 
 ### Example Usage
 
+<!-- UsageSnippet language="go" operationID="setTaskExhausted" method="post" path="/api/v1/client/tasks/{id}/exhausted" -->
 ```go
 package main
 
 import(
-	cipherswarmagentsdkgo "github.com/unclesp1d3r/cipherswarm-agent-sdk-go"
 	"context"
+	cipherswarmagentsdkgo "github.com/unclesp1d3r/cipherswarm-agent-sdk-go"
 	"log"
 )
 
 func main() {
+    ctx := context.Background()
+
     s := cipherswarmagentsdkgo.New(
         cipherswarmagentsdkgo.WithSecurity("<YOUR_BEARER_TOKEN_HERE>"),
     )
 
-    ctx := context.Background()
-    res, err := s.Tasks.SetTaskExhausted(ctx, 700537)
+    res, err := s.Tasks.SetTaskExhausted(ctx, 994947)
     if err != nil {
         log.Fatal(err)
     }
@@ -393,26 +379,28 @@ Abandon a task. This will mark the task as abandoned. Usually used when the clie
 
 ### Example Usage
 
+<!-- UsageSnippet language="go" operationID="setTaskAbandoned" method="post" path="/api/v1/client/tasks/{id}/abandon" -->
 ```go
 package main
 
 import(
-	cipherswarmagentsdkgo "github.com/unclesp1d3r/cipherswarm-agent-sdk-go"
 	"context"
+	cipherswarmagentsdkgo "github.com/unclesp1d3r/cipherswarm-agent-sdk-go"
 	"log"
 )
 
 func main() {
+    ctx := context.Background()
+
     s := cipherswarmagentsdkgo.New(
         cipherswarmagentsdkgo.WithSecurity("<YOUR_BEARER_TOKEN_HERE>"),
     )
 
-    ctx := context.Background()
-    res, err := s.Tasks.SetTaskAbandoned(ctx, 885883)
+    res, err := s.Tasks.SetTaskAbandoned(ctx, 878589)
     if err != nil {
         log.Fatal(err)
     }
-    if res != nil {
+    if res.Object != nil {
         // handle response
     }
 }
@@ -444,22 +432,24 @@ Gets the completed hashes for a task. This is a text file that should be added t
 
 ### Example Usage
 
+<!-- UsageSnippet language="go" operationID="getTaskZaps" method="get" path="/api/v1/client/tasks/{id}/get_zaps" -->
 ```go
 package main
 
 import(
-	cipherswarmagentsdkgo "github.com/unclesp1d3r/cipherswarm-agent-sdk-go"
 	"context"
+	cipherswarmagentsdkgo "github.com/unclesp1d3r/cipherswarm-agent-sdk-go"
 	"log"
 )
 
 func main() {
+    ctx := context.Background()
+
     s := cipherswarmagentsdkgo.New(
         cipherswarmagentsdkgo.WithSecurity("<YOUR_BEARER_TOKEN_HERE>"),
     )
 
-    ctx := context.Background()
-    res, err := s.Tasks.GetTaskZaps(ctx, 174947)
+    res, err := s.Tasks.GetTaskZaps(ctx, 349297)
     if err != nil {
         log.Fatal(err)
     }

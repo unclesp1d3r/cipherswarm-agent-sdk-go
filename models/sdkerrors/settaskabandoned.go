@@ -9,7 +9,8 @@ import (
 
 // SetTaskAbandonedResponseBody - already completed
 type SetTaskAbandonedResponseBody struct {
-	State []string `json:"state,omitempty"`
+	Error_  *string  `json:"error,omitempty"`
+	Details []string `json:"details,omitempty"`
 	// Raw HTTP response; suitable for custom response parsing
 	RawResponse *http.Response `json:"-"`
 }

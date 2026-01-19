@@ -15,37 +15,37 @@ type CrackerUpdate struct {
 	Message *string `json:"message,omitempty"`
 }
 
-func (o *CrackerUpdate) GetAvailable() bool {
-	if o == nil {
+func (c *CrackerUpdate) GetAvailable() bool {
+	if c == nil {
 		return false
 	}
-	return o.Available
+	return c.Available
 }
 
-func (o *CrackerUpdate) GetLatestVersion() *string {
-	if o == nil {
+func (c *CrackerUpdate) GetLatestVersion() *string {
+	if c == nil {
 		return nil
 	}
-	return o.LatestVersion
+	return c.LatestVersion
 }
 
-func (o *CrackerUpdate) GetDownloadURL() *string {
-	if o == nil {
+func (c *CrackerUpdate) GetDownloadURL() *string {
+	if c == nil {
 		return nil
 	}
-	return o.DownloadURL
+	return c.DownloadURL
 }
 
-func (o *CrackerUpdate) GetExecName() *string {
-	if o == nil {
+func (c *CrackerUpdate) GetExecName() *string {
+	if c == nil {
 		return nil
 	}
-	return o.ExecName
+	return c.ExecName
 }
 
-func (o *CrackerUpdate) GetMessage() *string {
-	if o == nil {
+func (c *CrackerUpdate) GetMessage() *string {
+	if c == nil {
 		return nil
 	}
-	return o.Message
+	return c.Message
 }

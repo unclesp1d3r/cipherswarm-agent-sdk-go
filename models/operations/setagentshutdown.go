@@ -11,11 +11,11 @@ type SetAgentShutdownRequest struct {
 	ID int64 `pathParam:"style=simple,explode=false,name=id"`
 }
 
-func (o *SetAgentShutdownRequest) GetID() int64 {
-	if o == nil {
+func (s *SetAgentShutdownRequest) GetID() int64 {
+	if s == nil {
 		return 0
 	}
-	return o.ID
+	return s.ID
 }
 
 type SetAgentShutdownResponse struct {
@@ -27,23 +27,23 @@ type SetAgentShutdownResponse struct {
 	RawResponse *http.Response
 }
 
-func (o *SetAgentShutdownResponse) GetContentType() string {
-	if o == nil {
+func (s *SetAgentShutdownResponse) GetContentType() string {
+	if s == nil {
 		return ""
 	}
-	return o.ContentType
+	return s.ContentType
 }
 
-func (o *SetAgentShutdownResponse) GetStatusCode() int {
-	if o == nil {
+func (s *SetAgentShutdownResponse) GetStatusCode() int {
+	if s == nil {
 		return 0
 	}
-	return o.StatusCode
+	return s.StatusCode
 }
 
-func (o *SetAgentShutdownResponse) GetRawResponse() *http.Response {
-	if o == nil {
+func (s *SetAgentShutdownResponse) GetRawResponse() *http.Response {
+	if s == nil {
 		return nil
 	}
-	return o.RawResponse
+	return s.RawResponse
 }

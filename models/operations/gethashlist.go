@@ -12,11 +12,11 @@ type GetHashListRequest struct {
 	ID int64 `pathParam:"style=simple,explode=false,name=id"`
 }
 
-func (o *GetHashListRequest) GetID() int64 {
-	if o == nil {
+func (g *GetHashListRequest) GetID() int64 {
+	if g == nil {
 		return 0
 	}
-	return o.ID
+	return g.ID
 }
 
 type GetHashListResponse struct {
@@ -31,30 +31,30 @@ type GetHashListResponse struct {
 	ResponseStream io.ReadCloser
 }
 
-func (o *GetHashListResponse) GetContentType() string {
-	if o == nil {
+func (g *GetHashListResponse) GetContentType() string {
+	if g == nil {
 		return ""
 	}
-	return o.ContentType
+	return g.ContentType
 }
 
-func (o *GetHashListResponse) GetStatusCode() int {
-	if o == nil {
+func (g *GetHashListResponse) GetStatusCode() int {
+	if g == nil {
 		return 0
 	}
-	return o.StatusCode
+	return g.StatusCode
 }
 
-func (o *GetHashListResponse) GetRawResponse() *http.Response {
-	if o == nil {
+func (g *GetHashListResponse) GetRawResponse() *http.Response {
+	if g == nil {
 		return nil
 	}
-	return o.RawResponse
+	return g.RawResponse
 }
 
-func (o *GetHashListResponse) GetResponseStream() io.ReadCloser {
-	if o == nil {
+func (g *GetHashListResponse) GetResponseStream() io.ReadCloser {
+	if g == nil {
 		return nil
 	}
-	return o.ResponseStream
+	return g.ResponseStream
 }

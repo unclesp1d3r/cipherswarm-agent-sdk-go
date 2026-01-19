@@ -42,106 +42,106 @@ func (t TaskStatus) MarshalJSON() ([]byte, error) {
 }
 
 func (t *TaskStatus) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &t, "", false, false); err != nil {
+	if err := utils.UnmarshalJSON(data, &t, "", false, nil); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *TaskStatus) GetOriginalLine() string {
-	if o == nil {
+func (t *TaskStatus) GetOriginalLine() string {
+	if t == nil {
 		return ""
 	}
-	return o.OriginalLine
+	return t.OriginalLine
 }
 
-func (o *TaskStatus) GetTime() time.Time {
-	if o == nil {
+func (t *TaskStatus) GetTime() time.Time {
+	if t == nil {
 		return time.Time{}
 	}
-	return o.Time
+	return t.Time
 }
 
-func (o *TaskStatus) GetSession() string {
-	if o == nil {
+func (t *TaskStatus) GetSession() string {
+	if t == nil {
 		return ""
 	}
-	return o.Session
+	return t.Session
 }
 
-func (o *TaskStatus) GetHashcatGuess() HashcatGuess {
-	if o == nil {
+func (t *TaskStatus) GetHashcatGuess() HashcatGuess {
+	if t == nil {
 		return HashcatGuess{}
 	}
-	return o.HashcatGuess
+	return t.HashcatGuess
 }
 
-func (o *TaskStatus) GetStatus() int64 {
-	if o == nil {
+func (t *TaskStatus) GetStatus() int64 {
+	if t == nil {
 		return 0
 	}
-	return o.Status
+	return t.Status
 }
 
-func (o *TaskStatus) GetTarget() string {
-	if o == nil {
+func (t *TaskStatus) GetTarget() string {
+	if t == nil {
 		return ""
 	}
-	return o.Target
+	return t.Target
 }
 
-func (o *TaskStatus) GetProgress() []int64 {
-	if o == nil {
+func (t *TaskStatus) GetProgress() []int64 {
+	if t == nil {
 		return []int64{}
 	}
-	return o.Progress
+	return t.Progress
 }
 
-func (o *TaskStatus) GetRestorePoint() int64 {
-	if o == nil {
+func (t *TaskStatus) GetRestorePoint() int64 {
+	if t == nil {
 		return 0
 	}
-	return o.RestorePoint
+	return t.RestorePoint
 }
 
-func (o *TaskStatus) GetRecoveredHashes() []int64 {
-	if o == nil {
+func (t *TaskStatus) GetRecoveredHashes() []int64 {
+	if t == nil {
 		return []int64{}
 	}
-	return o.RecoveredHashes
+	return t.RecoveredHashes
 }
 
-func (o *TaskStatus) GetRecoveredSalts() []int64 {
-	if o == nil {
+func (t *TaskStatus) GetRecoveredSalts() []int64 {
+	if t == nil {
 		return []int64{}
 	}
-	return o.RecoveredSalts
+	return t.RecoveredSalts
 }
 
-func (o *TaskStatus) GetRejected() int64 {
-	if o == nil {
+func (t *TaskStatus) GetRejected() int64 {
+	if t == nil {
 		return 0
 	}
-	return o.Rejected
+	return t.Rejected
 }
 
-func (o *TaskStatus) GetDeviceStatuses() []DeviceStatus {
-	if o == nil {
+func (t *TaskStatus) GetDeviceStatuses() []DeviceStatus {
+	if t == nil {
 		return []DeviceStatus{}
 	}
-	return o.DeviceStatuses
+	return t.DeviceStatuses
 }
 
-func (o *TaskStatus) GetTimeStart() time.Time {
-	if o == nil {
+func (t *TaskStatus) GetTimeStart() time.Time {
+	if t == nil {
 		return time.Time{}
 	}
-	return o.TimeStart
+	return t.TimeStart
 }
 
-func (o *TaskStatus) GetEstimatedStop() time.Time {
-	if o == nil {
+func (t *TaskStatus) GetEstimatedStop() time.Time {
+	if t == nil {
 		return time.Time{}
 	}
-	return o.EstimatedStop
+	return t.EstimatedStop
 }

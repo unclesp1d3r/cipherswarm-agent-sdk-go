@@ -1,5 +1,4 @@
 # Client
-(*Client*)
 
 ## Overview
 
@@ -16,21 +15,23 @@ Returns the configuration for the agent.
 
 ### Example Usage
 
+<!-- UsageSnippet language="go" operationID="getConfiguration" method="get" path="/api/v1/client/configuration" -->
 ```go
 package main
 
 import(
-	cipherswarmagentsdkgo "github.com/unclesp1d3r/cipherswarm-agent-sdk-go"
 	"context"
+	cipherswarmagentsdkgo "github.com/unclesp1d3r/cipherswarm-agent-sdk-go"
 	"log"
 )
 
 func main() {
+    ctx := context.Background()
+
     s := cipherswarmagentsdkgo.New(
         cipherswarmagentsdkgo.WithSecurity("<YOUR_BEARER_TOKEN_HERE>"),
     )
 
-    ctx := context.Background()
     res, err := s.Client.GetConfiguration(ctx)
     if err != nil {
         log.Fatal(err)
@@ -65,21 +66,23 @@ Authenticates the client. This is used to verify that the client is able to conn
 
 ### Example Usage
 
+<!-- UsageSnippet language="go" operationID="authenticate" method="get" path="/api/v1/client/authenticate" -->
 ```go
 package main
 
 import(
-	cipherswarmagentsdkgo "github.com/unclesp1d3r/cipherswarm-agent-sdk-go"
 	"context"
+	cipherswarmagentsdkgo "github.com/unclesp1d3r/cipherswarm-agent-sdk-go"
 	"log"
 )
 
 func main() {
+    ctx := context.Background()
+
     s := cipherswarmagentsdkgo.New(
         cipherswarmagentsdkgo.WithSecurity("<YOUR_BEARER_TOKEN_HERE>"),
     )
 
-    ctx := context.Background()
     res, err := s.Client.Authenticate(ctx)
     if err != nil {
         log.Fatal(err)

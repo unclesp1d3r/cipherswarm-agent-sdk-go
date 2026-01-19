@@ -12,11 +12,11 @@ type GetAttackRequest struct {
 	ID int64 `pathParam:"style=simple,explode=false,name=id"`
 }
 
-func (o *GetAttackRequest) GetID() int64 {
-	if o == nil {
+func (g *GetAttackRequest) GetID() int64 {
+	if g == nil {
 		return 0
 	}
-	return o.ID
+	return g.ID
 }
 
 type GetAttackResponse struct {
@@ -30,30 +30,30 @@ type GetAttackResponse struct {
 	Attack *components.Attack
 }
 
-func (o *GetAttackResponse) GetContentType() string {
-	if o == nil {
+func (g *GetAttackResponse) GetContentType() string {
+	if g == nil {
 		return ""
 	}
-	return o.ContentType
+	return g.ContentType
 }
 
-func (o *GetAttackResponse) GetStatusCode() int {
-	if o == nil {
+func (g *GetAttackResponse) GetStatusCode() int {
+	if g == nil {
 		return 0
 	}
-	return o.StatusCode
+	return g.StatusCode
 }
 
-func (o *GetAttackResponse) GetRawResponse() *http.Response {
-	if o == nil {
+func (g *GetAttackResponse) GetRawResponse() *http.Response {
+	if g == nil {
 		return nil
 	}
-	return o.RawResponse
+	return g.RawResponse
 }
 
-func (o *GetAttackResponse) GetAttack() *components.Attack {
-	if o == nil {
+func (g *GetAttackResponse) GetAttack() *components.Attack {
+	if g == nil {
 		return nil
 	}
-	return o.Attack
+	return g.Attack
 }

@@ -7,7 +7,8 @@ import (
 )
 
 type ErrorObject struct {
-	Error_ *string `json:"error,omitempty"`
+	Error_               string         `json:"error"`
+	AdditionalProperties map[string]any `additionalProperties:"true" json:"-"`
 }
 
 var _ error = &ErrorObject{}

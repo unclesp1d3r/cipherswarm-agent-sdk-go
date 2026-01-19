@@ -4,19 +4,37 @@ generation:
   maintainOpenAPIOrder: true
   usageSnippets:
     optionalPropertyRendering: withExample
+    sdkInitStyle: constructor
   useClassNamesForArrayFields: true
   fixes:
     nameResolutionDec2023: true
+    nameResolutionFeb2025: false
     parameterOrderingFeb2024: true
     requestResponseComponentNamesFeb2024: true
+    securityFeb2025: false
+    sharedErrorComponentsApr2025: false
+    sharedNestedComponentsJan2026: false
   auth:
     oAuth2ClientCredentialsEnabled: false
+    oAuth2PasswordEnabled: false
+    hoistGlobalSecurity: true
+  schemas:
+    allOfMergeStrategy: shallowMerge
+  requestBodyFieldName: ""
+  persistentEdits: {}
+  tests:
+    generateTests: true
+    generateNewTests: false
+    skipResponseBodyAssertions: false
 go:
-  version: 0.8.5
+  version: 0.9.0
   additionalDependencies: {}
   allowUnknownFieldsInWeakUnions: false
+  baseErrorName: CipherSwarmAgentSDKError
   clientServerStatusCodesAsErrors: true
+  defaultErrorName: SDKError
   flattenGlobalSecurity: true
+  forwardCompatibleEnumsByDefault: false
   imports:
     option: openapi
     paths:
@@ -25,9 +43,17 @@ go:
       operations: models/operations
       shared: models/components
       webhooks: models/webhooks
+  includeEmptyObjects: false
+  inferUnionDiscriminators: false
   inputModelSuffix: input
   maxMethodParams: 4
   methodArguments: require-security-and-request
+  modulePath: ""
+  multipartArrayFormat: legacy
+  nullableOptionalWrapper: false
   outputModelSuffix: output
   packageName: github.com/unclesp1d3r/cipherswarm-agent-sdk-go
+  respectRequiredFields: false
   responseFormat: envelope
+  sdkPackageName: ""
+  unionStrategy: left-to-right

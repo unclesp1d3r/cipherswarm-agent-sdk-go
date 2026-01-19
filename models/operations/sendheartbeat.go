@@ -13,11 +13,11 @@ type SendHeartbeatRequest struct {
 	ID int64 `pathParam:"style=simple,explode=false,name=id"`
 }
 
-func (o *SendHeartbeatRequest) GetID() int64 {
-	if o == nil {
+func (s *SendHeartbeatRequest) GetID() int64 {
+	if s == nil {
 		return 0
 	}
-	return o.ID
+	return s.ID
 }
 
 // State - The state of the agent:
@@ -64,11 +64,11 @@ type SendHeartbeatResponseBody struct {
 	State State `json:"state"`
 }
 
-func (o *SendHeartbeatResponseBody) GetState() State {
-	if o == nil {
+func (s *SendHeartbeatResponseBody) GetState() State {
+	if s == nil {
 		return State("")
 	}
-	return o.State
+	return s.State
 }
 
 type SendHeartbeatResponse struct {
@@ -82,30 +82,30 @@ type SendHeartbeatResponse struct {
 	Object *SendHeartbeatResponseBody
 }
 
-func (o *SendHeartbeatResponse) GetContentType() string {
-	if o == nil {
+func (s *SendHeartbeatResponse) GetContentType() string {
+	if s == nil {
 		return ""
 	}
-	return o.ContentType
+	return s.ContentType
 }
 
-func (o *SendHeartbeatResponse) GetStatusCode() int {
-	if o == nil {
+func (s *SendHeartbeatResponse) GetStatusCode() int {
+	if s == nil {
 		return 0
 	}
-	return o.StatusCode
+	return s.StatusCode
 }
 
-func (o *SendHeartbeatResponse) GetRawResponse() *http.Response {
-	if o == nil {
+func (s *SendHeartbeatResponse) GetRawResponse() *http.Response {
+	if s == nil {
 		return nil
 	}
-	return o.RawResponse
+	return s.RawResponse
 }
 
-func (o *SendHeartbeatResponse) GetObject() *SendHeartbeatResponseBody {
-	if o == nil {
+func (s *SendHeartbeatResponse) GetObject() *SendHeartbeatResponseBody {
+	if s == nil {
 		return nil
 	}
-	return o.Object
+	return s.Object
 }

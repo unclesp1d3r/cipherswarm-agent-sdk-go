@@ -1,5 +1,4 @@
 # Crackers
-(*Crackers*)
 
 ## Overview
 
@@ -15,21 +14,23 @@ Check for a cracker update, based on the operating system and version.
 
 ### Example Usage
 
+<!-- UsageSnippet language="go" operationID="checkForCrackerUpdate" method="get" path="/api/v1/client/crackers/check_for_cracker_update" -->
 ```go
 package main
 
 import(
-	cipherswarmagentsdkgo "github.com/unclesp1d3r/cipherswarm-agent-sdk-go"
 	"context"
+	cipherswarmagentsdkgo "github.com/unclesp1d3r/cipherswarm-agent-sdk-go"
 	"log"
 )
 
 func main() {
+    ctx := context.Background()
+
     s := cipherswarmagentsdkgo.New(
         cipherswarmagentsdkgo.WithSecurity("<YOUR_BEARER_TOKEN_HERE>"),
     )
 
-    ctx := context.Background()
     res, err := s.Crackers.CheckForCrackerUpdate(ctx, nil, nil)
     if err != nil {
         log.Fatal(err)

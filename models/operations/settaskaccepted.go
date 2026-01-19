@@ -11,11 +11,11 @@ type SetTaskAcceptedRequest struct {
 	ID int64 `pathParam:"style=simple,explode=false,name=id"`
 }
 
-func (o *SetTaskAcceptedRequest) GetID() int64 {
-	if o == nil {
+func (s *SetTaskAcceptedRequest) GetID() int64 {
+	if s == nil {
 		return 0
 	}
-	return o.ID
+	return s.ID
 }
 
 type SetTaskAcceptedResponse struct {
@@ -27,23 +27,23 @@ type SetTaskAcceptedResponse struct {
 	RawResponse *http.Response
 }
 
-func (o *SetTaskAcceptedResponse) GetContentType() string {
-	if o == nil {
+func (s *SetTaskAcceptedResponse) GetContentType() string {
+	if s == nil {
 		return ""
 	}
-	return o.ContentType
+	return s.ContentType
 }
 
-func (o *SetTaskAcceptedResponse) GetStatusCode() int {
-	if o == nil {
+func (s *SetTaskAcceptedResponse) GetStatusCode() int {
+	if s == nil {
 		return 0
 	}
-	return o.StatusCode
+	return s.StatusCode
 }
 
-func (o *SetTaskAcceptedResponse) GetRawResponse() *http.Response {
-	if o == nil {
+func (s *SetTaskAcceptedResponse) GetRawResponse() *http.Response {
+	if s == nil {
 		return nil
 	}
-	return o.RawResponse
+	return s.RawResponse
 }

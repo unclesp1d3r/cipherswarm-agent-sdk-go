@@ -55,51 +55,51 @@ type Agent struct {
 	AdvancedConfiguration AdvancedAgentConfiguration `json:"advanced_configuration"`
 }
 
-func (o *Agent) GetID() int64 {
-	if o == nil {
+func (a *Agent) GetID() int64 {
+	if a == nil {
 		return 0
 	}
-	return o.ID
+	return a.ID
 }
 
-func (o *Agent) GetHostName() string {
-	if o == nil {
+func (a *Agent) GetHostName() string {
+	if a == nil {
 		return ""
 	}
-	return o.HostName
+	return a.HostName
 }
 
-func (o *Agent) GetClientSignature() string {
-	if o == nil {
+func (a *Agent) GetClientSignature() string {
+	if a == nil {
 		return ""
 	}
-	return o.ClientSignature
+	return a.ClientSignature
 }
 
-func (o *Agent) GetState() State {
-	if o == nil {
+func (a *Agent) GetState() State {
+	if a == nil {
 		return State("")
 	}
-	return o.State
+	return a.State
 }
 
-func (o *Agent) GetOperatingSystem() string {
-	if o == nil {
+func (a *Agent) GetOperatingSystem() string {
+	if a == nil {
 		return ""
 	}
-	return o.OperatingSystem
+	return a.OperatingSystem
 }
 
-func (o *Agent) GetDevices() []string {
-	if o == nil {
+func (a *Agent) GetDevices() []string {
+	if a == nil {
 		return []string{}
 	}
-	return o.Devices
+	return a.Devices
 }
 
-func (o *Agent) GetAdvancedConfiguration() AdvancedAgentConfiguration {
-	if o == nil {
+func (a *Agent) GetAdvancedConfiguration() AdvancedAgentConfiguration {
+	if a == nil {
 		return AdvancedAgentConfiguration{}
 	}
-	return o.AdvancedConfiguration
+	return a.AdvancedConfiguration
 }

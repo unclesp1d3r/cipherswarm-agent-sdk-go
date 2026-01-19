@@ -23,65 +23,65 @@ type HashcatGuess struct {
 	GuessMode int64 `json:"guess_mode"`
 }
 
-func (o *HashcatGuess) GetGuessBase() string {
-	if o == nil {
+func (h *HashcatGuess) GetGuessBase() string {
+	if h == nil {
 		return ""
 	}
-	return o.GuessBase
+	return h.GuessBase
 }
 
-func (o *HashcatGuess) GetGuessBaseCount() int64 {
-	if o == nil {
+func (h *HashcatGuess) GetGuessBaseCount() int64 {
+	if h == nil {
 		return 0
 	}
-	return o.GuessBaseCount
+	return h.GuessBaseCount
 }
 
-func (o *HashcatGuess) GetGuessBaseOffset() int64 {
-	if o == nil {
+func (h *HashcatGuess) GetGuessBaseOffset() int64 {
+	if h == nil {
 		return 0
 	}
-	return o.GuessBaseOffset
+	return h.GuessBaseOffset
 }
 
-func (o *HashcatGuess) GetGuessBasePercentage() float64 {
-	if o == nil {
+func (h *HashcatGuess) GetGuessBasePercentage() float64 {
+	if h == nil {
 		return 0.0
 	}
-	return o.GuessBasePercentage
+	return h.GuessBasePercentage
 }
 
-func (o *HashcatGuess) GetGuessMod() string {
-	if o == nil {
+func (h *HashcatGuess) GetGuessMod() string {
+	if h == nil {
 		return ""
 	}
-	return o.GuessMod
+	return h.GuessMod
 }
 
-func (o *HashcatGuess) GetGuessModCount() int64 {
-	if o == nil {
+func (h *HashcatGuess) GetGuessModCount() int64 {
+	if h == nil {
 		return 0
 	}
-	return o.GuessModCount
+	return h.GuessModCount
 }
 
-func (o *HashcatGuess) GetGuessModOffset() int64 {
-	if o == nil {
+func (h *HashcatGuess) GetGuessModOffset() int64 {
+	if h == nil {
 		return 0
 	}
-	return o.GuessModOffset
+	return h.GuessModOffset
 }
 
-func (o *HashcatGuess) GetGuessModPercentage() float64 {
-	if o == nil {
+func (h *HashcatGuess) GetGuessModPercentage() float64 {
+	if h == nil {
 		return 0.0
 	}
-	return o.GuessModPercentage
+	return h.GuessModPercentage
 }
 
-func (o *HashcatGuess) GetGuessMode() int64 {
-	if o == nil {
+func (h *HashcatGuess) GetGuessMode() int64 {
+	if h == nil {
 		return 0
 	}
-	return o.GuessMode
+	return h.GuessMode
 }

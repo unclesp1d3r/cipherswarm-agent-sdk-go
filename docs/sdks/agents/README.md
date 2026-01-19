@@ -1,5 +1,4 @@
 # Agents
-(*Agents*)
 
 ## Overview
 
@@ -20,22 +19,24 @@ Returns an agent
 
 ### Example Usage
 
+<!-- UsageSnippet language="go" operationID="getAgent" method="get" path="/api/v1/client/agents/{id}" -->
 ```go
 package main
 
 import(
-	cipherswarmagentsdkgo "github.com/unclesp1d3r/cipherswarm-agent-sdk-go"
 	"context"
+	cipherswarmagentsdkgo "github.com/unclesp1d3r/cipherswarm-agent-sdk-go"
 	"log"
 )
 
 func main() {
+    ctx := context.Background()
+
     s := cipherswarmagentsdkgo.New(
         cipherswarmagentsdkgo.WithSecurity("<YOUR_BEARER_TOKEN_HERE>"),
     )
 
-    ctx := context.Background()
-    res, err := s.Agents.GetAgent(ctx, 135003)
+    res, err := s.Agents.GetAgent(ctx, 963394)
     if err != nil {
         log.Fatal(err)
     }
@@ -70,32 +71,24 @@ Updates an agent
 
 ### Example Usage
 
+<!-- UsageSnippet language="go" operationID="updateAgent" method="put" path="/api/v1/client/agents/{id}" -->
 ```go
 package main
 
 import(
-	cipherswarmagentsdkgo "github.com/unclesp1d3r/cipherswarm-agent-sdk-go"
 	"context"
-	"github.com/unclesp1d3r/cipherswarm-agent-sdk-go/models/operations"
+	cipherswarmagentsdkgo "github.com/unclesp1d3r/cipherswarm-agent-sdk-go"
 	"log"
 )
 
 func main() {
+    ctx := context.Background()
+
     s := cipherswarmagentsdkgo.New(
         cipherswarmagentsdkgo.WithSecurity("<YOUR_BEARER_TOKEN_HERE>"),
     )
 
-    ctx := context.Background()
-    res, err := s.Agents.UpdateAgent(ctx, 828119, &operations.UpdateAgentRequestBody{
-        ID: 2573,
-        HostName: "stoltenberg",
-        ClientSignature: "Linux, RHEL 6.10",
-        OperatingSystem: "linux",
-        Devices: []string{
-            "cpu",
-            "GPU",
-        },
-    })
+    res, err := s.Agents.UpdateAgent(ctx, 2843, nil)
     if err != nil {
         log.Fatal(err)
     }
@@ -131,22 +124,24 @@ Send a heartbeat for an agent to keep it alive.
 
 ### Example Usage
 
+<!-- UsageSnippet language="go" operationID="sendHeartbeat" method="post" path="/api/v1/client/agents/{id}/heartbeat" -->
 ```go
 package main
 
 import(
-	cipherswarmagentsdkgo "github.com/unclesp1d3r/cipherswarm-agent-sdk-go"
 	"context"
+	cipherswarmagentsdkgo "github.com/unclesp1d3r/cipherswarm-agent-sdk-go"
 	"log"
 )
 
 func main() {
+    ctx := context.Background()
+
     s := cipherswarmagentsdkgo.New(
         cipherswarmagentsdkgo.WithSecurity("<YOUR_BEARER_TOKEN_HERE>"),
     )
 
-    ctx := context.Background()
-    res, err := s.Agents.SendHeartbeat(ctx, 992386)
+    res, err := s.Agents.SendHeartbeat(ctx, 379816)
     if err != nil {
         log.Fatal(err)
     }
@@ -181,32 +176,27 @@ Submit a benchmark for an agent
 
 ### Example Usage
 
+<!-- UsageSnippet language="go" operationID="submitBenchmark" method="post" path="/api/v1/client/agents/{id}/submit_benchmark" -->
 ```go
 package main
 
 import(
-	cipherswarmagentsdkgo "github.com/unclesp1d3r/cipherswarm-agent-sdk-go"
 	"context"
+	cipherswarmagentsdkgo "github.com/unclesp1d3r/cipherswarm-agent-sdk-go"
 	"github.com/unclesp1d3r/cipherswarm-agent-sdk-go/models/components"
 	"github.com/unclesp1d3r/cipherswarm-agent-sdk-go/models/operations"
 	"log"
 )
 
 func main() {
+    ctx := context.Background()
+
     s := cipherswarmagentsdkgo.New(
         cipherswarmagentsdkgo.WithSecurity("<YOUR_BEARER_TOKEN_HERE>"),
     )
 
-    ctx := context.Background()
-    res, err := s.Agents.SubmitBenchmark(ctx, 306461, operations.SubmitBenchmarkRequestBody{
-        HashcatBenchmarks: []components.HashcatBenchmark{
-            components.HashcatBenchmark{
-                HashType: 442220,
-                Runtime: 8499,
-                HashSpeed: 156.49,
-                Device: 322052,
-            },
-        },
+    res, err := s.Agents.SubmitBenchmark(ctx, 981111, operations.SubmitBenchmarkRequestBody{
+        HashcatBenchmarks: []components.HashcatBenchmark{},
     })
     if err != nil {
         log.Fatal(err)
@@ -243,22 +233,24 @@ Submit an error for an agent
 
 ### Example Usage
 
+<!-- UsageSnippet language="go" operationID="submitErrorAgent" method="post" path="/api/v1/client/agents/{id}/submit_error" -->
 ```go
 package main
 
 import(
-	cipherswarmagentsdkgo "github.com/unclesp1d3r/cipherswarm-agent-sdk-go"
 	"context"
+	cipherswarmagentsdkgo "github.com/unclesp1d3r/cipherswarm-agent-sdk-go"
 	"log"
 )
 
 func main() {
+    ctx := context.Background()
+
     s := cipherswarmagentsdkgo.New(
         cipherswarmagentsdkgo.WithSecurity("<YOUR_BEARER_TOKEN_HERE>"),
     )
 
-    ctx := context.Background()
-    res, err := s.Agents.SubmitErrorAgent(ctx, 607526, nil)
+    res, err := s.Agents.SubmitErrorAgent(ctx, 649742, nil)
     if err != nil {
         log.Fatal(err)
     }
@@ -294,22 +286,24 @@ Marks the agent as shutdown and offline, freeing any assigned tasks.
 
 ### Example Usage
 
+<!-- UsageSnippet language="go" operationID="setAgentShutdown" method="post" path="/api/v1/client/agents/{id}/shutdown" -->
 ```go
 package main
 
 import(
-	cipherswarmagentsdkgo "github.com/unclesp1d3r/cipherswarm-agent-sdk-go"
 	"context"
+	cipherswarmagentsdkgo "github.com/unclesp1d3r/cipherswarm-agent-sdk-go"
 	"log"
 )
 
 func main() {
+    ctx := context.Background()
+
     s := cipherswarmagentsdkgo.New(
         cipherswarmagentsdkgo.WithSecurity("<YOUR_BEARER_TOKEN_HERE>"),
     )
 
-    ctx := context.Background()
-    res, err := s.Agents.SetAgentShutdown(ctx, 811605)
+    res, err := s.Agents.SetAgentShutdown(ctx, 709306)
     if err != nil {
         log.Fatal(err)
     }

@@ -12,18 +12,18 @@ type AuthenticateResponseBody struct {
 	AgentID       int64 `json:"agent_id"`
 }
 
-func (o *AuthenticateResponseBody) GetAuthenticated() bool {
-	if o == nil {
+func (a *AuthenticateResponseBody) GetAuthenticated() bool {
+	if a == nil {
 		return false
 	}
-	return o.Authenticated
+	return a.Authenticated
 }
 
-func (o *AuthenticateResponseBody) GetAgentID() int64 {
-	if o == nil {
+func (a *AuthenticateResponseBody) GetAgentID() int64 {
+	if a == nil {
 		return 0
 	}
-	return o.AgentID
+	return a.AgentID
 }
 
 type AuthenticateResponse struct {
@@ -37,30 +37,30 @@ type AuthenticateResponse struct {
 	Object *AuthenticateResponseBody
 }
 
-func (o *AuthenticateResponse) GetContentType() string {
-	if o == nil {
+func (a *AuthenticateResponse) GetContentType() string {
+	if a == nil {
 		return ""
 	}
-	return o.ContentType
+	return a.ContentType
 }
 
-func (o *AuthenticateResponse) GetStatusCode() int {
-	if o == nil {
+func (a *AuthenticateResponse) GetStatusCode() int {
+	if a == nil {
 		return 0
 	}
-	return o.StatusCode
+	return a.StatusCode
 }
 
-func (o *AuthenticateResponse) GetRawResponse() *http.Response {
-	if o == nil {
+func (a *AuthenticateResponse) GetRawResponse() *http.Response {
+	if a == nil {
 		return nil
 	}
-	return o.RawResponse
+	return a.RawResponse
 }
 
-func (o *AuthenticateResponse) GetObject() *AuthenticateResponseBody {
-	if o == nil {
+func (a *AuthenticateResponse) GetObject() *AuthenticateResponseBody {
+	if a == nil {
 		return nil
 	}
-	return o.Object
+	return a.Object
 }

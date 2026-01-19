@@ -23,24 +23,24 @@ func (m Metadata) MarshalJSON() ([]byte, error) {
 }
 
 func (m *Metadata) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &m, "", false, false); err != nil {
+	if err := utils.UnmarshalJSON(data, &m, "", false, nil); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *Metadata) GetErrorDate() time.Time {
-	if o == nil {
+func (m *Metadata) GetErrorDate() time.Time {
+	if m == nil {
 		return time.Time{}
 	}
-	return o.ErrorDate
+	return m.ErrorDate
 }
 
-func (o *Metadata) GetOther() map[string]any {
-	if o == nil {
+func (m *Metadata) GetOther() map[string]any {
+	if m == nil {
 		return nil
 	}
-	return o.Other
+	return m.Other
 }
 
 // Severity - The severity of the error:
@@ -107,39 +107,39 @@ type SubmitErrorAgentRequestBody struct {
 	TaskID *int64 `json:"task_id,omitempty"`
 }
 
-func (o *SubmitErrorAgentRequestBody) GetMessage() string {
-	if o == nil {
+func (s *SubmitErrorAgentRequestBody) GetMessage() string {
+	if s == nil {
 		return ""
 	}
-	return o.Message
+	return s.Message
 }
 
-func (o *SubmitErrorAgentRequestBody) GetMetadata() *Metadata {
-	if o == nil {
+func (s *SubmitErrorAgentRequestBody) GetMetadata() *Metadata {
+	if s == nil {
 		return nil
 	}
-	return o.Metadata
+	return s.Metadata
 }
 
-func (o *SubmitErrorAgentRequestBody) GetSeverity() Severity {
-	if o == nil {
+func (s *SubmitErrorAgentRequestBody) GetSeverity() Severity {
+	if s == nil {
 		return Severity("")
 	}
-	return o.Severity
+	return s.Severity
 }
 
-func (o *SubmitErrorAgentRequestBody) GetAgentID() int64 {
-	if o == nil {
+func (s *SubmitErrorAgentRequestBody) GetAgentID() int64 {
+	if s == nil {
 		return 0
 	}
-	return o.AgentID
+	return s.AgentID
 }
 
-func (o *SubmitErrorAgentRequestBody) GetTaskID() *int64 {
-	if o == nil {
+func (s *SubmitErrorAgentRequestBody) GetTaskID() *int64 {
+	if s == nil {
 		return nil
 	}
-	return o.TaskID
+	return s.TaskID
 }
 
 type SubmitErrorAgentRequest struct {
@@ -148,18 +148,18 @@ type SubmitErrorAgentRequest struct {
 	RequestBody *SubmitErrorAgentRequestBody `request:"mediaType=application/json"`
 }
 
-func (o *SubmitErrorAgentRequest) GetID() int64 {
-	if o == nil {
+func (s *SubmitErrorAgentRequest) GetID() int64 {
+	if s == nil {
 		return 0
 	}
-	return o.ID
+	return s.ID
 }
 
-func (o *SubmitErrorAgentRequest) GetRequestBody() *SubmitErrorAgentRequestBody {
-	if o == nil {
+func (s *SubmitErrorAgentRequest) GetRequestBody() *SubmitErrorAgentRequestBody {
+	if s == nil {
 		return nil
 	}
-	return o.RequestBody
+	return s.RequestBody
 }
 
 type SubmitErrorAgentResponse struct {
@@ -171,23 +171,23 @@ type SubmitErrorAgentResponse struct {
 	RawResponse *http.Response
 }
 
-func (o *SubmitErrorAgentResponse) GetContentType() string {
-	if o == nil {
+func (s *SubmitErrorAgentResponse) GetContentType() string {
+	if s == nil {
 		return ""
 	}
-	return o.ContentType
+	return s.ContentType
 }
 
-func (o *SubmitErrorAgentResponse) GetStatusCode() int {
-	if o == nil {
+func (s *SubmitErrorAgentResponse) GetStatusCode() int {
+	if s == nil {
 		return 0
 	}
-	return o.StatusCode
+	return s.StatusCode
 }
 
-func (o *SubmitErrorAgentResponse) GetRawResponse() *http.Response {
-	if o == nil {
+func (s *SubmitErrorAgentResponse) GetRawResponse() *http.Response {
+	if s == nil {
 		return nil
 	}
-	return o.RawResponse
+	return s.RawResponse
 }

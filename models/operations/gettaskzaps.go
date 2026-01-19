@@ -12,11 +12,11 @@ type GetTaskZapsRequest struct {
 	ID int64 `pathParam:"style=simple,explode=false,name=id"`
 }
 
-func (o *GetTaskZapsRequest) GetID() int64 {
-	if o == nil {
+func (g *GetTaskZapsRequest) GetID() int64 {
+	if g == nil {
 		return 0
 	}
-	return o.ID
+	return g.ID
 }
 
 type GetTaskZapsResponse struct {
@@ -31,30 +31,30 @@ type GetTaskZapsResponse struct {
 	ResponseStream io.ReadCloser
 }
 
-func (o *GetTaskZapsResponse) GetContentType() string {
-	if o == nil {
+func (g *GetTaskZapsResponse) GetContentType() string {
+	if g == nil {
 		return ""
 	}
-	return o.ContentType
+	return g.ContentType
 }
 
-func (o *GetTaskZapsResponse) GetStatusCode() int {
-	if o == nil {
+func (g *GetTaskZapsResponse) GetStatusCode() int {
+	if g == nil {
 		return 0
 	}
-	return o.StatusCode
+	return g.StatusCode
 }
 
-func (o *GetTaskZapsResponse) GetRawResponse() *http.Response {
-	if o == nil {
+func (g *GetTaskZapsResponse) GetRawResponse() *http.Response {
+	if g == nil {
 		return nil
 	}
-	return o.RawResponse
+	return g.RawResponse
 }
 
-func (o *GetTaskZapsResponse) GetResponseStream() io.ReadCloser {
-	if o == nil {
+func (g *GetTaskZapsResponse) GetResponseStream() io.ReadCloser {
+	if g == nil {
 		return nil
 	}
-	return o.ResponseStream
+	return g.ResponseStream
 }

@@ -21,29 +21,29 @@ func (h HashcatResult) MarshalJSON() ([]byte, error) {
 }
 
 func (h *HashcatResult) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &h, "", false, false); err != nil {
+	if err := utils.UnmarshalJSON(data, &h, "", false, nil); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *HashcatResult) GetTimestamp() time.Time {
-	if o == nil {
+func (h *HashcatResult) GetTimestamp() time.Time {
+	if h == nil {
 		return time.Time{}
 	}
-	return o.Timestamp
+	return h.Timestamp
 }
 
-func (o *HashcatResult) GetHash() string {
-	if o == nil {
+func (h *HashcatResult) GetHash() string {
+	if h == nil {
 		return ""
 	}
-	return o.Hash
+	return h.Hash
 }
 
-func (o *HashcatResult) GetPlainText() string {
-	if o == nil {
+func (h *HashcatResult) GetPlainText() string {
+	if h == nil {
 		return ""
 	}
-	return o.PlainText
+	return h.PlainText
 }

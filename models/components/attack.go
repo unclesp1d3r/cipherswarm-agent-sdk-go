@@ -100,197 +100,197 @@ func (a Attack) MarshalJSON() ([]byte, error) {
 }
 
 func (a *Attack) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &a, "", false, false); err != nil {
+	if err := utils.UnmarshalJSON(data, &a, "", false, nil); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *Attack) GetID() int64 {
-	if o == nil {
+func (a *Attack) GetID() int64 {
+	if a == nil {
 		return 0
 	}
-	return o.ID
+	return a.ID
 }
 
-func (o *Attack) GetAttackMode() *AttackMode {
-	if o == nil {
+func (a *Attack) GetAttackMode() *AttackMode {
+	if a == nil {
 		return nil
 	}
-	return o.AttackMode
+	return a.AttackMode
 }
 
-func (o *Attack) GetAttackModeHashcat() *int64 {
-	if o == nil {
+func (a *Attack) GetAttackModeHashcat() *int64 {
+	if a == nil {
 		return nil
 	}
-	return o.AttackModeHashcat
+	return a.AttackModeHashcat
 }
 
-func (o *Attack) GetMask() *string {
-	if o == nil {
+func (a *Attack) GetMask() *string {
+	if a == nil {
 		return nil
 	}
-	return o.Mask
+	return a.Mask
 }
 
-func (o *Attack) GetIncrementMode() *bool {
-	if o == nil {
+func (a *Attack) GetIncrementMode() *bool {
+	if a == nil {
 		return nil
 	}
-	return o.IncrementMode
+	return a.IncrementMode
 }
 
-func (o *Attack) GetIncrementMinimum() int64 {
-	if o == nil {
+func (a *Attack) GetIncrementMinimum() int64 {
+	if a == nil {
 		return 0
 	}
-	return o.IncrementMinimum
+	return a.IncrementMinimum
 }
 
-func (o *Attack) GetIncrementMaximum() int64 {
-	if o == nil {
+func (a *Attack) GetIncrementMaximum() int64 {
+	if a == nil {
 		return 0
 	}
-	return o.IncrementMaximum
+	return a.IncrementMaximum
 }
 
-func (o *Attack) GetOptimized() *bool {
-	if o == nil {
+func (a *Attack) GetOptimized() *bool {
+	if a == nil {
 		return nil
 	}
-	return o.Optimized
+	return a.Optimized
 }
 
-func (o *Attack) GetSlowCandidateGenerators() *bool {
-	if o == nil {
+func (a *Attack) GetSlowCandidateGenerators() *bool {
+	if a == nil {
 		return nil
 	}
-	return o.SlowCandidateGenerators
+	return a.SlowCandidateGenerators
 }
 
-func (o *Attack) GetWorkloadProfile() *int64 {
-	if o == nil {
+func (a *Attack) GetWorkloadProfile() *int64 {
+	if a == nil {
 		return nil
 	}
-	return o.WorkloadProfile
+	return a.WorkloadProfile
 }
 
-func (o *Attack) GetDisableMarkov() *bool {
-	if o == nil {
+func (a *Attack) GetDisableMarkov() *bool {
+	if a == nil {
 		return nil
 	}
-	return o.DisableMarkov
+	return a.DisableMarkov
 }
 
-func (o *Attack) GetClassicMarkov() *bool {
-	if o == nil {
+func (a *Attack) GetClassicMarkov() *bool {
+	if a == nil {
 		return nil
 	}
-	return o.ClassicMarkov
+	return a.ClassicMarkov
 }
 
-func (o *Attack) GetMarkovThreshold() *int64 {
-	if o == nil {
+func (a *Attack) GetMarkovThreshold() *int64 {
+	if a == nil {
 		return nil
 	}
-	return o.MarkovThreshold
+	return a.MarkovThreshold
 }
 
-func (o *Attack) GetLeftRule() *string {
-	if o == nil {
+func (a *Attack) GetLeftRule() *string {
+	if a == nil {
 		return nil
 	}
-	return o.LeftRule
+	return a.LeftRule
 }
 
-func (o *Attack) GetRightRule() *string {
-	if o == nil {
+func (a *Attack) GetRightRule() *string {
+	if a == nil {
 		return nil
 	}
-	return o.RightRule
+	return a.RightRule
 }
 
-func (o *Attack) GetCustomCharset1() *string {
-	if o == nil {
+func (a *Attack) GetCustomCharset1() *string {
+	if a == nil {
 		return nil
 	}
-	return o.CustomCharset1
+	return a.CustomCharset1
 }
 
-func (o *Attack) GetCustomCharset2() *string {
-	if o == nil {
+func (a *Attack) GetCustomCharset2() *string {
+	if a == nil {
 		return nil
 	}
-	return o.CustomCharset2
+	return a.CustomCharset2
 }
 
-func (o *Attack) GetCustomCharset3() *string {
-	if o == nil {
+func (a *Attack) GetCustomCharset3() *string {
+	if a == nil {
 		return nil
 	}
-	return o.CustomCharset3
+	return a.CustomCharset3
 }
 
-func (o *Attack) GetCustomCharset4() *string {
-	if o == nil {
+func (a *Attack) GetCustomCharset4() *string {
+	if a == nil {
 		return nil
 	}
-	return o.CustomCharset4
+	return a.CustomCharset4
 }
 
-func (o *Attack) GetHashListID() int64 {
-	if o == nil {
+func (a *Attack) GetHashListID() int64 {
+	if a == nil {
 		return 0
 	}
-	return o.HashListID
+	return a.HashListID
 }
 
-func (o *Attack) GetWordList() *AttackResourceFile {
-	if o == nil {
+func (a *Attack) GetWordList() *AttackResourceFile {
+	if a == nil {
 		return nil
 	}
-	return o.WordList
+	return a.WordList
 }
 
-func (o *Attack) GetRuleList() *AttackResourceFile {
-	if o == nil {
+func (a *Attack) GetRuleList() *AttackResourceFile {
+	if a == nil {
 		return nil
 	}
-	return o.RuleList
+	return a.RuleList
 }
 
-func (o *Attack) GetMaskList() *AttackResourceFile {
-	if o == nil {
+func (a *Attack) GetMaskList() *AttackResourceFile {
+	if a == nil {
 		return nil
 	}
-	return o.MaskList
+	return a.MaskList
 }
 
-func (o *Attack) GetHashMode() *int64 {
-	if o == nil {
+func (a *Attack) GetHashMode() *int64 {
+	if a == nil {
 		return nil
 	}
-	return o.HashMode
+	return a.HashMode
 }
 
-func (o *Attack) GetHashListURL() *string {
-	if o == nil {
+func (a *Attack) GetHashListURL() *string {
+	if a == nil {
 		return nil
 	}
-	return o.HashListURL
+	return a.HashListURL
 }
 
-func (o *Attack) GetHashListChecksum() *string {
-	if o == nil {
+func (a *Attack) GetHashListChecksum() *string {
+	if a == nil {
 		return nil
 	}
-	return o.HashListChecksum
+	return a.HashListChecksum
 }
 
-func (o *Attack) GetURL() *string {
-	if o == nil {
+func (a *Attack) GetURL() *string {
+	if a == nil {
 		return nil
 	}
-	return o.URL
+	return a.URL
 }
