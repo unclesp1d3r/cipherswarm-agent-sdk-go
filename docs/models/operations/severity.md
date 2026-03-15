@@ -8,6 +8,16 @@ The severity of the error:
                        * `critical` - Critical error, action required. The task should be stopped and investigated.
                         * `fatal` - Fatal error, action required. The agent cannot continue with the task and should not be reattempted.
 
+## Example Usage
+
+```go
+import (
+	"github.com/unclesp1d3r/cipherswarm-agent-sdk-go/models/operations"
+)
+
+value := operations.SeverityInfo
+```
+
 
 ## Values
 

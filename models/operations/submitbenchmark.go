@@ -7,6 +7,7 @@ import (
 	"net/http"
 )
 
+// SubmitBenchmarkRequestBody - Hashcat benchmark results for the agent
 type SubmitBenchmarkRequestBody struct {
 	HashcatBenchmarks []components.HashcatBenchmark `json:"hashcat_benchmarks"`
 }

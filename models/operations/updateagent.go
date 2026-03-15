@@ -7,6 +7,7 @@ import (
 	"net/http"
 )
 
+// UpdateAgentRequestBody - Agent system information
 type UpdateAgentRequestBody struct {
 	// The id of the agent
 	ID int64 `json:"id"`
@@ -56,8 +57,8 @@ func (u *UpdateAgentRequestBody) GetDevices() []string {
 
 type UpdateAgentRequest struct {
 	// id
-	ID          int64                   `pathParam:"style=simple,explode=false,name=id"`
-	RequestBody *UpdateAgentRequestBody `request:"mediaType=application/json"`
+	ID          int64                  `pathParam:"style=simple,explode=false,name=id"`
+	RequestBody UpdateAgentRequestBody `request:"mediaType=application/json"`
 }
 
 func (u *UpdateAgentRequest) GetID() int64 {
@@ -67,9 +68,9 @@ func (u *UpdateAgentRequest) GetID() int64 {
 	return u.ID
 }
 
-func (u *UpdateAgentRequest) GetRequestBody() *UpdateAgentRequestBody {
+func (u *UpdateAgentRequest) GetRequestBody() UpdateAgentRequestBody {
 	if u == nil {
-		return nil
+		return UpdateAgentRequestBody{}
 	}
 	return u.RequestBody
 }

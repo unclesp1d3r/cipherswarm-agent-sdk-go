@@ -2,7 +2,7 @@
 
 package cipherswarmagentsdkgo
 
-// Generated from OpenAPI doc version 1.3 and generator version 2.796.4
+// Generated from OpenAPI doc version 1.3 and generator version 2.865.2
 
 import (
 	"context"
@@ -57,12 +57,10 @@ type CipherSwarmAgentSDK struct {
 	Agents *Agents
 	// Attacks API
 	Attacks *Attacks
-	// Crackers API
-	Crackers *Crackers
-	// Tasks API
-	Tasks *Tasks
 	// Client API
 	Client *Client
+	// Tasks API
+	Tasks *Tasks
 
 	sdkConfiguration config.SDKConfiguration
 	hooks            *hooks.Hooks
@@ -70,7 +68,7 @@ type CipherSwarmAgentSDK struct {
 
 type SDKOption func(*CipherSwarmAgentSDK)
 
-// WithServerURL allows the overriding of the default server URL
+// WithServerURL allows providing an alternative server URL
 func WithServerURL(serverURL string) SDKOption {
 	return func(sdk *CipherSwarmAgentSDK) {
 		sdk.sdkConfiguration.ServerURL = serverURL
@@ -148,7 +146,7 @@ func WithClient(client HTTPClient) SDKOption {
 // WithSecurity configures the SDK to use the provided security details
 func WithSecurity(bearerAuth string) SDKOption {
 	return func(sdk *CipherSwarmAgentSDK) {
-		security := components.Security{BearerAuth: bearerAuth}
+		security := components.Security{BearerAuth: &bearerAuth}
 		sdk.sdkConfiguration.Security = utils.AsSecuritySource(&security)
 	}
 }
@@ -178,9 +176,9 @@ func WithTimeout(timeout time.Duration) SDKOption {
 // New creates a new instance of the SDK with the provided options
 func New(opts ...SDKOption) *CipherSwarmAgentSDK {
 	sdk := &CipherSwarmAgentSDK{
-		SDKVersion: "0.9.0",
+		SDKVersion: "0.9.1",
 		sdkConfiguration: config.SDKConfiguration{
-			UserAgent:  "speakeasy-sdk/go 0.9.0 2.796.4 1.3 github.com/unclesp1d3r/cipherswarm-agent-sdk-go",
+			UserAgent:  "speakeasy-sdk/go 0.9.1 2.865.2 1.3 github.com/unclesp1d3r/cipherswarm-agent-sdk-go",
 			ServerList: ServerList,
 			ServerVariables: []map[string]string{
 				{
@@ -212,9 +210,8 @@ func New(opts ...SDKOption) *CipherSwarmAgentSDK {
 
 	sdk.Agents = newAgents(sdk, sdk.sdkConfiguration, sdk.hooks)
 	sdk.Attacks = newAttacks(sdk, sdk.sdkConfiguration, sdk.hooks)
-	sdk.Crackers = newCrackers(sdk, sdk.sdkConfiguration, sdk.hooks)
-	sdk.Tasks = newTasks(sdk, sdk.sdkConfiguration, sdk.hooks)
 	sdk.Client = newClient(sdk, sdk.sdkConfiguration, sdk.hooks)
+	sdk.Tasks = newTasks(sdk, sdk.sdkConfiguration, sdk.hooks)
 
 	return sdk
 }

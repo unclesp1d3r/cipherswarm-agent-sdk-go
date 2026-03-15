@@ -2,6 +2,7 @@
 
 package components
 
+// AttackResourceFile - A downloadable resource file (word list, rule list, or mask list) used by an attack
 type AttackResourceFile struct {
 	// The id of the resource file
 	ID int64 `json:"id"`

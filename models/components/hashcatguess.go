@@ -2,6 +2,7 @@
 
 package components
 
+// HashcatGuess - Current hashcat guess progress including base and modifier values
 type HashcatGuess struct {
 	// The base value used for the guess (for example, the mask)
 	GuessBase string `json:"guess_base"`

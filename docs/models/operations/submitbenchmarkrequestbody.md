@@ -1,5 +1,7 @@
 # SubmitBenchmarkRequestBody
 
+Hashcat benchmark results for the agent
+
 
 ## Fields
 

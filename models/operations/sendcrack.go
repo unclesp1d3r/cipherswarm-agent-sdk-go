@@ -9,8 +9,8 @@ import (
 
 type SendCrackRequest struct {
 	// id
-	ID            int64                     `pathParam:"style=simple,explode=false,name=id"`
-	HashcatResult *components.HashcatResult `request:"mediaType=application/json"`
+	ID            int64                    `pathParam:"style=simple,explode=false,name=id"`
+	HashcatResult components.HashcatResult `request:"mediaType=application/json"`
 }
 
 func (s *SendCrackRequest) GetID() int64 {
@@ -20,9 +20,9 @@ func (s *SendCrackRequest) GetID() int64 {
 	return s.ID
 }
 
-func (s *SendCrackRequest) GetHashcatResult() *components.HashcatResult {
+func (s *SendCrackRequest) GetHashcatResult() components.HashcatResult {
 	if s == nil {
-		return nil
+		return components.HashcatResult{}
 	}
 	return s.HashcatResult
 }

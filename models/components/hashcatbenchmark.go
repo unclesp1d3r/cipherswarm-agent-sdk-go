@@ -2,6 +2,7 @@
 
 package components
 
+// HashcatBenchmark - A single hashcat benchmark result for a specific hash type and device
 type HashcatBenchmark struct {
 	// The hashcat hash type
 	HashType int64 `json:"hash_type"`

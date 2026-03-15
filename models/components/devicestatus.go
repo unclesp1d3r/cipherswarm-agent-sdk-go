@@ -34,6 +34,7 @@ func (e *DeviceType) UnmarshalJSON(data []byte) error {
 	}
 }
 
+// DeviceStatus - Status and performance metrics for a single GPU or CPU device
 type DeviceStatus struct {
 	// The id of the device
 	DeviceID int64 `json:"device_id"`

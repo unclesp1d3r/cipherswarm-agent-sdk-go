@@ -41,6 +41,7 @@ func (e *AttackMode) UnmarshalJSON(data []byte) error {
 	}
 }
 
+// Attack - A hashcat attack configuration assigned to an agent
 type Attack struct {
 	// The id of the attack
 	ID int64 `json:"id"`
@@ -81,10 +82,13 @@ type Attack struct {
 	// Custom charset 4 for hashcat mask attacks
 	CustomCharset4 *string `default:"" json:"custom_charset_4"`
 	// The id of the hash list
-	HashListID int64               `json:"hash_list_id"`
-	WordList   *AttackResourceFile `json:"word_list,omitempty"`
-	RuleList   *AttackResourceFile `json:"rule_list,omitempty"`
-	MaskList   *AttackResourceFile `json:"mask_list,omitempty"`
+	HashListID int64 `json:"hash_list_id"`
+	// A downloadable resource file (word list, rule list, or mask list) used by an attack
+	WordList *AttackResourceFile `json:"word_list,omitempty"`
+	// A downloadable resource file (word list, rule list, or mask list) used by an attack
+	RuleList *AttackResourceFile `json:"rule_list,omitempty"`
+	// A downloadable resource file (word list, rule list, or mask list) used by an attack
+	MaskList *AttackResourceFile `json:"mask_list,omitempty"`
 	// The hashcat hash mode
 	HashMode *int64 `default:"0" json:"hash_mode"`
 	// The download URL for the hash list

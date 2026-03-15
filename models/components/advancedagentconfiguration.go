@@ -2,6 +2,7 @@
 
 package components
 
+// AdvancedAgentConfiguration - Advanced hashcat and agent configuration options
 type AdvancedAgentConfiguration struct {
 	// The interval in seconds to check for agent updates
 	AgentUpdateInterval *int64 `json:"agent_update_interval"`

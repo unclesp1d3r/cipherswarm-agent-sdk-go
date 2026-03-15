@@ -110,12 +110,9 @@ func main() {
 
 ### [Client](docs/sdks/client/README.md)
 
+* [GetHealth](docs/sdks/client/README.md#gethealth) - Health check (unauthenticated)
 * [GetConfiguration](docs/sdks/client/README.md#getconfiguration) - Get Agent Configuration
 * [Authenticate](docs/sdks/client/README.md#authenticate) - Authenticate Client
-
-### [Crackers](docs/sdks/crackers/README.md)
-
-* [CheckForCrackerUpdate](docs/sdks/crackers/README.md#checkforcrackerupdate) - Check for Cracker Update
 
 ### [Tasks](docs/sdks/tasks/README.md)
 

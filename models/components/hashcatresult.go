@@ -7,6 +7,7 @@ import (
 	"time"
 )
 
+// HashcatResult - A cracked hash result submitted by an agent
 type HashcatResult struct {
 	// The time the hash was cracked
 	Timestamp time.Time `json:"timestamp"`

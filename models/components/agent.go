@@ -11,10 +11,11 @@ import (
 type State string
 
 const (
-	StatePending State = "pending"
 	StateActive  State = "active"
-	StateStopped State = "stopped"
 	StateError   State = "error"
+	StateOffline State = "offline"
+	StatePending State = "pending"
+	StateStopped State = "stopped"
 )
 
 func (e State) ToPointer() *State {
@@ -26,13 +27,15 @@ func (e *State) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	switch v {
-	case "pending":
-		fallthrough
 	case "active":
 		fallthrough
-	case "stopped":
-		fallthrough
 	case "error":
+		fallthrough
+	case "offline":
+		fallthrough
+	case "pending":
+		fallthrough
+	case "stopped":
 		*e = State(v)
 		return nil
 	default:
@@ -40,6 +43,7 @@ func (e *State) UnmarshalJSON(data []byte) error {
 	}
 }
 
+// Agent - A cracking agent registered with CipherSwarm
 type Agent struct {
 	// The id of the agent
 	ID int64 `json:"id"`
@@ -50,8 +54,11 @@ type Agent struct {
 	// The state of the agent
 	State State `json:"state"`
 	// The operating system of the agent
-	OperatingSystem       string                     `json:"operating_system"`
-	Devices               []string                   `json:"devices"`
+	OperatingSystem string   `json:"operating_system"`
+	Devices         []string `json:"devices"`
+	// Current agent activity state
+	CurrentActivity *string `json:"current_activity,omitempty"`
+	// Advanced hashcat and agent configuration options
 	AdvancedConfiguration AdvancedAgentConfiguration `json:"advanced_configuration"`
 }
 
@@ -95,6 +102,13 @@ func (a *Agent) GetDevices() []string {
 		return []string{}
 	}
 	return a.Devices
+}
+
+func (a *Agent) GetCurrentActivity() *string {
+	if a == nil {
+		return nil
+	}
+	return a.CurrentActivity
 }
 
 func (a *Agent) GetAdvancedConfiguration() AdvancedAgentConfiguration {
