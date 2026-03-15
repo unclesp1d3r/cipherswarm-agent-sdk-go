@@ -220,6 +220,7 @@ func (s *Tasks) GetNewTask(ctx context.Context, opts ...operations.Option) (*ope
 			return nil, sdkerrors.NewSDKError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode == 204:
+		utils.DrainBody(httpRes)
 	case httpRes.StatusCode == 401:
 		switch {
 		case utils.MatchContentType(httpRes.Header.Get("Content-Type"), `application/json`):
@@ -505,7 +506,7 @@ func (s *Tasks) GetTask(ctx context.Context, id int64, opts ...operations.Option
 
 // SendCrack - Submit a cracked hash result for a task
 // Submit a cracked hash result for a task.
-func (s *Tasks) SendCrack(ctx context.Context, id int64, hashcatResult *components.HashcatResult, opts ...operations.Option) (*operations.SendCrackResponse, error) {
+func (s *Tasks) SendCrack(ctx context.Context, id int64, hashcatResult components.HashcatResult, opts ...operations.Option) (*operations.SendCrackResponse, error) {
 	request := operations.SendCrackRequest{
 		ID:            id,
 		HashcatResult: hashcatResult,
@@ -542,7 +543,7 @@ func (s *Tasks) SendCrack(ctx context.Context, id int64, hashcatResult *componen
 		OperationID:      "sendCrack",
 		SecuritySource:   s.sdkConfiguration.Security,
 	}
-	bodyReader, reqContentType, err := utils.SerializeRequestBody(ctx, request, false, true, "HashcatResult", "json", `request:"mediaType=application/json"`)
+	bodyReader, reqContentType, err := utils.SerializeRequestBody(ctx, request, false, false, "HashcatResult", "json", `request:"mediaType=application/json"`)
 	if err != nil {
 		return nil, err
 	}
@@ -684,6 +685,7 @@ func (s *Tasks) SendCrack(ctx context.Context, id int64, hashcatResult *componen
 	case httpRes.StatusCode == 200:
 		fallthrough
 	case httpRes.StatusCode == 204:
+		utils.DrainBody(httpRes)
 	case httpRes.StatusCode == 404:
 		switch {
 		case utils.MatchContentType(httpRes.Header.Get("Content-Type"), `application/json`):
@@ -910,6 +912,7 @@ func (s *Tasks) SendStatus(ctx context.Context, id int64, taskStatus components.
 	case httpRes.StatusCode == 202:
 		fallthrough
 	case httpRes.StatusCode == 204:
+		utils.DrainBody(httpRes)
 	case httpRes.StatusCode == 401:
 		fallthrough
 	case httpRes.StatusCode == 422:
@@ -1132,6 +1135,7 @@ func (s *Tasks) SetTaskAccepted(ctx context.Context, id int64, opts ...operation
 
 	switch {
 	case httpRes.StatusCode == 204:
+		utils.DrainBody(httpRes)
 	case httpRes.StatusCode == 404:
 		fallthrough
 	case httpRes.StatusCode == 422:
@@ -1350,6 +1354,7 @@ func (s *Tasks) SetTaskExhausted(ctx context.Context, id int64, opts ...operatio
 
 	switch {
 	case httpRes.StatusCode == 204:
+		utils.DrainBody(httpRes)
 	case httpRes.StatusCode == 401:
 		fallthrough
 	case httpRes.StatusCode == 404:

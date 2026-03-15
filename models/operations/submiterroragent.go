@@ -5,43 +5,9 @@ package operations
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/unclesp1d3r/cipherswarm-agent-sdk-go/internal/utils"
+	"github.com/unclesp1d3r/cipherswarm-agent-sdk-go/models/components"
 	"net/http"
-	"time"
 )
-
-// Metadata - Additional metadata about the error
-type Metadata struct {
-	// The date of the error
-	ErrorDate time.Time `json:"error_date"`
-	// Other metadata
-	Other map[string]any `json:"other,omitempty"`
-}
-
-func (m Metadata) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(m, "", false)
-}
-
-func (m *Metadata) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &m, "", false, nil); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (m *Metadata) GetErrorDate() time.Time {
-	if m == nil {
-		return time.Time{}
-	}
-	return m.ErrorDate
-}
-
-func (m *Metadata) GetOther() map[string]any {
-	if m == nil {
-		return nil
-	}
-	return m.Other
-}
 
 // Severity - The severity of the error:
 //   - `info` - Informational message, no action required.
@@ -88,11 +54,12 @@ func (e *Severity) UnmarshalJSON(data []byte) error {
 	}
 }
 
+// SubmitErrorAgentRequestBody - Error details reported by the agent
 type SubmitErrorAgentRequestBody struct {
 	// The error message
 	Message string `json:"message"`
-	// Additional metadata about the error
-	Metadata *Metadata `json:"metadata,omitempty"`
+	// Additional metadata about an agent error
+	Metadata *components.ErrorMetadata `json:"metadata,omitempty"`
 	// The severity of the error:
 	//                        * `info` - Informational message, no action required.
 	//                        * `warning` - Non-critical error, no action required. Anticipated, but not necessarily problematic.
@@ -114,7 +81,7 @@ func (s *SubmitErrorAgentRequestBody) GetMessage() string {
 	return s.Message
 }
 
-func (s *SubmitErrorAgentRequestBody) GetMetadata() *Metadata {
+func (s *SubmitErrorAgentRequestBody) GetMetadata() *components.ErrorMetadata {
 	if s == nil {
 		return nil
 	}
@@ -144,8 +111,8 @@ func (s *SubmitErrorAgentRequestBody) GetTaskID() *int64 {
 
 type SubmitErrorAgentRequest struct {
 	// id
-	ID          int64                        `pathParam:"style=simple,explode=false,name=id"`
-	RequestBody *SubmitErrorAgentRequestBody `request:"mediaType=application/json"`
+	ID          int64                       `pathParam:"style=simple,explode=false,name=id"`
+	RequestBody SubmitErrorAgentRequestBody `request:"mediaType=application/json"`
 }
 
 func (s *SubmitErrorAgentRequest) GetID() int64 {
@@ -155,9 +122,9 @@ func (s *SubmitErrorAgentRequest) GetID() int64 {
 	return s.ID
 }
 
-func (s *SubmitErrorAgentRequest) GetRequestBody() *SubmitErrorAgentRequestBody {
+func (s *SubmitErrorAgentRequest) GetRequestBody() SubmitErrorAgentRequestBody {
 	if s == nil {
-		return nil
+		return SubmitErrorAgentRequestBody{}
 	}
 	return s.RequestBody
 }

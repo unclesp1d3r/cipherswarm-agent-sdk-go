@@ -9,8 +9,7 @@ import (
 
 type SendStatusRequest struct {
 	// id
-	ID int64 `pathParam:"style=simple,explode=false,name=id"`
-	// status
+	ID         int64                 `pathParam:"style=simple,explode=false,name=id"`
 	TaskStatus components.TaskStatus `request:"mediaType=application/json"`
 }
 

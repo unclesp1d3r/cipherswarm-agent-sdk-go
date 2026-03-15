@@ -51,7 +51,7 @@ func main() {
 | Parameter                                                | Type                                                     | Required                                                 | Description                                              |
 | -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- |
 | `ctx`                                                    | [context.Context](https://pkg.go.dev/context#Context)    | :heavy_check_mark:                                       | The context to use for the request.                      |
-| `id`                                                     | *int64*                                                  | :heavy_check_mark:                                       | id                                                       |
+| `id`                                                     | `int64`                                                  | :heavy_check_mark:                                       | id                                                       |
 | `opts`                                                   | [][operations.Option](../../models/operations/option.md) | :heavy_minus_sign:                                       | The options for this request.                            |
 
 ### Response
@@ -78,6 +78,7 @@ package main
 import(
 	"context"
 	cipherswarmagentsdkgo "github.com/unclesp1d3r/cipherswarm-agent-sdk-go"
+	"github.com/unclesp1d3r/cipherswarm-agent-sdk-go/models/operations"
 	"log"
 )
 
@@ -88,7 +89,16 @@ func main() {
         cipherswarmagentsdkgo.WithSecurity("<YOUR_BEARER_TOKEN_HERE>"),
     )
 
-    res, err := s.Agents.UpdateAgent(ctx, 2843, nil)
+    res, err := s.Agents.UpdateAgent(ctx, 2843, operations.UpdateAgentRequestBody{
+        ID: 2843,
+        HostName: "nautical-produce.com",
+        ClientSignature: "<value>",
+        OperatingSystem: "BeOS",
+        Devices: []string{
+            "<value 1>",
+            "<value 2>",
+        },
+    })
     if err != nil {
         log.Fatal(err)
     }
@@ -100,12 +110,12 @@ func main() {
 
 ### Parameters
 
-| Parameter                                                                               | Type                                                                                    | Required                                                                                | Description                                                                             |
-| --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
-| `ctx`                                                                                   | [context.Context](https://pkg.go.dev/context#Context)                                   | :heavy_check_mark:                                                                      | The context to use for the request.                                                     |
-| `id`                                                                                    | *int64*                                                                                 | :heavy_check_mark:                                                                      | id                                                                                      |
-| `requestBody`                                                                           | [*operations.UpdateAgentRequestBody](../../models/operations/updateagentrequestbody.md) | :heavy_minus_sign:                                                                      | N/A                                                                                     |
-| `opts`                                                                                  | [][operations.Option](../../models/operations/option.md)                                | :heavy_minus_sign:                                                                      | The options for this request.                                                           |
+| Parameter                                                                              | Type                                                                                   | Required                                                                               | Description                                                                            |
+| -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| `ctx`                                                                                  | [context.Context](https://pkg.go.dev/context#Context)                                  | :heavy_check_mark:                                                                     | The context to use for the request.                                                    |
+| `id`                                                                                   | `int64`                                                                                | :heavy_check_mark:                                                                     | id                                                                                     |
+| `requestBody`                                                                          | [operations.UpdateAgentRequestBody](../../models/operations/updateagentrequestbody.md) | :heavy_check_mark:                                                                     | N/A                                                                                    |
+| `opts`                                                                                 | [][operations.Option](../../models/operations/option.md)                               | :heavy_minus_sign:                                                                     | The options for this request.                                                          |
 
 ### Response
 
@@ -120,7 +130,7 @@ func main() {
 
 ## SendHeartbeat
 
-Send a heartbeat for an agent to keep it alive.
+Send a heartbeat for an agent to keep it alive. Optionally accepts an 'activity' parameter in the request body to track the agent's current activity state.
 
 ### Example Usage
 
@@ -131,6 +141,7 @@ package main
 import(
 	"context"
 	cipherswarmagentsdkgo "github.com/unclesp1d3r/cipherswarm-agent-sdk-go"
+	"github.com/unclesp1d3r/cipherswarm-agent-sdk-go/models/operations"
 	"log"
 )
 
@@ -141,7 +152,9 @@ func main() {
         cipherswarmagentsdkgo.WithSecurity("<YOUR_BEARER_TOKEN_HERE>"),
     )
 
-    res, err := s.Agents.SendHeartbeat(ctx, 379816)
+    res, err := s.Agents.SendHeartbeat(ctx, 379816, &operations.SendHeartbeatRequestBody{
+        Activity: cipherswarmagentsdkgo.Pointer("cracking"),
+    })
     if err != nil {
         log.Fatal(err)
     }
@@ -153,11 +166,12 @@ func main() {
 
 ### Parameters
 
-| Parameter                                                | Type                                                     | Required                                                 | Description                                              |
-| -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- |
-| `ctx`                                                    | [context.Context](https://pkg.go.dev/context#Context)    | :heavy_check_mark:                                       | The context to use for the request.                      |
-| `id`                                                     | *int64*                                                  | :heavy_check_mark:                                       | id                                                       |
-| `opts`                                                   | [][operations.Option](../../models/operations/option.md) | :heavy_minus_sign:                                       | The options for this request.                            |
+| Parameter                                                                                   | Type                                                                                        | Required                                                                                    | Description                                                                                 |
+| ------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| `ctx`                                                                                       | [context.Context](https://pkg.go.dev/context#Context)                                       | :heavy_check_mark:                                                                          | The context to use for the request.                                                         |
+| `id`                                                                                        | `int64`                                                                                     | :heavy_check_mark:                                                                          | id                                                                                          |
+| `requestBody`                                                                               | [*operations.SendHeartbeatRequestBody](../../models/operations/sendheartbeatrequestbody.md) | :heavy_minus_sign:                                                                          | N/A                                                                                         |
+| `opts`                                                                                      | [][operations.Option](../../models/operations/option.md)                                    | :heavy_minus_sign:                                                                          | The options for this request.                                                               |
 
 ### Response
 
@@ -212,7 +226,7 @@ func main() {
 | Parameter                                                                                      | Type                                                                                           | Required                                                                                       | Description                                                                                    |
 | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
 | `ctx`                                                                                          | [context.Context](https://pkg.go.dev/context#Context)                                          | :heavy_check_mark:                                                                             | The context to use for the request.                                                            |
-| `id`                                                                                           | *int64*                                                                                        | :heavy_check_mark:                                                                             | id                                                                                             |
+| `id`                                                                                           | `int64`                                                                                        | :heavy_check_mark:                                                                             | id                                                                                             |
 | `requestBody`                                                                                  | [operations.SubmitBenchmarkRequestBody](../../models/operations/submitbenchmarkrequestbody.md) | :heavy_check_mark:                                                                             | N/A                                                                                            |
 | `opts`                                                                                         | [][operations.Option](../../models/operations/option.md)                                       | :heavy_minus_sign:                                                                             | The options for this request.                                                                  |
 
@@ -224,7 +238,7 @@ func main() {
 
 | Error Type            | Status Code           | Content Type          |
 | --------------------- | --------------------- | --------------------- |
-| sdkerrors.ErrorObject | 400, 401              | application/json      |
+| sdkerrors.ErrorObject | 400, 401, 422         | application/json      |
 | sdkerrors.SDKError    | 4XX, 5XX              | \*/\*                 |
 
 ## SubmitErrorAgent
@@ -240,6 +254,7 @@ package main
 import(
 	"context"
 	cipherswarmagentsdkgo "github.com/unclesp1d3r/cipherswarm-agent-sdk-go"
+	"github.com/unclesp1d3r/cipherswarm-agent-sdk-go/models/operations"
 	"log"
 )
 
@@ -250,7 +265,11 @@ func main() {
         cipherswarmagentsdkgo.WithSecurity("<YOUR_BEARER_TOKEN_HERE>"),
     )
 
-    res, err := s.Agents.SubmitErrorAgent(ctx, 649742, nil)
+    res, err := s.Agents.SubmitErrorAgent(ctx, 649742, operations.SubmitErrorAgentRequestBody{
+        Message: "<value>",
+        Severity: operations.SeverityMajor,
+        AgentID: 600242,
+    })
     if err != nil {
         log.Fatal(err)
     }
@@ -262,12 +281,12 @@ func main() {
 
 ### Parameters
 
-| Parameter                                                                                         | Type                                                                                              | Required                                                                                          | Description                                                                                       |
-| ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
-| `ctx`                                                                                             | [context.Context](https://pkg.go.dev/context#Context)                                             | :heavy_check_mark:                                                                                | The context to use for the request.                                                               |
-| `id`                                                                                              | *int64*                                                                                           | :heavy_check_mark:                                                                                | id                                                                                                |
-| `requestBody`                                                                                     | [*operations.SubmitErrorAgentRequestBody](../../models/operations/submiterroragentrequestbody.md) | :heavy_minus_sign:                                                                                | N/A                                                                                               |
-| `opts`                                                                                            | [][operations.Option](../../models/operations/option.md)                                          | :heavy_minus_sign:                                                                                | The options for this request.                                                                     |
+| Parameter                                                                                        | Type                                                                                             | Required                                                                                         | Description                                                                                      |
+| ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ |
+| `ctx`                                                                                            | [context.Context](https://pkg.go.dev/context#Context)                                            | :heavy_check_mark:                                                                               | The context to use for the request.                                                              |
+| `id`                                                                                             | `int64`                                                                                          | :heavy_check_mark:                                                                               | id                                                                                               |
+| `requestBody`                                                                                    | [operations.SubmitErrorAgentRequestBody](../../models/operations/submiterroragentrequestbody.md) | :heavy_check_mark:                                                                               | N/A                                                                                              |
+| `opts`                                                                                           | [][operations.Option](../../models/operations/option.md)                                         | :heavy_minus_sign:                                                                               | The options for this request.                                                                    |
 
 ### Response
 
@@ -318,7 +337,7 @@ func main() {
 | Parameter                                                | Type                                                     | Required                                                 | Description                                              |
 | -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- |
 | `ctx`                                                    | [context.Context](https://pkg.go.dev/context#Context)    | :heavy_check_mark:                                       | The context to use for the request.                      |
-| `id`                                                     | *int64*                                                  | :heavy_check_mark:                                       | id                                                       |
+| `id`                                                     | `int64`                                                  | :heavy_check_mark:                                       | id                                                       |
 | `opts`                                                   | [][operations.Option](../../models/operations/option.md) | :heavy_minus_sign:                                       | The options for this request.                            |
 
 ### Response

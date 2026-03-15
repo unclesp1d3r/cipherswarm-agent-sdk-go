@@ -7,13 +7,15 @@ import (
 	"time"
 )
 
+// TaskStatus - A hashcat status update submitted by an agent during task execution
 type TaskStatus struct {
 	// The original line from hashcat
 	OriginalLine string `json:"original_line"`
 	// The time the status was received
 	Time time.Time `json:"time"`
 	// The session name
-	Session      string       `json:"session"`
+	Session string `json:"session"`
+	// Current hashcat guess progress including base and modifier values
 	HashcatGuess HashcatGuess `json:"hashcat_guess"`
 	// The status of the task
 	Status int64 `json:"status"`

@@ -8,9 +8,23 @@ import (
 	"net/http"
 )
 
+// SendHeartbeatRequestBody - Optional activity state update
+type SendHeartbeatRequestBody struct {
+	// Current agent activity state. Known values: starting, benchmarking, updating, downloading, waiting, cracking, stopping. Future versions may support additional values.
+	Activity *string `json:"activity,omitempty"`
+}
+
+func (s *SendHeartbeatRequestBody) GetActivity() *string {
+	if s == nil {
+		return nil
+	}
+	return s.Activity
+}
+
 type SendHeartbeatRequest struct {
 	// id
-	ID int64 `pathParam:"style=simple,explode=false,name=id"`
+	ID          int64                     `pathParam:"style=simple,explode=false,name=id"`
+	RequestBody *SendHeartbeatRequestBody `request:"mediaType=application/json"`
 }
 
 func (s *SendHeartbeatRequest) GetID() int64 {
@@ -20,17 +34,27 @@ func (s *SendHeartbeatRequest) GetID() int64 {
 	return s.ID
 }
 
+func (s *SendHeartbeatRequest) GetRequestBody() *SendHeartbeatRequestBody {
+	if s == nil {
+		return nil
+	}
+	return s.RequestBody
+}
+
 // State - The state of the agent:
 //   - `pending` - The agent needs to perform the setup process again.
 //   - `active` - The agent is ready to accept tasks, all is good.
 //   - `error` - The agent has encountered an error and needs to be checked.
 //   - `stopped` - The agent has been stopped by the user.
+//   - `offline` - The agent has not checked in recently and is considered offline.
 type State string
 
 const (
+	StateActive  State = "active"
+	StateError   State = "error"
+	StateOffline State = "offline"
 	StatePending State = "pending"
 	StateStopped State = "stopped"
-	StateError   State = "error"
 )
 
 func (e State) ToPointer() *State {
@@ -42,11 +66,15 @@ func (e *State) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	switch v {
+	case "active":
+		fallthrough
+	case "error":
+		fallthrough
+	case "offline":
+		fallthrough
 	case "pending":
 		fallthrough
 	case "stopped":
-		fallthrough
-	case "error":
 		*e = State(v)
 		return nil
 	default:
@@ -61,6 +89,7 @@ type SendHeartbeatResponseBody struct {
 	//                        * `active` - The agent is ready to accept tasks, all is good.
 	//                        * `error` - The agent has encountered an error and needs to be checked.
 	//                        * `stopped` - The agent has been stopped by the user.
+	//                        * `offline` - The agent has not checked in recently and is considered offline.
 	State State `json:"state"`
 }
 

@@ -269,7 +269,7 @@ func (s *Agents) GetAgent(ctx context.Context, id int64, opts ...operations.Opti
 
 // UpdateAgent - Updates the agent
 // Updates an agent
-func (s *Agents) UpdateAgent(ctx context.Context, id int64, requestBody *operations.UpdateAgentRequestBody, opts ...operations.Option) (*operations.UpdateAgentResponse, error) {
+func (s *Agents) UpdateAgent(ctx context.Context, id int64, requestBody operations.UpdateAgentRequestBody, opts ...operations.Option) (*operations.UpdateAgentResponse, error) {
 	request := operations.UpdateAgentRequest{
 		ID:          id,
 		RequestBody: requestBody,
@@ -306,7 +306,7 @@ func (s *Agents) UpdateAgent(ctx context.Context, id int64, requestBody *operati
 		OperationID:      "updateAgent",
 		SecuritySource:   s.sdkConfiguration.Security,
 	}
-	bodyReader, reqContentType, err := utils.SerializeRequestBody(ctx, request, false, true, "RequestBody", "json", `request:"mediaType=application/json"`)
+	bodyReader, reqContentType, err := utils.SerializeRequestBody(ctx, request, false, false, "RequestBody", "json", `request:"mediaType=application/json"`)
 	if err != nil {
 		return nil, err
 	}
@@ -512,10 +512,11 @@ func (s *Agents) UpdateAgent(ctx context.Context, id int64, requestBody *operati
 }
 
 // SendHeartbeat - Send a heartbeat for an agent
-// Send a heartbeat for an agent to keep it alive.
-func (s *Agents) SendHeartbeat(ctx context.Context, id int64, opts ...operations.Option) (*operations.SendHeartbeatResponse, error) {
+// Send a heartbeat for an agent to keep it alive. Optionally accepts an 'activity' parameter in the request body to track the agent's current activity state.
+func (s *Agents) SendHeartbeat(ctx context.Context, id int64, requestBody *operations.SendHeartbeatRequestBody, opts ...operations.Option) (*operations.SendHeartbeatResponse, error) {
 	request := operations.SendHeartbeatRequest{
-		ID: id,
+		ID:          id,
+		RequestBody: requestBody,
 	}
 
 	o := operations.Options{}
@@ -549,6 +550,10 @@ func (s *Agents) SendHeartbeat(ctx context.Context, id int64, opts ...operations
 		OperationID:      "sendHeartbeat",
 		SecuritySource:   s.sdkConfiguration.Security,
 	}
+	bodyReader, reqContentType, err := utils.SerializeRequestBody(ctx, request, false, true, "RequestBody", "json", `request:"mediaType=application/json"`)
+	if err != nil {
+		return nil, err
+	}
 
 	timeout := o.Timeout
 	if timeout == nil {
@@ -561,12 +566,15 @@ func (s *Agents) SendHeartbeat(ctx context.Context, id int64, opts ...operations
 		defer cancel()
 	}
 
-	req, err := http.NewRequestWithContext(ctx, "POST", opURL, nil)
+	req, err := http.NewRequestWithContext(ctx, "POST", opURL, bodyReader)
 	if err != nil {
 		return nil, fmt.Errorf("error creating request: %w", err)
 	}
 	req.Header.Set("Accept", "application/json")
 	req.Header.Set("User-Agent", s.sdkConfiguration.UserAgent)
+	if reqContentType != "" {
+		req.Header.Set("Content-Type", reqContentType)
+	}
 
 	if err := utils.PopulateSecurity(ctx, req, s.sdkConfiguration.Security); err != nil {
 		return nil, err
@@ -703,6 +711,7 @@ func (s *Agents) SendHeartbeat(ctx context.Context, id int64, opts ...operations
 			return nil, sdkerrors.NewSDKError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode == 204:
+		utils.DrainBody(httpRes)
 	case httpRes.StatusCode == 401:
 		switch {
 		case utils.MatchContentType(httpRes.Header.Get("Content-Type"), `application/json`):
@@ -904,7 +913,7 @@ func (s *Agents) SubmitBenchmark(ctx context.Context, id int64, requestBody oper
 
 			_, err = s.hooks.AfterError(hooks.AfterErrorContext{HookContext: hookCtx}, nil, err)
 			return nil, err
-		} else if utils.MatchStatusCodes([]string{"400", "401", "4XX", "5XX"}, httpRes.StatusCode) {
+		} else if utils.MatchStatusCodes([]string{"400", "401", "422", "4XX", "5XX"}, httpRes.StatusCode) {
 			_httpRes, err := s.hooks.AfterError(hooks.AfterErrorContext{HookContext: hookCtx}, httpRes, nil)
 			if err != nil {
 				return nil, err
@@ -927,9 +936,12 @@ func (s *Agents) SubmitBenchmark(ctx context.Context, id int64, requestBody oper
 
 	switch {
 	case httpRes.StatusCode == 204:
+		utils.DrainBody(httpRes)
 	case httpRes.StatusCode == 400:
 		fallthrough
 	case httpRes.StatusCode == 401:
+		fallthrough
+	case httpRes.StatusCode == 422:
 		switch {
 		case utils.MatchContentType(httpRes.Header.Get("Content-Type"), `application/json`):
 			rawBody, err := utils.ConsumeRawBody(httpRes)
@@ -976,7 +988,7 @@ func (s *Agents) SubmitBenchmark(ctx context.Context, id int64, requestBody oper
 
 // SubmitErrorAgent - Submit an error for an agent
 // Submit an error for an agent
-func (s *Agents) SubmitErrorAgent(ctx context.Context, id int64, requestBody *operations.SubmitErrorAgentRequestBody, opts ...operations.Option) (*operations.SubmitErrorAgentResponse, error) {
+func (s *Agents) SubmitErrorAgent(ctx context.Context, id int64, requestBody operations.SubmitErrorAgentRequestBody, opts ...operations.Option) (*operations.SubmitErrorAgentResponse, error) {
 	request := operations.SubmitErrorAgentRequest{
 		ID:          id,
 		RequestBody: requestBody,
@@ -1013,7 +1025,7 @@ func (s *Agents) SubmitErrorAgent(ctx context.Context, id int64, requestBody *op
 		OperationID:      "submitErrorAgent",
 		SecuritySource:   s.sdkConfiguration.Security,
 	}
-	bodyReader, reqContentType, err := utils.SerializeRequestBody(ctx, request, false, true, "RequestBody", "json", `request:"mediaType=application/json"`)
+	bodyReader, reqContentType, err := utils.SerializeRequestBody(ctx, request, false, false, "RequestBody", "json", `request:"mediaType=application/json"`)
 	if err != nil {
 		return nil, err
 	}
@@ -1153,6 +1165,7 @@ func (s *Agents) SubmitErrorAgent(ctx context.Context, id int64, requestBody *op
 
 	switch {
 	case httpRes.StatusCode == 204:
+		utils.DrainBody(httpRes)
 	case httpRes.StatusCode == 401:
 		switch {
 		case utils.MatchContentType(httpRes.Header.Get("Content-Type"), `application/json`):
@@ -1369,6 +1382,7 @@ func (s *Agents) SetAgentShutdown(ctx context.Context, id int64, opts ...operati
 
 	switch {
 	case httpRes.StatusCode == 204:
+		utils.DrainBody(httpRes)
 	case httpRes.StatusCode == 401:
 		switch {
 		case utils.MatchContentType(httpRes.Header.Get("Content-Type"), `application/json`):

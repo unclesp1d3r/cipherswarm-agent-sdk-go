@@ -7,6 +7,7 @@ import (
 	"time"
 )
 
+// Task - A unit of work assigned to an agent for a specific attack
 type Task struct {
 	// The id of the task
 	ID int64 `json:"id"`

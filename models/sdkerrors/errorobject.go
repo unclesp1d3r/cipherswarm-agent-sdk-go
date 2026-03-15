@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 )
 
+// ErrorObject - Standard error response returned by all API endpoints
 type ErrorObject struct {
 	Error_               string         `json:"error"`
 	AdditionalProperties map[string]any `additionalProperties:"true" json:"-"`
