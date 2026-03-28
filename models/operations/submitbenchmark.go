@@ -7,22 +7,10 @@ import (
 	"net/http"
 )
 
-// SubmitBenchmarkRequestBody - Hashcat benchmark results for the agent
-type SubmitBenchmarkRequestBody struct {
-	HashcatBenchmarks []components.HashcatBenchmark `json:"hashcat_benchmarks"`
-}
-
-func (s *SubmitBenchmarkRequestBody) GetHashcatBenchmarks() []components.HashcatBenchmark {
-	if s == nil {
-		return []components.HashcatBenchmark{}
-	}
-	return s.HashcatBenchmarks
-}
-
 type SubmitBenchmarkRequest struct {
 	// id
-	ID          int64                      `pathParam:"style=simple,explode=false,name=id"`
-	RequestBody SubmitBenchmarkRequestBody `request:"mediaType=application/json"`
+	ID                     int64                             `pathParam:"style=simple,explode=false,name=id"`
+	SubmitBenchmarkRequest components.SubmitBenchmarkRequest `request:"mediaType=application/json"`
 }
 
 func (s *SubmitBenchmarkRequest) GetID() int64 {
@@ -32,11 +20,11 @@ func (s *SubmitBenchmarkRequest) GetID() int64 {
 	return s.ID
 }
 
-func (s *SubmitBenchmarkRequest) GetRequestBody() SubmitBenchmarkRequestBody {
+func (s *SubmitBenchmarkRequest) GetSubmitBenchmarkRequest() components.SubmitBenchmarkRequest {
 	if s == nil {
-		return SubmitBenchmarkRequestBody{}
+		return components.SubmitBenchmarkRequest{}
 	}
-	return s.RequestBody
+	return s.SubmitBenchmarkRequest
 }
 
 type SubmitBenchmarkResponse struct {
