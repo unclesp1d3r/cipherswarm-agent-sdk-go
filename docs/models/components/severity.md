@@ -12,10 +12,10 @@ The severity of the error:
 
 ```go
 import (
-	"github.com/unclesp1d3r/cipherswarm-agent-sdk-go/models/operations"
+	"github.com/unclesp1d3r/cipherswarm-agent-sdk-go/models/components"
 )
 
-value := operations.SeverityInfo
+value := components.SeverityInfo
 ```
 
 

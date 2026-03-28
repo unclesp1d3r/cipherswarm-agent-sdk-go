@@ -9,6 +9,7 @@ import (
 	"github.com/unclesp1d3r/cipherswarm-agent-sdk-go/internal/config"
 	"github.com/unclesp1d3r/cipherswarm-agent-sdk-go/internal/hooks"
 	"github.com/unclesp1d3r/cipherswarm-agent-sdk-go/internal/utils"
+	"github.com/unclesp1d3r/cipherswarm-agent-sdk-go/models/components"
 	"github.com/unclesp1d3r/cipherswarm-agent-sdk-go/models/operations"
 	"github.com/unclesp1d3r/cipherswarm-agent-sdk-go/models/sdkerrors"
 	"github.com/unclesp1d3r/cipherswarm-agent-sdk-go/retry"
@@ -434,12 +435,12 @@ func (s *Client) GetConfiguration(ctx context.Context, opts ...operations.Option
 				return nil, err
 			}
 
-			var out operations.GetConfigurationResponseBody
+			var out components.ConfigurationResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
 
-			res.Object = &out
+			res.ConfigurationResponse = &out
 		default:
 			rawBody, err := utils.ConsumeRawBody(httpRes)
 			if err != nil {
@@ -666,12 +667,12 @@ func (s *Client) Authenticate(ctx context.Context, opts ...operations.Option) (*
 				return nil, err
 			}
 
-			var out operations.AuthenticateResponseBody
+			var out components.AuthenticationResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
 
-			res.Object = &out
+			res.AuthenticationResponse = &out
 		default:
 			rawBody, err := utils.ConsumeRawBody(httpRes)
 			if err != nil {
