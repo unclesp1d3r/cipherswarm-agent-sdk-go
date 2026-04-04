@@ -33,6 +33,8 @@ func newAttacks(rootSDK *CipherSwarmAgentSDK, sdkConfig config.SDKConfiguration,
 
 // GetAttack - show attack
 // Returns an attack by id. This is used to get the details of an attack.
+//
+// If set, this operation will use [Security.BearerAuth] from the global security.
 func (s *Attacks) GetAttack(ctx context.Context, id int64, opts ...operations.Option) (*operations.GetAttackResponse, error) {
 	request := operations.GetAttackRequest{
 		ID: id,
@@ -88,7 +90,7 @@ func (s *Attacks) GetAttack(ctx context.Context, id int64, opts ...operations.Op
 	req.Header.Set("Accept", "application/json")
 	req.Header.Set("User-Agent", s.sdkConfiguration.UserAgent)
 
-	if err := utils.PopulateSecurity(ctx, req, s.sdkConfiguration.Security); err != nil {
+	if err := utils.PopulateSecurity(ctx, req, s.sdkConfiguration.Security, "BearerAuth"); err != nil {
 		return nil, err
 	}
 
@@ -271,6 +273,8 @@ func (s *Attacks) GetAttack(ctx context.Context, id int64, opts ...operations.Op
 
 // GetHashList - Get the hash list
 // Returns the hash list for an attack.
+//
+// If set, this operation will use [Security.BearerAuth] from the global security.
 func (s *Attacks) GetHashList(ctx context.Context, id int64, opts ...operations.Option) (*operations.GetHashListResponse, error) {
 	request := operations.GetHashListRequest{
 		ID: id,
@@ -326,7 +330,7 @@ func (s *Attacks) GetHashList(ctx context.Context, id int64, opts ...operations.
 	req.Header.Set("Accept", "text/plain")
 	req.Header.Set("User-Agent", s.sdkConfiguration.UserAgent)
 
-	if err := utils.PopulateSecurity(ctx, req, s.sdkConfiguration.Security); err != nil {
+	if err := utils.PopulateSecurity(ctx, req, s.sdkConfiguration.Security, "BearerAuth"); err != nil {
 		return nil, err
 	}
 
@@ -417,7 +421,7 @@ func (s *Attacks) GetHashList(ctx context.Context, id int64, opts ...operations.
 
 			_, err = s.hooks.AfterError(hooks.AfterErrorContext{HookContext: hookCtx}, nil, err)
 			return nil, err
-		} else if utils.MatchStatusCodes([]string{"404", "4XX", "5XX"}, httpRes.StatusCode) {
+		} else if utils.MatchStatusCodes([]string{"401", "404", "4XX", "5XX"}, httpRes.StatusCode) {
 			_httpRes, err := s.hooks.AfterError(hooks.AfterErrorContext{HookContext: hookCtx}, httpRes, nil)
 			if err != nil {
 				return nil, err
@@ -452,8 +456,29 @@ func (s *Attacks) GetHashList(ctx context.Context, id int64, opts ...operations.
 			}
 			return nil, sdkerrors.NewSDKError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
-	case httpRes.StatusCode == 404:
+	case httpRes.StatusCode == 401:
 		fallthrough
+	case httpRes.StatusCode == 404:
+		switch {
+		case utils.MatchContentType(httpRes.Header.Get("Content-Type"), `application/json`):
+			rawBody, err := utils.ConsumeRawBody(httpRes)
+			if err != nil {
+				return nil, err
+			}
+
+			var out sdkerrors.ErrorObject
+			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
+				return nil, err
+			}
+
+			return nil, &out
+		default:
+			rawBody, err := utils.ConsumeRawBody(httpRes)
+			if err != nil {
+				return nil, err
+			}
+			return nil, sdkerrors.NewSDKError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+		}
 	case httpRes.StatusCode >= 400 && httpRes.StatusCode < 500:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {

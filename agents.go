@@ -33,6 +33,8 @@ func newAgents(rootSDK *CipherSwarmAgentSDK, sdkConfig config.SDKConfiguration, 
 
 // GetAgent - Gets an instance of an agent
 // Returns an agent
+//
+// If set, this operation will use [Security.BearerAuth] from the global security.
 func (s *Agents) GetAgent(ctx context.Context, id int64, opts ...operations.Option) (*operations.GetAgentResponse, error) {
 	request := operations.GetAgentRequest{
 		ID: id,
@@ -88,7 +90,7 @@ func (s *Agents) GetAgent(ctx context.Context, id int64, opts ...operations.Opti
 	req.Header.Set("Accept", "application/json")
 	req.Header.Set("User-Agent", s.sdkConfiguration.UserAgent)
 
-	if err := utils.PopulateSecurity(ctx, req, s.sdkConfiguration.Security); err != nil {
+	if err := utils.PopulateSecurity(ctx, req, s.sdkConfiguration.Security, "BearerAuth"); err != nil {
 		return nil, err
 	}
 
@@ -269,10 +271,12 @@ func (s *Agents) GetAgent(ctx context.Context, id int64, opts ...operations.Opti
 
 // UpdateAgent - Updates the agent
 // Updates an agent
-func (s *Agents) UpdateAgent(ctx context.Context, id int64, requestBody operations.UpdateAgentRequestBody, opts ...operations.Option) (*operations.UpdateAgentResponse, error) {
+//
+// If set, this operation will use [Security.BearerAuth] from the global security.
+func (s *Agents) UpdateAgent(ctx context.Context, id int64, updateAgentRequest components.UpdateAgentRequest, opts ...operations.Option) (*operations.UpdateAgentResponse, error) {
 	request := operations.UpdateAgentRequest{
-		ID:          id,
-		RequestBody: requestBody,
+		ID:                 id,
+		UpdateAgentRequest: updateAgentRequest,
 	}
 
 	o := operations.Options{}
@@ -306,7 +310,7 @@ func (s *Agents) UpdateAgent(ctx context.Context, id int64, requestBody operatio
 		OperationID:      "updateAgent",
 		SecuritySource:   s.sdkConfiguration.Security,
 	}
-	bodyReader, reqContentType, err := utils.SerializeRequestBody(ctx, request, false, false, "RequestBody", "json", `request:"mediaType=application/json"`)
+	bodyReader, reqContentType, err := utils.SerializeRequestBody(ctx, request, false, false, "UpdateAgentRequest", "json", `request:"mediaType=application/json"`)
 	if err != nil {
 		return nil, err
 	}
@@ -332,7 +336,7 @@ func (s *Agents) UpdateAgent(ctx context.Context, id int64, requestBody operatio
 		req.Header.Set("Content-Type", reqContentType)
 	}
 
-	if err := utils.PopulateSecurity(ctx, req, s.sdkConfiguration.Security); err != nil {
+	if err := utils.PopulateSecurity(ctx, req, s.sdkConfiguration.Security, "BearerAuth"); err != nil {
 		return nil, err
 	}
 
@@ -513,10 +517,12 @@ func (s *Agents) UpdateAgent(ctx context.Context, id int64, requestBody operatio
 
 // SendHeartbeat - Send a heartbeat for an agent
 // Send a heartbeat for an agent to keep it alive. Optionally accepts an 'activity' parameter in the request body to track the agent's current activity state.
-func (s *Agents) SendHeartbeat(ctx context.Context, id int64, requestBody *operations.SendHeartbeatRequestBody, opts ...operations.Option) (*operations.SendHeartbeatResponse, error) {
+//
+// If set, this operation will use [Security.BearerAuth] from the global security.
+func (s *Agents) SendHeartbeat(ctx context.Context, id int64, agentHeartbeatRequest *components.AgentHeartbeatRequest, opts ...operations.Option) (*operations.SendHeartbeatResponse, error) {
 	request := operations.SendHeartbeatRequest{
-		ID:          id,
-		RequestBody: requestBody,
+		ID:                    id,
+		AgentHeartbeatRequest: agentHeartbeatRequest,
 	}
 
 	o := operations.Options{}
@@ -550,7 +556,7 @@ func (s *Agents) SendHeartbeat(ctx context.Context, id int64, requestBody *opera
 		OperationID:      "sendHeartbeat",
 		SecuritySource:   s.sdkConfiguration.Security,
 	}
-	bodyReader, reqContentType, err := utils.SerializeRequestBody(ctx, request, false, true, "RequestBody", "json", `request:"mediaType=application/json"`)
+	bodyReader, reqContentType, err := utils.SerializeRequestBody(ctx, request, false, true, "AgentHeartbeatRequest", "json", `request:"mediaType=application/json"`)
 	if err != nil {
 		return nil, err
 	}
@@ -576,7 +582,7 @@ func (s *Agents) SendHeartbeat(ctx context.Context, id int64, requestBody *opera
 		req.Header.Set("Content-Type", reqContentType)
 	}
 
-	if err := utils.PopulateSecurity(ctx, req, s.sdkConfiguration.Security); err != nil {
+	if err := utils.PopulateSecurity(ctx, req, s.sdkConfiguration.Security, "BearerAuth"); err != nil {
 		return nil, err
 	}
 
@@ -697,12 +703,12 @@ func (s *Agents) SendHeartbeat(ctx context.Context, id int64, requestBody *opera
 				return nil, err
 			}
 
-			var out operations.SendHeartbeatResponseBody
+			var out components.HeartbeatResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
 
-			res.Object = &out
+			res.HeartbeatResponse = &out
 		default:
 			rawBody, err := utils.ConsumeRawBody(httpRes)
 			if err != nil {
@@ -759,10 +765,12 @@ func (s *Agents) SendHeartbeat(ctx context.Context, id int64, requestBody *opera
 
 // SubmitBenchmark - submit agent benchmarks
 // Submit a benchmark for an agent
-func (s *Agents) SubmitBenchmark(ctx context.Context, id int64, requestBody operations.SubmitBenchmarkRequestBody, opts ...operations.Option) (*operations.SubmitBenchmarkResponse, error) {
+//
+// If set, this operation will use [Security.BearerAuth] from the global security.
+func (s *Agents) SubmitBenchmark(ctx context.Context, id int64, submitBenchmarkRequest components.SubmitBenchmarkRequest, opts ...operations.Option) (*operations.SubmitBenchmarkResponse, error) {
 	request := operations.SubmitBenchmarkRequest{
-		ID:          id,
-		RequestBody: requestBody,
+		ID:                     id,
+		SubmitBenchmarkRequest: submitBenchmarkRequest,
 	}
 
 	o := operations.Options{}
@@ -796,7 +804,7 @@ func (s *Agents) SubmitBenchmark(ctx context.Context, id int64, requestBody oper
 		OperationID:      "submitBenchmark",
 		SecuritySource:   s.sdkConfiguration.Security,
 	}
-	bodyReader, reqContentType, err := utils.SerializeRequestBody(ctx, request, false, false, "RequestBody", "json", `request:"mediaType=application/json"`)
+	bodyReader, reqContentType, err := utils.SerializeRequestBody(ctx, request, false, false, "SubmitBenchmarkRequest", "json", `request:"mediaType=application/json"`)
 	if err != nil {
 		return nil, err
 	}
@@ -822,7 +830,7 @@ func (s *Agents) SubmitBenchmark(ctx context.Context, id int64, requestBody oper
 		req.Header.Set("Content-Type", reqContentType)
 	}
 
-	if err := utils.PopulateSecurity(ctx, req, s.sdkConfiguration.Security); err != nil {
+	if err := utils.PopulateSecurity(ctx, req, s.sdkConfiguration.Security, "BearerAuth"); err != nil {
 		return nil, err
 	}
 
@@ -935,8 +943,27 @@ func (s *Agents) SubmitBenchmark(ctx context.Context, id int64, requestBody oper
 	}
 
 	switch {
-	case httpRes.StatusCode == 204:
-		utils.DrainBody(httpRes)
+	case httpRes.StatusCode == 200:
+		switch {
+		case utils.MatchContentType(httpRes.Header.Get("Content-Type"), `application/json`):
+			rawBody, err := utils.ConsumeRawBody(httpRes)
+			if err != nil {
+				return nil, err
+			}
+
+			var out components.BenchmarkReceipt
+			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
+				return nil, err
+			}
+
+			res.BenchmarkReceipt = &out
+		default:
+			rawBody, err := utils.ConsumeRawBody(httpRes)
+			if err != nil {
+				return nil, err
+			}
+			return nil, sdkerrors.NewSDKError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+		}
 	case httpRes.StatusCode == 400:
 		fallthrough
 	case httpRes.StatusCode == 401:
@@ -988,10 +1015,12 @@ func (s *Agents) SubmitBenchmark(ctx context.Context, id int64, requestBody oper
 
 // SubmitErrorAgent - Submit an error for an agent
 // Submit an error for an agent
-func (s *Agents) SubmitErrorAgent(ctx context.Context, id int64, requestBody operations.SubmitErrorAgentRequestBody, opts ...operations.Option) (*operations.SubmitErrorAgentResponse, error) {
+//
+// If set, this operation will use [Security.BearerAuth] from the global security.
+func (s *Agents) SubmitErrorAgent(ctx context.Context, id int64, submitErrorRequest components.SubmitErrorRequest, opts ...operations.Option) (*operations.SubmitErrorAgentResponse, error) {
 	request := operations.SubmitErrorAgentRequest{
-		ID:          id,
-		RequestBody: requestBody,
+		ID:                 id,
+		SubmitErrorRequest: submitErrorRequest,
 	}
 
 	o := operations.Options{}
@@ -1025,7 +1054,7 @@ func (s *Agents) SubmitErrorAgent(ctx context.Context, id int64, requestBody ope
 		OperationID:      "submitErrorAgent",
 		SecuritySource:   s.sdkConfiguration.Security,
 	}
-	bodyReader, reqContentType, err := utils.SerializeRequestBody(ctx, request, false, false, "RequestBody", "json", `request:"mediaType=application/json"`)
+	bodyReader, reqContentType, err := utils.SerializeRequestBody(ctx, request, false, false, "SubmitErrorRequest", "json", `request:"mediaType=application/json"`)
 	if err != nil {
 		return nil, err
 	}
@@ -1051,7 +1080,7 @@ func (s *Agents) SubmitErrorAgent(ctx context.Context, id int64, requestBody ope
 		req.Header.Set("Content-Type", reqContentType)
 	}
 
-	if err := utils.PopulateSecurity(ctx, req, s.sdkConfiguration.Security); err != nil {
+	if err := utils.PopulateSecurity(ctx, req, s.sdkConfiguration.Security, "BearerAuth"); err != nil {
 		return nil, err
 	}
 
@@ -1213,6 +1242,8 @@ func (s *Agents) SubmitErrorAgent(ctx context.Context, id int64, requestBody ope
 
 // SetAgentShutdown - shutdown agent
 // Marks the agent as shutdown and offline, freeing any assigned tasks.
+//
+// If set, this operation will use [Security.BearerAuth] from the global security.
 func (s *Agents) SetAgentShutdown(ctx context.Context, id int64, opts ...operations.Option) (*operations.SetAgentShutdownResponse, error) {
 	request := operations.SetAgentShutdownRequest{
 		ID: id,
@@ -1268,7 +1299,7 @@ func (s *Agents) SetAgentShutdown(ctx context.Context, id int64, opts ...operati
 	req.Header.Set("Accept", "application/json")
 	req.Header.Set("User-Agent", s.sdkConfiguration.UserAgent)
 
-	if err := utils.PopulateSecurity(ctx, req, s.sdkConfiguration.Security); err != nil {
+	if err := utils.PopulateSecurity(ctx, req, s.sdkConfiguration.Security, "BearerAuth"); err != nil {
 		return nil, err
 	}
 

@@ -34,6 +34,8 @@ func newTasks(rootSDK *CipherSwarmAgentSDK, sdkConfig config.SDKConfiguration, h
 
 // GetNewTask - Request a new task from server
 // Request a new task from the server, if available.
+//
+// If set, this operation will use [Security.BearerAuth] from the global security.
 func (s *Tasks) GetNewTask(ctx context.Context, opts ...operations.Option) (*operations.GetNewTaskResponse, error) {
 	o := operations.Options{}
 	supportedOptions := []string{
@@ -85,7 +87,7 @@ func (s *Tasks) GetNewTask(ctx context.Context, opts ...operations.Option) (*ope
 	req.Header.Set("Accept", "application/json")
 	req.Header.Set("User-Agent", s.sdkConfiguration.UserAgent)
 
-	if err := utils.PopulateSecurity(ctx, req, s.sdkConfiguration.Security); err != nil {
+	if err := utils.PopulateSecurity(ctx, req, s.sdkConfiguration.Security, "BearerAuth"); err != nil {
 		return nil, err
 	}
 
@@ -268,6 +270,8 @@ func (s *Tasks) GetNewTask(ctx context.Context, opts ...operations.Option) (*ope
 
 // GetTask - Request the task information
 // Request the task information from the server.
+//
+// If set, this operation will use [Security.BearerAuth] from the global security.
 func (s *Tasks) GetTask(ctx context.Context, id int64, opts ...operations.Option) (*operations.GetTaskResponse, error) {
 	request := operations.GetTaskRequest{
 		ID: id,
@@ -323,7 +327,7 @@ func (s *Tasks) GetTask(ctx context.Context, id int64, opts ...operations.Option
 	req.Header.Set("Accept", "application/json")
 	req.Header.Set("User-Agent", s.sdkConfiguration.UserAgent)
 
-	if err := utils.PopulateSecurity(ctx, req, s.sdkConfiguration.Security); err != nil {
+	if err := utils.PopulateSecurity(ctx, req, s.sdkConfiguration.Security, "BearerAuth"); err != nil {
 		return nil, err
 	}
 
@@ -506,6 +510,8 @@ func (s *Tasks) GetTask(ctx context.Context, id int64, opts ...operations.Option
 
 // SendCrack - Submit a cracked hash result for a task
 // Submit a cracked hash result for a task.
+//
+// If set, this operation will use [Security.BearerAuth] from the global security.
 func (s *Tasks) SendCrack(ctx context.Context, id int64, hashcatResult components.HashcatResult, opts ...operations.Option) (*operations.SendCrackResponse, error) {
 	request := operations.SendCrackRequest{
 		ID:            id,
@@ -569,7 +575,7 @@ func (s *Tasks) SendCrack(ctx context.Context, id int64, hashcatResult component
 		req.Header.Set("Content-Type", reqContentType)
 	}
 
-	if err := utils.PopulateSecurity(ctx, req, s.sdkConfiguration.Security); err != nil {
+	if err := utils.PopulateSecurity(ctx, req, s.sdkConfiguration.Security, "BearerAuth"); err != nil {
 		return nil, err
 	}
 
@@ -660,7 +666,7 @@ func (s *Tasks) SendCrack(ctx context.Context, id int64, hashcatResult component
 
 			_, err = s.hooks.AfterError(hooks.AfterErrorContext{HookContext: hookCtx}, nil, err)
 			return nil, err
-		} else if utils.MatchStatusCodes([]string{"404", "4XX", "5XX"}, httpRes.StatusCode) {
+		} else if utils.MatchStatusCodes([]string{"401", "404", "4XX", "5XX"}, httpRes.StatusCode) {
 			_httpRes, err := s.hooks.AfterError(hooks.AfterErrorContext{HookContext: hookCtx}, httpRes, nil)
 			if err != nil {
 				return nil, err
@@ -686,6 +692,8 @@ func (s *Tasks) SendCrack(ctx context.Context, id int64, hashcatResult component
 		fallthrough
 	case httpRes.StatusCode == 204:
 		utils.DrainBody(httpRes)
+	case httpRes.StatusCode == 401:
+		fallthrough
 	case httpRes.StatusCode == 404:
 		switch {
 		case utils.MatchContentType(httpRes.Header.Get("Content-Type"), `application/json`):
@@ -733,10 +741,12 @@ func (s *Tasks) SendCrack(ctx context.Context, id int64, hashcatResult component
 
 // SendStatus - Submit a status update for a task
 // Submit a status update for a task. This includes the status of the current guess and the devices.
-func (s *Tasks) SendStatus(ctx context.Context, id int64, taskStatus components.TaskStatus, opts ...operations.Option) (*operations.SendStatusResponse, error) {
+//
+// If set, this operation will use [Security.BearerAuth] from the global security.
+func (s *Tasks) SendStatus(ctx context.Context, id int64, hashcatStatusUpdate components.HashcatStatusUpdate, opts ...operations.Option) (*operations.SendStatusResponse, error) {
 	request := operations.SendStatusRequest{
-		ID:         id,
-		TaskStatus: taskStatus,
+		ID:                  id,
+		HashcatStatusUpdate: hashcatStatusUpdate,
 	}
 
 	o := operations.Options{}
@@ -770,7 +780,7 @@ func (s *Tasks) SendStatus(ctx context.Context, id int64, taskStatus components.
 		OperationID:      "sendStatus",
 		SecuritySource:   s.sdkConfiguration.Security,
 	}
-	bodyReader, reqContentType, err := utils.SerializeRequestBody(ctx, request, false, false, "TaskStatus", "json", `request:"mediaType=application/json"`)
+	bodyReader, reqContentType, err := utils.SerializeRequestBody(ctx, request, false, false, "HashcatStatusUpdate", "json", `request:"mediaType=application/json"`)
 	if err != nil {
 		return nil, err
 	}
@@ -796,7 +806,7 @@ func (s *Tasks) SendStatus(ctx context.Context, id int64, taskStatus components.
 		req.Header.Set("Content-Type", reqContentType)
 	}
 
-	if err := utils.PopulateSecurity(ctx, req, s.sdkConfiguration.Security); err != nil {
+	if err := utils.PopulateSecurity(ctx, req, s.sdkConfiguration.Security, "BearerAuth"); err != nil {
 		return nil, err
 	}
 
@@ -966,6 +976,8 @@ func (s *Tasks) SendStatus(ctx context.Context, id int64, taskStatus components.
 
 // SetTaskAccepted - Accept Task
 // Accept an offered task from the server.
+//
+// If set, this operation will use [Security.BearerAuth] from the global security.
 func (s *Tasks) SetTaskAccepted(ctx context.Context, id int64, opts ...operations.Option) (*operations.SetTaskAcceptedResponse, error) {
 	request := operations.SetTaskAcceptedRequest{
 		ID: id,
@@ -1021,7 +1033,7 @@ func (s *Tasks) SetTaskAccepted(ctx context.Context, id int64, opts ...operation
 	req.Header.Set("Accept", "application/json")
 	req.Header.Set("User-Agent", s.sdkConfiguration.UserAgent)
 
-	if err := utils.PopulateSecurity(ctx, req, s.sdkConfiguration.Security); err != nil {
+	if err := utils.PopulateSecurity(ctx, req, s.sdkConfiguration.Security, "BearerAuth"); err != nil {
 		return nil, err
 	}
 
@@ -1112,7 +1124,7 @@ func (s *Tasks) SetTaskAccepted(ctx context.Context, id int64, opts ...operation
 
 			_, err = s.hooks.AfterError(hooks.AfterErrorContext{HookContext: hookCtx}, nil, err)
 			return nil, err
-		} else if utils.MatchStatusCodes([]string{"404", "422", "4XX", "5XX"}, httpRes.StatusCode) {
+		} else if utils.MatchStatusCodes([]string{"401", "404", "422", "4XX", "5XX"}, httpRes.StatusCode) {
 			_httpRes, err := s.hooks.AfterError(hooks.AfterErrorContext{HookContext: hookCtx}, httpRes, nil)
 			if err != nil {
 				return nil, err
@@ -1136,6 +1148,8 @@ func (s *Tasks) SetTaskAccepted(ctx context.Context, id int64, opts ...operation
 	switch {
 	case httpRes.StatusCode == 204:
 		utils.DrainBody(httpRes)
+	case httpRes.StatusCode == 401:
+		fallthrough
 	case httpRes.StatusCode == 404:
 		fallthrough
 	case httpRes.StatusCode == 422:
@@ -1185,6 +1199,8 @@ func (s *Tasks) SetTaskAccepted(ctx context.Context, id int64, opts ...operation
 
 // SetTaskExhausted - Notify of Exhausted Task
 // Notify the server that the task is exhausted. This will mark the task as completed.
+//
+// If set, this operation will use [Security.BearerAuth] from the global security.
 func (s *Tasks) SetTaskExhausted(ctx context.Context, id int64, opts ...operations.Option) (*operations.SetTaskExhaustedResponse, error) {
 	request := operations.SetTaskExhaustedRequest{
 		ID: id,
@@ -1240,7 +1256,7 @@ func (s *Tasks) SetTaskExhausted(ctx context.Context, id int64, opts ...operatio
 	req.Header.Set("Accept", "application/json")
 	req.Header.Set("User-Agent", s.sdkConfiguration.UserAgent)
 
-	if err := utils.PopulateSecurity(ctx, req, s.sdkConfiguration.Security); err != nil {
+	if err := utils.PopulateSecurity(ctx, req, s.sdkConfiguration.Security, "BearerAuth"); err != nil {
 		return nil, err
 	}
 
@@ -1404,6 +1420,8 @@ func (s *Tasks) SetTaskExhausted(ctx context.Context, id int64, opts ...operatio
 
 // SetTaskAbandoned - Abandon Task
 // Abandon a task. This will mark the task as abandoned. Usually used when the client is unable to complete the task.
+//
+// If set, this operation will use [Security.BearerAuth] from the global security.
 func (s *Tasks) SetTaskAbandoned(ctx context.Context, id int64, opts ...operations.Option) (*operations.SetTaskAbandonedResponse, error) {
 	request := operations.SetTaskAbandonedRequest{
 		ID: id,
@@ -1459,7 +1477,7 @@ func (s *Tasks) SetTaskAbandoned(ctx context.Context, id int64, opts ...operatio
 	req.Header.Set("Accept", "application/json")
 	req.Header.Set("User-Agent", s.sdkConfiguration.UserAgent)
 
-	if err := utils.PopulateSecurity(ctx, req, s.sdkConfiguration.Security); err != nil {
+	if err := utils.PopulateSecurity(ctx, req, s.sdkConfiguration.Security, "BearerAuth"); err != nil {
 		return nil, err
 	}
 
@@ -1580,12 +1598,12 @@ func (s *Tasks) SetTaskAbandoned(ctx context.Context, id int64, opts ...operatio
 				return nil, err
 			}
 
-			var out operations.SetTaskAbandonedResponseBody
+			var out components.TaskAbandonResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
 
-			res.Object = &out
+			res.TaskAbandonResponse = &out
 		default:
 			rawBody, err := utils.ConsumeRawBody(httpRes)
 			if err != nil {
@@ -1624,12 +1642,11 @@ func (s *Tasks) SetTaskAbandoned(ctx context.Context, id int64, opts ...operatio
 				return nil, err
 			}
 
-			var out sdkerrors.SetTaskAbandonedResponseBody
+			var out sdkerrors.TaskAbandonError
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
 
-			out.RawResponse = httpRes
 			return nil, &out
 		default:
 			rawBody, err := utils.ConsumeRawBody(httpRes)
@@ -1664,6 +1681,8 @@ func (s *Tasks) SetTaskAbandoned(ctx context.Context, id int64, opts ...operatio
 
 // GetTaskZaps - Get Completed Hashes
 // Gets the completed hashes for a task. This is a text file that should be added to the monitored directory to remove the hashes from the list during runtime.
+//
+// If set, this operation will use [Security.BearerAuth] from the global security.
 func (s *Tasks) GetTaskZaps(ctx context.Context, id int64, opts ...operations.Option) (*operations.GetTaskZapsResponse, error) {
 	request := operations.GetTaskZapsRequest{
 		ID: id,
@@ -1716,10 +1735,10 @@ func (s *Tasks) GetTaskZaps(ctx context.Context, id int64, opts ...operations.Op
 	if err != nil {
 		return nil, fmt.Errorf("error creating request: %w", err)
 	}
-	req.Header.Set("Accept", "text/plain")
+	req.Header.Set("Accept", "application/json")
 	req.Header.Set("User-Agent", s.sdkConfiguration.UserAgent)
 
-	if err := utils.PopulateSecurity(ctx, req, s.sdkConfiguration.Security); err != nil {
+	if err := utils.PopulateSecurity(ctx, req, s.sdkConfiguration.Security, "BearerAuth"); err != nil {
 		return nil, err
 	}
 
@@ -1833,11 +1852,25 @@ func (s *Tasks) GetTaskZaps(ctx context.Context, id int64, opts ...operations.Op
 
 	switch {
 	case httpRes.StatusCode == 200:
+		utils.DrainBody(httpRes)
+	case httpRes.StatusCode == 401:
+		fallthrough
+	case httpRes.StatusCode == 404:
+		fallthrough
+	case httpRes.StatusCode == 422:
 		switch {
-		case utils.MatchContentType(httpRes.Header.Get("Content-Type"), `text/plain`):
-			res.ResponseStream = httpRes.Body
+		case utils.MatchContentType(httpRes.Header.Get("Content-Type"), `application/json`):
+			rawBody, err := utils.ConsumeRawBody(httpRes)
+			if err != nil {
+				return nil, err
+			}
 
-			return res, nil
+			var out sdkerrors.ErrorObject
+			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
+				return nil, err
+			}
+
+			return nil, &out
 		default:
 			rawBody, err := utils.ConsumeRawBody(httpRes)
 			if err != nil {
@@ -1845,12 +1878,6 @@ func (s *Tasks) GetTaskZaps(ctx context.Context, id int64, opts ...operations.Op
 			}
 			return nil, sdkerrors.NewSDKError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
-	case httpRes.StatusCode == 401:
-		fallthrough
-	case httpRes.StatusCode == 404:
-		fallthrough
-	case httpRes.StatusCode == 422:
-		fallthrough
 	case httpRes.StatusCode >= 400 && httpRes.StatusCode < 500:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {

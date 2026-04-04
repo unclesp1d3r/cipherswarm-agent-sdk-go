@@ -3,6 +3,7 @@
 package operations
 
 import (
+	"github.com/unclesp1d3r/cipherswarm-agent-sdk-go/models/components"
 	"net/http"
 )
 
@@ -18,26 +19,6 @@ func (s *SetTaskAbandonedRequest) GetID() int64 {
 	return s.ID
 }
 
-// SetTaskAbandonedResponseBody - successful
-type SetTaskAbandonedResponseBody struct {
-	Success *bool   `json:"success,omitempty"`
-	State   *string `json:"state,omitempty"`
-}
-
-func (s *SetTaskAbandonedResponseBody) GetSuccess() *bool {
-	if s == nil {
-		return nil
-	}
-	return s.Success
-}
-
-func (s *SetTaskAbandonedResponseBody) GetState() *string {
-	if s == nil {
-		return nil
-	}
-	return s.State
-}
-
 type SetTaskAbandonedResponse struct {
 	// HTTP response content type for this operation
 	ContentType string
@@ -46,7 +27,7 @@ type SetTaskAbandonedResponse struct {
 	// Raw HTTP response; suitable for custom response parsing
 	RawResponse *http.Response
 	// successful
-	Object *SetTaskAbandonedResponseBody
+	TaskAbandonResponse *components.TaskAbandonResponse
 }
 
 func (s *SetTaskAbandonedResponse) GetContentType() string {
@@ -70,9 +51,9 @@ func (s *SetTaskAbandonedResponse) GetRawResponse() *http.Response {
 	return s.RawResponse
 }
 
-func (s *SetTaskAbandonedResponse) GetObject() *SetTaskAbandonedResponseBody {
+func (s *SetTaskAbandonedResponse) GetTaskAbandonResponse() *components.TaskAbandonResponse {
 	if s == nil {
 		return nil
 	}
-	return s.Object
+	return s.TaskAbandonResponse
 }

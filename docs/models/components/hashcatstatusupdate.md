@@ -1,4 +1,4 @@
-# TaskStatus
+# HashcatStatusUpdate
 
 A hashcat status update submitted by an agent during task execution
 

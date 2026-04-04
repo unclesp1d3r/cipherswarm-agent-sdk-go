@@ -174,7 +174,7 @@ func main() {
 
 | Error Type            | Status Code           | Content Type          |
 | --------------------- | --------------------- | --------------------- |
-| sdkerrors.ErrorObject | 404                   | application/json      |
+| sdkerrors.ErrorObject | 401, 404              | application/json      |
 | sdkerrors.SDKError    | 4XX, 5XX              | \*/\*                 |
 
 ## SendStatus
@@ -202,7 +202,7 @@ func main() {
         cipherswarmagentsdkgo.WithSecurity("<YOUR_BEARER_TOKEN_HERE>"),
     )
 
-    res, err := s.Tasks.SendStatus(ctx, 448338, components.TaskStatus{
+    res, err := s.Tasks.SendStatus(ctx, 448338, components.HashcatStatusUpdate{
         OriginalLine: "<value>",
         Time: types.MustTimeFromString("2026-04-23T23:51:40.894Z"),
         Session: "<value>",
@@ -257,12 +257,12 @@ func main() {
 
 ### Parameters
 
-| Parameter                                                      | Type                                                           | Required                                                       | Description                                                    |
-| -------------------------------------------------------------- | -------------------------------------------------------------- | -------------------------------------------------------------- | -------------------------------------------------------------- |
-| `ctx`                                                          | [context.Context](https://pkg.go.dev/context#Context)          | :heavy_check_mark:                                             | The context to use for the request.                            |
-| `id`                                                           | `int64`                                                        | :heavy_check_mark:                                             | id                                                             |
-| `taskStatus`                                                   | [components.TaskStatus](../../models/components/taskstatus.md) | :heavy_check_mark:                                             | N/A                                                            |
-| `opts`                                                         | [][operations.Option](../../models/operations/option.md)       | :heavy_minus_sign:                                             | The options for this request.                                  |
+| Parameter                                                                        | Type                                                                             | Required                                                                         | Description                                                                      |
+| -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| `ctx`                                                                            | [context.Context](https://pkg.go.dev/context#Context)                            | :heavy_check_mark:                                                               | The context to use for the request.                                              |
+| `id`                                                                             | `int64`                                                                          | :heavy_check_mark:                                                               | id                                                                               |
+| `hashcatStatusUpdate`                                                            | [components.HashcatStatusUpdate](../../models/components/hashcatstatusupdate.md) | :heavy_check_mark:                                                               | N/A                                                                              |
+| `opts`                                                                           | [][operations.Option](../../models/operations/option.md)                         | :heavy_minus_sign:                                                               | The options for this request.                                                    |
 
 ### Response
 
@@ -324,7 +324,7 @@ func main() {
 
 | Error Type            | Status Code           | Content Type          |
 | --------------------- | --------------------- | --------------------- |
-| sdkerrors.ErrorObject | 404, 422              | application/json      |
+| sdkerrors.ErrorObject | 401, 404, 422         | application/json      |
 | sdkerrors.SDKError    | 4XX, 5XX              | \*/\*                 |
 
 ## SetTaskExhausted
@@ -406,7 +406,7 @@ func main() {
     if err != nil {
         log.Fatal(err)
     }
-    if res.Object != nil {
+    if res.TaskAbandonResponse != nil {
         // handle response
     }
 }
@@ -426,11 +426,11 @@ func main() {
 
 ### Errors
 
-| Error Type                             | Status Code                            | Content Type                           |
-| -------------------------------------- | -------------------------------------- | -------------------------------------- |
-| sdkerrors.ErrorObject                  | 401, 404                               | application/json                       |
-| sdkerrors.SetTaskAbandonedResponseBody | 422                                    | application/json                       |
-| sdkerrors.SDKError                     | 4XX, 5XX                               | \*/\*                                  |
+| Error Type                 | Status Code                | Content Type               |
+| -------------------------- | -------------------------- | -------------------------- |
+| sdkerrors.ErrorObject      | 401, 404                   | application/json           |
+| sdkerrors.TaskAbandonError | 422                        | application/json           |
+| sdkerrors.SDKError         | 4XX, 5XX                   | \*/\*                      |
 
 ## GetTaskZaps
 
@@ -459,7 +459,7 @@ func main() {
     if err != nil {
         log.Fatal(err)
     }
-    if res.ResponseStream != nil {
+    if res != nil {
         // handle response
     }
 }
@@ -479,6 +479,7 @@ func main() {
 
 ### Errors
 
-| Error Type         | Status Code        | Content Type       |
-| ------------------ | ------------------ | ------------------ |
-| sdkerrors.SDKError | 4XX, 5XX           | \*/\*              |
+| Error Type            | Status Code           | Content Type          |
+| --------------------- | --------------------- | --------------------- |
+| sdkerrors.ErrorObject | 401, 404, 422         | application/json      |
+| sdkerrors.SDKError    | 4XX, 5XX              | \*/\*                 |
