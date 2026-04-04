@@ -3,9 +3,53 @@
 package components
 
 import (
+	"encoding/json"
+	"fmt"
 	"github.com/unclesp1d3r/cipherswarm-agent-sdk-go/internal/utils"
 	"time"
 )
+
+// Status - The status of the task
+type Status string
+
+const (
+	StatusPending   Status = "pending"
+	StatusRunning   Status = "running"
+	StatusCompleted Status = "completed"
+	StatusExhausted Status = "exhausted"
+	StatusAbandoned Status = "abandoned"
+	StatusFailed    Status = "failed"
+	StatusPaused    Status = "paused"
+)
+
+func (e Status) ToPointer() *Status {
+	return &e
+}
+func (e *Status) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "pending":
+		fallthrough
+	case "running":
+		fallthrough
+	case "completed":
+		fallthrough
+	case "exhausted":
+		fallthrough
+	case "abandoned":
+		fallthrough
+	case "failed":
+		fallthrough
+	case "paused":
+		*e = Status(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for Status: %v", v)
+	}
+}
 
 // Task - A unit of work assigned to an agent for a specific attack
 type Task struct {
@@ -16,7 +60,7 @@ type Task struct {
 	// The time the task was started
 	StartDate time.Time `json:"start_date"`
 	// The status of the task
-	Status string `json:"status"`
+	Status Status `json:"status"`
 	// The offset of the keyspace
 	Skip *int64 `json:"skip,omitempty"`
 	// The limit of the keyspace
@@ -55,9 +99,9 @@ func (t *Task) GetStartDate() time.Time {
 	return t.StartDate
 }
 
-func (t *Task) GetStatus() string {
+func (t *Task) GetStatus() Status {
 	if t == nil {
-		return ""
+		return Status("")
 	}
 	return t.Status
 }

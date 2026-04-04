@@ -1,6 +1,6 @@
-# GetConfigurationResponseBody
+# ConfigurationResponse
 
-successful
+Agent configuration including advanced settings and resilience parameters
 
 
 ## Fields
@@ -10,6 +10,6 @@ successful
 | `Config`                                                                                       | [components.AdvancedAgentConfiguration](../../models/components/advancedagentconfiguration.md) | :heavy_check_mark:                                                                             | Advanced hashcat and agent configuration options                                               |
 | `APIVersion`                                                                                   | `int64`                                                                                        | :heavy_check_mark:                                                                             | The minimum accepted version of the API                                                        |
 | `BenchmarksNeeded`                                                                             | `bool`                                                                                         | :heavy_check_mark:                                                                             | Whether the agent needs to run benchmarks                                                      |
-| `RecommendedTimeouts`                                                                          | [operations.RecommendedTimeouts](../../models/operations/recommendedtimeouts.md)               | :heavy_check_mark:                                                                             | Recommended timeout settings for agent HTTP connections                                        |
-| `RecommendedRetry`                                                                             | [operations.RecommendedRetry](../../models/operations/recommendedretry.md)                     | :heavy_check_mark:                                                                             | Recommended retry settings for agent HTTP requests                                             |
-| `RecommendedCircuitBreaker`                                                                    | [operations.RecommendedCircuitBreaker](../../models/operations/recommendedcircuitbreaker.md)   | :heavy_check_mark:                                                                             | Recommended circuit breaker settings for agent connections                                     |
+| `RecommendedTimeouts`                                                                          | [components.RecommendedTimeouts](../../models/components/recommendedtimeouts.md)               | :heavy_check_mark:                                                                             | Recommended timeout settings for agent HTTP connections                                        |
+| `RecommendedRetry`                                                                             | [components.RecommendedRetry](../../models/components/recommendedretry.md)                     | :heavy_check_mark:                                                                             | Recommended retry settings for agent HTTP requests                                             |
+| `RecommendedCircuitBreaker`                                                                    | [components.RecommendedCircuitBreaker](../../models/components/recommendedcircuitbreaker.md)   | :heavy_check_mark:                                                                             | Recommended circuit breaker settings for agent connections                                     |

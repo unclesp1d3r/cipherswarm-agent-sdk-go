@@ -7,58 +7,10 @@ import (
 	"net/http"
 )
 
-// UpdateAgentRequestBody - Agent system information
-type UpdateAgentRequestBody struct {
-	// The id of the agent
-	ID int64 `json:"id"`
-	// The hostname of the agent
-	HostName string `json:"host_name"`
-	// The signature of the client
-	ClientSignature string `json:"client_signature"`
-	// The operating system of the agent
-	OperatingSystem string   `json:"operating_system"`
-	Devices         []string `json:"devices"`
-}
-
-func (u *UpdateAgentRequestBody) GetID() int64 {
-	if u == nil {
-		return 0
-	}
-	return u.ID
-}
-
-func (u *UpdateAgentRequestBody) GetHostName() string {
-	if u == nil {
-		return ""
-	}
-	return u.HostName
-}
-
-func (u *UpdateAgentRequestBody) GetClientSignature() string {
-	if u == nil {
-		return ""
-	}
-	return u.ClientSignature
-}
-
-func (u *UpdateAgentRequestBody) GetOperatingSystem() string {
-	if u == nil {
-		return ""
-	}
-	return u.OperatingSystem
-}
-
-func (u *UpdateAgentRequestBody) GetDevices() []string {
-	if u == nil {
-		return []string{}
-	}
-	return u.Devices
-}
-
 type UpdateAgentRequest struct {
 	// id
-	ID          int64                  `pathParam:"style=simple,explode=false,name=id"`
-	RequestBody UpdateAgentRequestBody `request:"mediaType=application/json"`
+	ID                 int64                         `pathParam:"style=simple,explode=false,name=id"`
+	UpdateAgentRequest components.UpdateAgentRequest `request:"mediaType=application/json"`
 }
 
 func (u *UpdateAgentRequest) GetID() int64 {
@@ -68,11 +20,11 @@ func (u *UpdateAgentRequest) GetID() int64 {
 	return u.ID
 }
 
-func (u *UpdateAgentRequest) GetRequestBody() UpdateAgentRequestBody {
+func (u *UpdateAgentRequest) GetUpdateAgentRequest() components.UpdateAgentRequest {
 	if u == nil {
-		return UpdateAgentRequestBody{}
+		return components.UpdateAgentRequest{}
 	}
-	return u.RequestBody
+	return u.UpdateAgentRequest
 }
 
 type UpdateAgentResponse struct {

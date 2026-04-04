@@ -3,28 +3,14 @@
 package operations
 
 import (
-	"encoding/json"
-	"fmt"
+	"github.com/unclesp1d3r/cipherswarm-agent-sdk-go/models/components"
 	"net/http"
 )
 
-// SendHeartbeatRequestBody - Optional activity state update
-type SendHeartbeatRequestBody struct {
-	// Current agent activity state. Known values: starting, benchmarking, updating, downloading, waiting, cracking, stopping. Future versions may support additional values.
-	Activity *string `json:"activity,omitempty"`
-}
-
-func (s *SendHeartbeatRequestBody) GetActivity() *string {
-	if s == nil {
-		return nil
-	}
-	return s.Activity
-}
-
 type SendHeartbeatRequest struct {
 	// id
-	ID          int64                     `pathParam:"style=simple,explode=false,name=id"`
-	RequestBody *SendHeartbeatRequestBody `request:"mediaType=application/json"`
+	ID                    int64                             `pathParam:"style=simple,explode=false,name=id"`
+	AgentHeartbeatRequest *components.AgentHeartbeatRequest `request:"mediaType=application/json"`
 }
 
 func (s *SendHeartbeatRequest) GetID() int64 {
@@ -34,70 +20,11 @@ func (s *SendHeartbeatRequest) GetID() int64 {
 	return s.ID
 }
 
-func (s *SendHeartbeatRequest) GetRequestBody() *SendHeartbeatRequestBody {
+func (s *SendHeartbeatRequest) GetAgentHeartbeatRequest() *components.AgentHeartbeatRequest {
 	if s == nil {
 		return nil
 	}
-	return s.RequestBody
-}
-
-// State - The state of the agent:
-//   - `pending` - The agent needs to perform the setup process again.
-//   - `active` - The agent is ready to accept tasks, all is good.
-//   - `error` - The agent has encountered an error and needs to be checked.
-//   - `stopped` - The agent has been stopped by the user.
-//   - `offline` - The agent has not checked in recently and is considered offline.
-type State string
-
-const (
-	StateActive  State = "active"
-	StateError   State = "error"
-	StateOffline State = "offline"
-	StatePending State = "pending"
-	StateStopped State = "stopped"
-)
-
-func (e State) ToPointer() *State {
-	return &e
-}
-func (e *State) UnmarshalJSON(data []byte) error {
-	var v string
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-	switch v {
-	case "active":
-		fallthrough
-	case "error":
-		fallthrough
-	case "offline":
-		fallthrough
-	case "pending":
-		fallthrough
-	case "stopped":
-		*e = State(v)
-		return nil
-	default:
-		return fmt.Errorf("invalid value for State: %v", v)
-	}
-}
-
-// SendHeartbeatResponseBody - The response to an agent heartbeat
-type SendHeartbeatResponseBody struct {
-	// The state of the agent:
-	//                        * `pending` - The agent needs to perform the setup process again.
-	//                        * `active` - The agent is ready to accept tasks, all is good.
-	//                        * `error` - The agent has encountered an error and needs to be checked.
-	//                        * `stopped` - The agent has been stopped by the user.
-	//                        * `offline` - The agent has not checked in recently and is considered offline.
-	State State `json:"state"`
-}
-
-func (s *SendHeartbeatResponseBody) GetState() State {
-	if s == nil {
-		return State("")
-	}
-	return s.State
+	return s.AgentHeartbeatRequest
 }
 
 type SendHeartbeatResponse struct {
@@ -108,7 +35,7 @@ type SendHeartbeatResponse struct {
 	// Raw HTTP response; suitable for custom response parsing
 	RawResponse *http.Response
 	// successful, but with server feedback
-	Object *SendHeartbeatResponseBody
+	HeartbeatResponse *components.HeartbeatResponse
 }
 
 func (s *SendHeartbeatResponse) GetContentType() string {
@@ -132,9 +59,9 @@ func (s *SendHeartbeatResponse) GetRawResponse() *http.Response {
 	return s.RawResponse
 }
 
-func (s *SendHeartbeatResponse) GetObject() *SendHeartbeatResponseBody {
+func (s *SendHeartbeatResponse) GetHeartbeatResponse() *components.HeartbeatResponse {
 	if s == nil {
 		return nil
 	}
-	return s.Object
+	return s.HeartbeatResponse
 }

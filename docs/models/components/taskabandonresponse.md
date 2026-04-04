@@ -1,6 +1,6 @@
-# SetTaskAbandonedResponseBody
+# TaskAbandonResponse
 
-successful
+The response to a successful task abandon request
 
 
 ## Fields

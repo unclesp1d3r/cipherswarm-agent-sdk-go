@@ -1,6 +1,6 @@
-# SendHeartbeatRequestBody
+# AgentHeartbeatRequest
 
-Optional activity state update
+Optional activity state update sent with an agent heartbeat
 
 
 ## Fields

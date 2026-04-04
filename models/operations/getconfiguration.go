@@ -7,157 +7,6 @@ import (
 	"net/http"
 )
 
-// RecommendedTimeouts - Recommended timeout settings for agent HTTP connections
-type RecommendedTimeouts struct {
-	// TCP connect timeout in seconds
-	ConnectTimeout int64 `json:"connect_timeout"`
-	// Read timeout in seconds
-	ReadTimeout int64 `json:"read_timeout"`
-	// Write timeout in seconds
-	WriteTimeout int64 `json:"write_timeout"`
-	// Overall request timeout in seconds
-	RequestTimeout int64 `json:"request_timeout"`
-}
-
-func (r *RecommendedTimeouts) GetConnectTimeout() int64 {
-	if r == nil {
-		return 0
-	}
-	return r.ConnectTimeout
-}
-
-func (r *RecommendedTimeouts) GetReadTimeout() int64 {
-	if r == nil {
-		return 0
-	}
-	return r.ReadTimeout
-}
-
-func (r *RecommendedTimeouts) GetWriteTimeout() int64 {
-	if r == nil {
-		return 0
-	}
-	return r.WriteTimeout
-}
-
-func (r *RecommendedTimeouts) GetRequestTimeout() int64 {
-	if r == nil {
-		return 0
-	}
-	return r.RequestTimeout
-}
-
-// RecommendedRetry - Recommended retry settings for agent HTTP requests
-type RecommendedRetry struct {
-	// Maximum number of retry attempts
-	MaxAttempts int64 `json:"max_attempts"`
-	// Initial retry delay in seconds
-	InitialDelay int64 `json:"initial_delay"`
-	// Maximum retry delay in seconds
-	MaxDelay int64 `json:"max_delay"`
-}
-
-func (r *RecommendedRetry) GetMaxAttempts() int64 {
-	if r == nil {
-		return 0
-	}
-	return r.MaxAttempts
-}
-
-func (r *RecommendedRetry) GetInitialDelay() int64 {
-	if r == nil {
-		return 0
-	}
-	return r.InitialDelay
-}
-
-func (r *RecommendedRetry) GetMaxDelay() int64 {
-	if r == nil {
-		return 0
-	}
-	return r.MaxDelay
-}
-
-// RecommendedCircuitBreaker - Recommended circuit breaker settings for agent connections
-type RecommendedCircuitBreaker struct {
-	// Number of failures before circuit opens
-	FailureThreshold int64 `json:"failure_threshold"`
-	// Seconds before circuit half-opens for retry
-	Timeout int64 `json:"timeout"`
-}
-
-func (r *RecommendedCircuitBreaker) GetFailureThreshold() int64 {
-	if r == nil {
-		return 0
-	}
-	return r.FailureThreshold
-}
-
-func (r *RecommendedCircuitBreaker) GetTimeout() int64 {
-	if r == nil {
-		return 0
-	}
-	return r.Timeout
-}
-
-// GetConfigurationResponseBody - successful
-type GetConfigurationResponseBody struct {
-	// Advanced hashcat and agent configuration options
-	Config components.AdvancedAgentConfiguration `json:"config"`
-	// The minimum accepted version of the API
-	APIVersion int64 `json:"api_version"`
-	// Whether the agent needs to run benchmarks
-	BenchmarksNeeded bool `json:"benchmarks_needed"`
-	// Recommended timeout settings for agent HTTP connections
-	RecommendedTimeouts RecommendedTimeouts `json:"recommended_timeouts"`
-	// Recommended retry settings for agent HTTP requests
-	RecommendedRetry RecommendedRetry `json:"recommended_retry"`
-	// Recommended circuit breaker settings for agent connections
-	RecommendedCircuitBreaker RecommendedCircuitBreaker `json:"recommended_circuit_breaker"`
-}
-
-func (g *GetConfigurationResponseBody) GetConfig() components.AdvancedAgentConfiguration {
-	if g == nil {
-		return components.AdvancedAgentConfiguration{}
-	}
-	return g.Config
-}
-
-func (g *GetConfigurationResponseBody) GetAPIVersion() int64 {
-	if g == nil {
-		return 0
-	}
-	return g.APIVersion
-}
-
-func (g *GetConfigurationResponseBody) GetBenchmarksNeeded() bool {
-	if g == nil {
-		return false
-	}
-	return g.BenchmarksNeeded
-}
-
-func (g *GetConfigurationResponseBody) GetRecommendedTimeouts() RecommendedTimeouts {
-	if g == nil {
-		return RecommendedTimeouts{}
-	}
-	return g.RecommendedTimeouts
-}
-
-func (g *GetConfigurationResponseBody) GetRecommendedRetry() RecommendedRetry {
-	if g == nil {
-		return RecommendedRetry{}
-	}
-	return g.RecommendedRetry
-}
-
-func (g *GetConfigurationResponseBody) GetRecommendedCircuitBreaker() RecommendedCircuitBreaker {
-	if g == nil {
-		return RecommendedCircuitBreaker{}
-	}
-	return g.RecommendedCircuitBreaker
-}
-
 type GetConfigurationResponse struct {
 	// HTTP response content type for this operation
 	ContentType string
@@ -166,7 +15,7 @@ type GetConfigurationResponse struct {
 	// Raw HTTP response; suitable for custom response parsing
 	RawResponse *http.Response
 	// successful
-	Object *GetConfigurationResponseBody
+	ConfigurationResponse *components.ConfigurationResponse
 }
 
 func (g *GetConfigurationResponse) GetContentType() string {
@@ -190,9 +39,9 @@ func (g *GetConfigurationResponse) GetRawResponse() *http.Response {
 	return g.RawResponse
 }
 
-func (g *GetConfigurationResponse) GetObject() *GetConfigurationResponseBody {
+func (g *GetConfigurationResponse) GetConfigurationResponse() *components.ConfigurationResponse {
 	if g == nil {
 		return nil
 	}
-	return g.Object
+	return g.ConfigurationResponse
 }

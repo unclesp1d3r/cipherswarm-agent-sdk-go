@@ -1,6 +1,6 @@
-# AuthenticateResponseBody
+# AuthenticationResponse
 
-successful
+The response to a successful agent authentication
 
 
 ## Fields

@@ -3,116 +3,14 @@
 package operations
 
 import (
-	"encoding/json"
-	"fmt"
 	"github.com/unclesp1d3r/cipherswarm-agent-sdk-go/models/components"
 	"net/http"
 )
 
-// Severity - The severity of the error:
-//   - `info` - Informational message, no action required.
-//   - `warning` - Non-critical error, no action required. Anticipated, but not necessarily problematic.
-//   - `minor` - Minor error, no action required. Should be investigated, but the task can continue.
-//   - `major` - Major error, action required. The task should be investigated and possibly restarted.
-//   - `critical` - Critical error, action required. The task should be stopped and investigated.
-//   - `fatal` - Fatal error, action required. The agent cannot continue with the task and should not be reattempted.
-type Severity string
-
-const (
-	SeverityInfo     Severity = "info"
-	SeverityWarning  Severity = "warning"
-	SeverityMinor    Severity = "minor"
-	SeverityMajor    Severity = "major"
-	SeverityCritical Severity = "critical"
-	SeverityFatal    Severity = "fatal"
-)
-
-func (e Severity) ToPointer() *Severity {
-	return &e
-}
-func (e *Severity) UnmarshalJSON(data []byte) error {
-	var v string
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-	switch v {
-	case "info":
-		fallthrough
-	case "warning":
-		fallthrough
-	case "minor":
-		fallthrough
-	case "major":
-		fallthrough
-	case "critical":
-		fallthrough
-	case "fatal":
-		*e = Severity(v)
-		return nil
-	default:
-		return fmt.Errorf("invalid value for Severity: %v", v)
-	}
-}
-
-// SubmitErrorAgentRequestBody - Error details reported by the agent
-type SubmitErrorAgentRequestBody struct {
-	// The error message
-	Message string `json:"message"`
-	// Additional metadata about an agent error
-	Metadata *components.ErrorMetadata `json:"metadata,omitempty"`
-	// The severity of the error:
-	//                        * `info` - Informational message, no action required.
-	//                        * `warning` - Non-critical error, no action required. Anticipated, but not necessarily problematic.
-	//                        * `minor` - Minor error, no action required. Should be investigated, but the task can continue.
-	//                        * `major` - Major error, action required. The task should be investigated and possibly restarted.
-	//                        * `critical` - Critical error, action required. The task should be stopped and investigated.
-	//                         * `fatal` - Fatal error, action required. The agent cannot continue with the task and should not be reattempted.
-	Severity Severity `json:"severity"`
-	// The agent that caused the error
-	AgentID int64 `json:"agent_id"`
-	// The task that caused the error, if any
-	TaskID *int64 `json:"task_id,omitempty"`
-}
-
-func (s *SubmitErrorAgentRequestBody) GetMessage() string {
-	if s == nil {
-		return ""
-	}
-	return s.Message
-}
-
-func (s *SubmitErrorAgentRequestBody) GetMetadata() *components.ErrorMetadata {
-	if s == nil {
-		return nil
-	}
-	return s.Metadata
-}
-
-func (s *SubmitErrorAgentRequestBody) GetSeverity() Severity {
-	if s == nil {
-		return Severity("")
-	}
-	return s.Severity
-}
-
-func (s *SubmitErrorAgentRequestBody) GetAgentID() int64 {
-	if s == nil {
-		return 0
-	}
-	return s.AgentID
-}
-
-func (s *SubmitErrorAgentRequestBody) GetTaskID() *int64 {
-	if s == nil {
-		return nil
-	}
-	return s.TaskID
-}
-
 type SubmitErrorAgentRequest struct {
 	// id
-	ID          int64                       `pathParam:"style=simple,explode=false,name=id"`
-	RequestBody SubmitErrorAgentRequestBody `request:"mediaType=application/json"`
+	ID                 int64                         `pathParam:"style=simple,explode=false,name=id"`
+	SubmitErrorRequest components.SubmitErrorRequest `request:"mediaType=application/json"`
 }
 
 func (s *SubmitErrorAgentRequest) GetID() int64 {
@@ -122,11 +20,11 @@ func (s *SubmitErrorAgentRequest) GetID() int64 {
 	return s.ID
 }
 
-func (s *SubmitErrorAgentRequest) GetRequestBody() SubmitErrorAgentRequestBody {
+func (s *SubmitErrorAgentRequest) GetSubmitErrorRequest() components.SubmitErrorRequest {
 	if s == nil {
-		return SubmitErrorAgentRequestBody{}
+		return components.SubmitErrorRequest{}
 	}
-	return s.RequestBody
+	return s.SubmitErrorRequest
 }
 
 type SubmitErrorAgentResponse struct {

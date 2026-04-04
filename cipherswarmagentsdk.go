@@ -2,7 +2,7 @@
 
 package cipherswarmagentsdkgo
 
-// Generated from OpenAPI doc version 1.3 and generator version 2.865.2
+// Generated from OpenAPI doc version 1.3 and generator version 2.879.6
 
 import (
 	"context"
@@ -176,9 +176,9 @@ func WithTimeout(timeout time.Duration) SDKOption {
 // New creates a new instance of the SDK with the provided options
 func New(opts ...SDKOption) *CipherSwarmAgentSDK {
 	sdk := &CipherSwarmAgentSDK{
-		SDKVersion: "0.9.1",
+		SDKVersion: "0.9.2",
 		sdkConfiguration: config.SDKConfiguration{
-			UserAgent:  "speakeasy-sdk/go 0.9.1 2.865.2 1.3 github.com/unclesp1d3r/cipherswarm-agent-sdk-go",
+			UserAgent:  "speakeasy-sdk/go 0.9.2 2.879.6 1.3 github.com/unclesp1d3r/cipherswarm-agent-sdk-go",
 			ServerList: ServerList,
 			ServerVariables: []map[string]string{
 				{

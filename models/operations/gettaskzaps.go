@@ -3,7 +3,6 @@
 package operations
 
 import (
-	"io"
 	"net/http"
 )
 
@@ -26,9 +25,6 @@ type GetTaskZapsResponse struct {
 	StatusCode int
 	// Raw HTTP response; suitable for custom response parsing
 	RawResponse *http.Response
-	// successful
-	// The Close method must be called on this field, even if it is not used, to prevent resource leaks.
-	ResponseStream io.ReadCloser
 }
 
 func (g *GetTaskZapsResponse) GetContentType() string {
@@ -50,11 +46,4 @@ func (g *GetTaskZapsResponse) GetRawResponse() *http.Response {
 		return nil
 	}
 	return g.RawResponse
-}
-
-func (g *GetTaskZapsResponse) GetResponseStream() io.ReadCloser {
-	if g == nil {
-		return nil
-	}
-	return g.ResponseStream
 }

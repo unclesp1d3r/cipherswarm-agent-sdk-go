@@ -7,12 +7,89 @@ import (
 	"time"
 )
 
+// Other - Structured error context from the agent
+type Other struct {
+	// Error category (e.g. hash_format, device, network)
+	Category *string `json:"category,omitempty"`
+	// Whether the operation can be retried
+	Retryable *bool `json:"retryable,omitempty"`
+	// Machine-readable error type slug
+	ErrorType *string `json:"error_type,omitempty"`
+	// Whether the error is definitively unrecoverable
+	Terminal *bool `json:"terminal,omitempty"`
+	// Number of hashes affected by the error
+	AffectedCount *int64 `json:"affected_count,omitempty"`
+	// Total number of hashes in the hash list
+	TotalCount           *int64         `json:"total_count,omitempty"`
+	AdditionalProperties map[string]any `additionalProperties:"true" json:"-"`
+}
+
+func (o Other) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(o, "", false)
+}
+
+func (o *Other) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &o, "", false, nil); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (o *Other) GetCategory() *string {
+	if o == nil {
+		return nil
+	}
+	return o.Category
+}
+
+func (o *Other) GetRetryable() *bool {
+	if o == nil {
+		return nil
+	}
+	return o.Retryable
+}
+
+func (o *Other) GetErrorType() *string {
+	if o == nil {
+		return nil
+	}
+	return o.ErrorType
+}
+
+func (o *Other) GetTerminal() *bool {
+	if o == nil {
+		return nil
+	}
+	return o.Terminal
+}
+
+func (o *Other) GetAffectedCount() *int64 {
+	if o == nil {
+		return nil
+	}
+	return o.AffectedCount
+}
+
+func (o *Other) GetTotalCount() *int64 {
+	if o == nil {
+		return nil
+	}
+	return o.TotalCount
+}
+
+func (o *Other) GetAdditionalProperties() map[string]any {
+	if o == nil {
+		return nil
+	}
+	return o.AdditionalProperties
+}
+
 // ErrorMetadata - Additional metadata about an agent error
 type ErrorMetadata struct {
 	// The date of the error
 	ErrorDate time.Time `json:"error_date"`
-	// Other metadata
-	Other map[string]any `json:"other,omitempty"`
+	// Structured error context from the agent
+	Other *Other `json:"other,omitempty"`
 }
 
 func (e ErrorMetadata) MarshalJSON() ([]byte, error) {
@@ -33,7 +110,7 @@ func (e *ErrorMetadata) GetErrorDate() time.Time {
 	return e.ErrorDate
 }
 
-func (e *ErrorMetadata) GetOther() map[string]any {
+func (e *ErrorMetadata) GetOther() *Other {
 	if e == nil {
 		return nil
 	}
