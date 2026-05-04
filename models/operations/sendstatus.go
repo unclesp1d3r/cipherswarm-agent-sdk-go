@@ -9,8 +9,8 @@ import (
 
 type SendStatusRequest struct {
 	// id
-	ID         int64                 `pathParam:"style=simple,explode=false,name=id"`
-	TaskStatus components.TaskStatus `request:"mediaType=application/json"`
+	ID                  int64                          `pathParam:"style=simple,explode=false,name=id"`
+	HashcatStatusUpdate components.HashcatStatusUpdate `request:"mediaType=application/json"`
 }
 
 func (s *SendStatusRequest) GetID() int64 {
@@ -20,11 +20,11 @@ func (s *SendStatusRequest) GetID() int64 {
 	return s.ID
 }
 
-func (s *SendStatusRequest) GetTaskStatus() components.TaskStatus {
+func (s *SendStatusRequest) GetHashcatStatusUpdate() components.HashcatStatusUpdate {
 	if s == nil {
-		return components.TaskStatus{}
+		return components.HashcatStatusUpdate{}
 	}
-	return s.TaskStatus
+	return s.HashcatStatusUpdate
 }
 
 type SendStatusResponse struct {

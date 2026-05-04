@@ -1,6 +1,6 @@
-# UpdateAgentRequestBody
+# UpdateAgentRequest
 
-Agent system information
+Agent system information submitted on registration or update
 
 
 ## Fields
