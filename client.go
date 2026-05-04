@@ -9,6 +9,7 @@ import (
 	"github.com/unclesp1d3r/cipherswarm-agent-sdk-go/internal/config"
 	"github.com/unclesp1d3r/cipherswarm-agent-sdk-go/internal/hooks"
 	"github.com/unclesp1d3r/cipherswarm-agent-sdk-go/internal/utils"
+	"github.com/unclesp1d3r/cipherswarm-agent-sdk-go/models/components"
 	"github.com/unclesp1d3r/cipherswarm-agent-sdk-go/models/operations"
 	"github.com/unclesp1d3r/cipherswarm-agent-sdk-go/models/sdkerrors"
 	"github.com/unclesp1d3r/cipherswarm-agent-sdk-go/retry"
@@ -171,7 +172,7 @@ func (s *Client) GetHealth(ctx context.Context, opts ...operations.Option) (*ope
 
 			_, err = s.hooks.AfterError(hooks.AfterErrorContext{HookContext: hookCtx}, nil, err)
 			return nil, err
-		} else if utils.MatchStatusCodes([]string{"4XX", "503", "5XX"}, httpRes.StatusCode) {
+		} else if utils.MatchStatusCodes([]string{"4XX", "5XX"}, httpRes.StatusCode) {
 			_httpRes, err := s.hooks.AfterError(hooks.AfterErrorContext{HookContext: hookCtx}, httpRes, nil)
 			if err != nil {
 				return nil, err
@@ -262,6 +263,8 @@ func (s *Client) GetHealth(ctx context.Context, opts ...operations.Option) (*ope
 
 // GetConfiguration - Get Agent Configuration
 // Returns the configuration for the agent.
+//
+// If set, this operation will use [Security.BearerAuth] from the global security.
 func (s *Client) GetConfiguration(ctx context.Context, opts ...operations.Option) (*operations.GetConfigurationResponse, error) {
 	o := operations.Options{}
 	supportedOptions := []string{
@@ -313,7 +316,7 @@ func (s *Client) GetConfiguration(ctx context.Context, opts ...operations.Option
 	req.Header.Set("Accept", "application/json")
 	req.Header.Set("User-Agent", s.sdkConfiguration.UserAgent)
 
-	if err := utils.PopulateSecurity(ctx, req, s.sdkConfiguration.Security); err != nil {
+	if err := utils.PopulateSecurity(ctx, req, s.sdkConfiguration.Security, "BearerAuth"); err != nil {
 		return nil, err
 	}
 
@@ -404,7 +407,7 @@ func (s *Client) GetConfiguration(ctx context.Context, opts ...operations.Option
 
 			_, err = s.hooks.AfterError(hooks.AfterErrorContext{HookContext: hookCtx}, nil, err)
 			return nil, err
-		} else if utils.MatchStatusCodes([]string{"401", "4XX", "5XX"}, httpRes.StatusCode) {
+		} else if utils.MatchStatusCodes([]string{"4XX", "5XX"}, httpRes.StatusCode) {
 			_httpRes, err := s.hooks.AfterError(hooks.AfterErrorContext{HookContext: hookCtx}, httpRes, nil)
 			if err != nil {
 				return nil, err
@@ -434,12 +437,12 @@ func (s *Client) GetConfiguration(ctx context.Context, opts ...operations.Option
 				return nil, err
 			}
 
-			var out operations.GetConfigurationResponseBody
+			var out components.ConfigurationResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
 
-			res.Object = &out
+			res.ConfigurationResponse = &out
 		default:
 			rawBody, err := utils.ConsumeRawBody(httpRes)
 			if err != nil {
@@ -494,6 +497,8 @@ func (s *Client) GetConfiguration(ctx context.Context, opts ...operations.Option
 
 // Authenticate Client
 // Authenticates the client. This is used to verify that the client is able to connect to the server.
+//
+// If set, this operation will use [Security.BearerAuth] from the global security.
 func (s *Client) Authenticate(ctx context.Context, opts ...operations.Option) (*operations.AuthenticateResponse, error) {
 	o := operations.Options{}
 	supportedOptions := []string{
@@ -545,7 +550,7 @@ func (s *Client) Authenticate(ctx context.Context, opts ...operations.Option) (*
 	req.Header.Set("Accept", "application/json")
 	req.Header.Set("User-Agent", s.sdkConfiguration.UserAgent)
 
-	if err := utils.PopulateSecurity(ctx, req, s.sdkConfiguration.Security); err != nil {
+	if err := utils.PopulateSecurity(ctx, req, s.sdkConfiguration.Security, "BearerAuth"); err != nil {
 		return nil, err
 	}
 
@@ -636,7 +641,7 @@ func (s *Client) Authenticate(ctx context.Context, opts ...operations.Option) (*
 
 			_, err = s.hooks.AfterError(hooks.AfterErrorContext{HookContext: hookCtx}, nil, err)
 			return nil, err
-		} else if utils.MatchStatusCodes([]string{"401", "4XX", "5XX"}, httpRes.StatusCode) {
+		} else if utils.MatchStatusCodes([]string{"4XX", "5XX"}, httpRes.StatusCode) {
 			_httpRes, err := s.hooks.AfterError(hooks.AfterErrorContext{HookContext: hookCtx}, httpRes, nil)
 			if err != nil {
 				return nil, err
@@ -666,12 +671,12 @@ func (s *Client) Authenticate(ctx context.Context, opts ...operations.Option) (*
 				return nil, err
 			}
 
-			var out operations.AuthenticateResponseBody
+			var out components.AuthenticationResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
 
-			res.Object = &out
+			res.AuthenticationResponse = &out
 		default:
 			rawBody, err := utils.ConsumeRawBody(httpRes)
 			if err != nil {
